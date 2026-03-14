@@ -302,7 +302,7 @@
       gap: 0.75rem;
     }
 
-    .contrast-card--before li { color: var(--text-faint); }
+    .contrast-card--before li { color: var(--text-muted); }
     .contrast-card--after li { color: var(--text-muted); }
 
     .contrast-card li span {
@@ -335,6 +335,7 @@
       .capture-card { order: -1; }
       .experience-grid { grid-template-columns: 1fr; }
       .contrast-grid { grid-template-columns: 1fr; }
+      .research-grid { grid-template-columns: 1fr !important; }
     }
   </style>
 </head>
@@ -587,7 +588,7 @@
           <h2 class="headline headline--lg reveal reveal-delay-1" style="margin-top: 1rem; max-width: 650px; margin-left: auto; margin-right: auto;">This isn't just a feeling. <em>The research is clear.</em></h2>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+        <div class="research-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
           <div class="exp-card reveal" style="border-left: 2px solid var(--amber);">
             <p style="font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--amber); margin-bottom: 1rem; opacity: 0.7;">The Nutrition Source</p>
             <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.8;">Mindful eating leads to <strong style="color: var(--text);">greater psychological wellbeing, increased pleasure when eating, and body satisfaction.</strong> It addresses shame and guilt by promoting a non-judgmental attitude, and builds the skill of distinguishing emotional hunger from physical hunger.</p>
@@ -679,7 +680,7 @@
       btn.style.opacity = '0.7';
 
       // Post to Kit silently in the background
-      fetch('https://app.kit.com/forms/84f7315708/subscriptions', {
+      fetch('https://app.kit.com/forms/9204882/subscriptions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email_address: email, first_name: name })
