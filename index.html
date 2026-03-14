@@ -366,8 +366,8 @@
           <div class="landing-copy">
             <p class="tag reveal">Complimentary guided session &middot; 6 minutes</p>
             <h1 class="headline headline--hero reveal reveal-delay-1">
-              <span class="text-reveal"><span class="text-reveal-inner">What if food</span></span><br>
-              <span class="text-reveal"><span class="text-reveal-inner">felt <em>peaceful?</em></span></span>
+              <span class="text-reveal"><span class="text-reveal-inner">The hunger you feel</span></span><br>
+              <span class="text-reveal"><span class="text-reveal-inner">isn't always <em>hunger.</em></span></span>
             </h1>
             <p class="body-lg reveal reveal-delay-2">One guided recording. Six minutes. That's all it takes to feel a shift you've been chasing for years. No rules. No restriction. Just clarity.</p>
 
@@ -472,7 +472,7 @@
       <div class="container">
         <div style="text-align: center;">
           <p class="tag reveal">In just 6 minutes</p>
-          <h2 class="headline headline--lg reveal reveal-delay-1" style="max-width: 700px; margin: 1rem auto 0;">You'll understand why <em>willpower</em> was never the answer.</h2>
+          <h2 class="headline headline--lg reveal reveal-delay-1" style="max-width: 700px; margin: 1rem auto 0;">Awareness changes everything. <em>Here's how.</em></h2>
         </div>
 
         <div class="experience-grid">
@@ -579,6 +579,35 @@
       </div>
     </section>
 
+    <!-- Research -->
+    <section class="research" style="padding: var(--section-pad) 0; position: relative;">
+      <div class="container">
+        <div style="text-align: center; margin-bottom: clamp(3rem, 6vw, 5rem);">
+          <p class="tag reveal">Backed by science</p>
+          <h2 class="headline headline--lg reveal reveal-delay-1" style="margin-top: 1rem; max-width: 650px; margin-left: auto; margin-right: auto;">This isn't just a feeling. <em>The research is clear.</em></h2>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;">
+          <div class="exp-card reveal" style="border-left: 2px solid var(--amber);">
+            <p style="font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--amber); margin-bottom: 1rem; opacity: 0.7;">The Nutrition Source</p>
+            <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.8;">Mindful eating leads to <strong style="color: var(--text);">greater psychological wellbeing, increased pleasure when eating, and body satisfaction.</strong> It addresses shame and guilt by promoting a non-judgmental attitude, and builds the skill of distinguishing emotional hunger from physical hunger.</p>
+          </div>
+          <div class="exp-card reveal reveal-delay-1" style="border-left: 2px solid var(--sage);">
+            <p style="font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--sage); margin-bottom: 1rem; opacity: 0.7;">PubMed &middot; 68 studies reviewed</p>
+            <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.8;">A structured review of 68 published studies found mindfulness-based approaches are <strong style="color: var(--text);">most effective at addressing binge eating, emotional eating, and eating in response to external cues.</strong></p>
+          </div>
+          <div class="exp-card reveal reveal-delay-2" style="border-left: 2px solid var(--rose);">
+            <p style="font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--rose); margin-bottom: 1rem; opacity: 0.7;">Springer</p>
+            <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.8;">Mindful eating has been associated with <strong style="color: var(--text);">reduced anxiety, depression, and loss of confidence,</strong> suggesting that cultivating awareness around eating contributes to broader mental health outcomes.</p>
+          </div>
+          <div class="exp-card reveal reveal-delay-3" style="border-left: 2px solid var(--amber);">
+            <p style="font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--amber); margin-bottom: 1rem; opacity: 0.7;">Nature</p>
+            <p style="font-size: 0.95rem; color: var(--text-muted); line-height: 1.8;">Greater amounts of mindfulness practice lead to <strong style="color: var(--text);">increased behavioral flexibility,</strong> which can help break compulsive eating patterns.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Final CTA -->
     <section class="cta-section">
       <div class="glow glow--amber" style="top: 10%; left: 20%; width: 400px; height: 400px;"></div>
@@ -649,8 +678,14 @@
       btn.disabled = true;
       btn.style.opacity = '0.7';
 
-      // TODO: Send to email service (ConvertKit, Mailchimp, etc.)
+      // Post to Kit silently in the background
+      fetch('https://app.kit.com/forms/84f7315708/subscriptions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email_address: email, first_name: name })
+      }).catch(() => {}); // fail silently — never block the user
 
+      // Redirect to free session page
       setTimeout(() => {
         window.location.href = 'free-session.html';
       }, 800);
