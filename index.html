@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Superthoughts — Mindful Eating</title>
+  <meta name="description" content="Change your relationship with food in 6 minutes. A complimentary guided mindful eating session from Superthoughts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== LANDING PAGE SPECIFICS ===== */
+
+    .landing { min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* Hero */
+    .landing-hero {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: clamp(8rem, 16vh, 12rem) 0 clamp(4rem, 8vh, 6rem);
+    }
+
+    .landing-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(240, 235, 228, 0.015) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    .landing-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: clamp(3rem, 6vw, 6rem);
+      align-items: center;
+    }
+
+    /* Left copy */
+    .landing-copy { position: relative; z-index: 2; }
+    .landing-copy .tag { margin-bottom: 1.5rem; display: inline-block; }
+
+    .landing-copy .headline {
+      margin-bottom: 1.5rem;
+    }
+
+    .landing-copy .body-lg {
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+    }
+
+    /* Proof bar under copy */
+    .landing-proof {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(240, 235, 228, 0.06);
+    }
+
+    /* Right card */
+    .capture-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212, 168, 83, 0.08);
+      border-radius: 28px;
+      padding: clamp(2rem, 4vw, 3rem);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+    }
+
+    .capture-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--amber), var(--sage));
+    }
+
+    .capture-card::after {
+      content: '';
+      position: absolute;
+      top: -150px;
+      right: -150px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(212, 168, 83, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .capture-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .capture-badge {
+      display: inline-block;
+      background: var(--amber-deep);
+      color: var(--amber);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      margin-bottom: 1.25rem;
+    }
+
+    .capture-header h2 {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      color: var(--text);
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .capture-header p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .capture-form { position: relative; }
+
+    .capture-form .btn {
+      margin-top: 0.5rem;
+    }
+
+    .capture-note {
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--text-faint);
+      margin-top: 1rem;
+      line-height: 1.5;
+    }
+
+    /* Social proof strip at bottom of card */
+    .capture-social {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(240, 235, 228, 0.05);
+    }
+
+    .capture-avatars {
+      display: flex;
+    }
+
+    .capture-avatars span {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 2px solid var(--bg-card);
+      margin-left: -8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.58rem;
+      font-weight: 600;
+    }
+
+    .capture-avatars span:first-child { margin-left: 0; }
+    .capture-avatars span:nth-child(1) { background: #2a2218; color: var(--amber); }
+    .capture-avatars span:nth-child(2) { background: #1a2520; color: var(--sage); }
+    .capture-avatars span:nth-child(3) { background: #251e22; color: var(--rose); }
+    .capture-avatars span:nth-child(4) { background: #1e1d25; color: #9a94b8; }
+
+    .capture-social-text {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .capture-social-text strong { color: var(--text); }
+
+    /* ===== WHAT YOU'LL EXPERIENCE ===== */
+    .experience {
+      padding: var(--section-pad) 0;
+      background: var(--bg-alt);
+      position: relative;
+    }
+
+    .experience-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: clamp(3rem, 6vw, 5rem);
+    }
+
+    .exp-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(240, 235, 228, 0.04);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      transition: all 0.5s var(--ease);
+      position: relative;
+    }
+
+    .exp-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(212, 168, 83, 0.1);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+    }
+
+    .exp-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .exp-icon--1 { background: var(--amber-deep); }
+    .exp-icon--2 { background: var(--sage-deep); }
+    .exp-icon--3 { background: var(--rose-deep); }
+
+    .exp-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+
+    .exp-icon--1 svg { stroke: var(--amber); }
+    .exp-icon--2 svg { stroke: var(--sage); }
+    .exp-icon--3 svg { stroke: var(--rose); }
+
+    .exp-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--text);
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+    }
+
+    .exp-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* ===== BEFORE / AFTER ===== */
+    .contrast {
+      padding: var(--section-pad) 0;
+      position: relative;
+    }
+
+    .contrast-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-top: clamp(3rem, 6vw, 5rem);
+    }
+
+    .contrast-card {
+      border-radius: 20px;
+      padding: 2.5rem;
+      position: relative;
+    }
+
+    .contrast-card--before {
+      background: rgba(240, 235, 228, 0.02);
+      border: 1px solid rgba(240, 235, 228, 0.04);
+    }
+
+    .contrast-card--after {
+      background: var(--amber-deep);
+      border: 1px solid rgba(212, 168, 83, 0.12);
+    }
+
+    .contrast-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 1.5rem;
+    }
+
+    .contrast-card--before .contrast-label { color: var(--text-faint); }
+    .contrast-card--after .contrast-label { color: var(--amber); }
+
+    .contrast-card ul {
+      list-style: none;
+    }
+
+    .contrast-card li {
+      padding: 0.6rem 0;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .contrast-card--before li { color: var(--text-faint); }
+    .contrast-card--after li { color: var(--text-muted); }
+
+    .contrast-card li span {
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+      font-size: 0.8rem;
+    }
+
+    /* ===== TRUST FOOTER ===== */
+    .trust-strip {
+      border-top: 1px solid rgba(240, 235, 228, 0.03);
+      padding: 1.5rem 0;
+      text-align: center;
+    }
+
+    .trust-strip p {
+      font-size: 0.72rem;
+      color: var(--text-faint);
+      letter-spacing: 0.04em;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .landing-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .capture-card { order: -1; }
+      .experience-grid { grid-template-columns: 1fr; }
+      .contrast-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="landing">
+
+    <!-- Nav -->
+    <nav class="nav" id="nav">
+      <div class="nav-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-mark"></div>
+          <span class="logo-text">Superthoughts</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="landing-hero">
+      <!-- Organic glow orbs -->
+      <div class="glow glow--amber" style="top: -15%; right: 5%;"></div>
+      <div class="glow glow--sage" style="bottom: -10%; left: -5%;"></div>
+      <div class="glow glow--rose" style="top: 35%; left: 45%;"></div>
+
+      <div class="container">
+        <div class="landing-grid">
+
+          <!-- Left: Copy -->
+          <div class="landing-copy">
+            <p class="tag reveal">Complimentary guided session &middot; 6 minutes</p>
+            <h1 class="headline headline--hero reveal reveal-delay-1">
+              <span class="text-reveal"><span class="text-reveal-inner">What if food</span></span><br>
+              <span class="text-reveal"><span class="text-reveal-inner">felt <em>peaceful?</em></span></span>
+            </h1>
+            <p class="body-lg reveal reveal-delay-2">One guided recording. Six minutes. That's all it takes to feel a shift you've been chasing for years. No rules. No restriction. Just clarity.</p>
+
+            <div class="landing-proof reveal reveal-delay-3">
+              <div class="proof-bar">
+                <div class="proof-stat">
+                  <span class="proof-stat-value" data-count="40000">40,000+</span>
+                  <span class="proof-stat-label">people have listened</span>
+                </div>
+                <div class="proof-divider"></div>
+                <div class="proof-stat">
+                  <span class="proof-stat-value">4.9/5</span>
+                  <span class="proof-stat-label">average rating</span>
+                </div>
+                <div class="proof-divider"></div>
+                <div class="proof-stat">
+                  <span class="proof-stat-value">25+ yrs</span>
+                  <span class="proof-stat-label">of mindfulness practice</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Capture Card -->
+          <div class="capture-card reveal reveal-delay-2">
+            <div class="capture-header">
+              <div class="capture-badge">Complimentary</div>
+              <h2>Your guided <em style="color:var(--amber);font-style:normal;">Mindful Eating</em> session</h2>
+              <p>Enter your email and listen instantly.</p>
+            </div>
+
+            <form class="capture-form" id="captureForm">
+              <div class="form-group">
+                <label for="captureName">First name</label>
+                <input type="text" id="captureName" name="firstName" placeholder="Your first name" required autocomplete="given-name">
+              </div>
+              <div class="form-group">
+                <label for="captureEmail">Email</label>
+                <input type="email" id="captureEmail" name="email" placeholder="you@email.com" required autocomplete="email">
+              </div>
+              <button type="submit" class="btn btn--primary btn--full btn--lg" id="captureSubmit">
+                Send me the session <span class="btn-arrow">&rarr;</span>
+              </button>
+              <p class="capture-note">
+                Instant access. No spam, ever. Unsubscribe anytime.
+              </p>
+            </form>
+
+            <div class="capture-social">
+              <div class="capture-avatars">
+                <span>SM</span>
+                <span>JK</span>
+                <span>DR</span>
+                <span>MT</span>
+              </div>
+              <div class="capture-social-text">
+                <strong>40,000+ people</strong> have listened.<br>Rated 4.9 out of 5.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Marquee trust strip -->
+    <div class="marquee">
+      <div class="marquee-track">
+        <div class="marquee-content">
+          <span>40,000+ listeners</span>
+          <div class="marquee-dot"></div>
+          <span>4.9 out of 5 rating</span>
+          <div class="marquee-dot"></div>
+          <span>Listeners in 20+ countries</span>
+          <div class="marquee-dot"></div>
+          <span>Works alongside any approach to food</span>
+          <div class="marquee-dot"></div>
+          <span>25+ years of mindfulness expertise</span>
+          <div class="marquee-dot"></div>
+          <span>Created by Josh Sundby</span>
+          <div class="marquee-dot"></div>
+        </div>
+        <div class="marquee-content" aria-hidden="true">
+          <span>40,000+ listeners</span>
+          <div class="marquee-dot"></div>
+          <span>4.9 out of 5 rating</span>
+          <div class="marquee-dot"></div>
+          <span>Listeners in 20+ countries</span>
+          <div class="marquee-dot"></div>
+          <span>Works alongside any approach to food</span>
+          <div class="marquee-dot"></div>
+          <span>25+ years of mindfulness expertise</span>
+          <div class="marquee-dot"></div>
+          <span>Created by Josh Sundby</span>
+          <div class="marquee-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- What you'll experience -->
+    <section class="experience">
+      <div class="container">
+        <div style="text-align: center;">
+          <p class="tag reveal">In just 6 minutes</p>
+          <h2 class="headline headline--lg reveal reveal-delay-1" style="max-width: 700px; margin: 1rem auto 0;">You'll understand why <em>willpower</em> was never the answer.</h2>
+        </div>
+
+        <div class="experience-grid">
+          <div class="exp-card reveal">
+            <div class="exp-icon exp-icon--1">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            </div>
+            <h3>Learn the technique</h3>
+            <p>One simple practice that changes how every single meal feels. Most people are stunned by how quickly it works.</p>
+          </div>
+          <div class="exp-card reveal reveal-delay-1">
+            <div class="exp-icon exp-icon--2">
+              <svg viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <h3>Experience awareness</h3>
+            <p>Find out what "eating with awareness" actually means. It's not what most people think, and that's what makes it powerful.</p>
+          </div>
+          <div class="exp-card reveal reveal-delay-2">
+            <div class="exp-icon exp-icon--3">
+              <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            <h3>Feel calmer around food</h3>
+            <p>In under seven minutes, something shifts. The noise around food gets quieter. That's when clarity begins.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pull Quote -->
+    <div class="pull-quote">
+      <div class="container reveal">
+        <blockquote>"This relieved my stress and tension <em>completely.</em> Simple and so very practical. I love it."</blockquote>
+        <cite>Diba H. &mdash; Ottawa, Canada</cite>
+      </div>
+    </div>
+
+    <!-- Before / After contrast -->
+    <section class="contrast">
+      <div class="container">
+        <div style="text-align: center;">
+          <p class="tag reveal">The shift</p>
+          <h2 class="headline headline--lg reveal reveal-delay-1" style="max-width: 600px; margin: 1rem auto 0;">From fighting yourself to <em>understanding</em> yourself.</h2>
+        </div>
+
+        <div class="contrast-grid">
+          <div class="contrast-card contrast-card--before reveal">
+            <p class="contrast-label">Without awareness</p>
+            <ul>
+              <li><span>&#x2014;</span> Eating on autopilot, barely tasting anything</li>
+              <li><span>&#x2014;</span> Guilt after every meal, scoring "good" and "bad"</li>
+              <li><span>&#x2014;</span> Reaching for food when you're bored, anxious, or stressed</li>
+              <li><span>&#x2014;</span> Relying on willpower that always runs out</li>
+              <li><span>&#x2014;</span> Cycling through diets that never stick</li>
+            </ul>
+          </div>
+          <div class="contrast-card contrast-card--after reveal reveal-delay-1">
+            <p class="contrast-label">With this practice</p>
+            <ul>
+              <li><span>&#10042;</span> Actually tasting your food, feeling satisfied with less</li>
+              <li><span>&#10042;</span> Eating without judgment, without the mental scoreboard</li>
+              <li><span>&#10042;</span> Noticing the impulse before acting on it</li>
+              <li><span>&#10042;</span> Making choices from clarity, not from restriction</li>
+              <li><span>&#10042;</span> A practice that supports any approach to food you choose</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+      <div class="container">
+        <div class="testimonials-header">
+          <p class="tag reveal">What listeners say</p>
+          <h2 class="headline headline--lg reveal reveal-delay-1" style="margin-top: 1rem;">Real people. <em>Real shifts.</em></h2>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testimonial reveal">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote>"Perfect prep for my day. Josh has a <strong>gentle, soothing voice</strong> with powerful yet subtle guidance. I moved through my day with ease and clarity."</blockquote>
+            <div class="testimonial-author">
+              <strong>Cher M.</strong>
+              <span>Los Angeles, CA</span>
+            </div>
+          </div>
+          <div class="testimonial reveal reveal-delay-1">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote>"I found it so grounding, comforting and reassuring. I felt <strong>calm and confident with clarity and purpose.</strong> You have a lovely, warm and sincere voice."</blockquote>
+            <div class="testimonial-author">
+              <strong>Alison W.</strong>
+              <span>Scotland, UK</span>
+            </div>
+          </div>
+          <div class="testimonial reveal reveal-delay-2">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote>"A beautiful meditation that left me feeling <strong>connected and in my power.</strong> Simple and so very practical. Love it."</blockquote>
+            <div class="testimonial-author">
+              <strong>Mel D.</strong>
+              <span>Hertfordshire, UK</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="cta-section">
+      <div class="glow glow--amber" style="top: 10%; left: 20%; width: 400px; height: 400px;"></div>
+      <div class="glow glow--sage" style="bottom: 10%; right: 15%; width: 350px; height: 350px;"></div>
+      <div class="container reveal">
+        <p class="tag">Start now</p>
+        <h2 class="headline headline--xl" style="margin-top: 1rem;">Your next meal can feel <em>completely different.</em></h2>
+        <p class="body-lg" style="max-width: 500px; margin: 1.5rem auto 2.5rem;">Six minutes. One guided session. No cost, no commitment. Built on 25+ years of mindfulness practice, and designed to work alongside whatever approach to food feels right for you.</p>
+        <a href="#top" class="btn btn--primary btn--lg" onclick="document.getElementById('captureName').focus(); return false;">
+          Get your complimentary session <span class="btn-arrow">&rarr;</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Trust strip -->
+    <div class="trust-strip">
+      <p>A Superthoughts program &middot; 40,000+ listeners &middot; 25+ years of mindfulness practice &middot; Not medical advice</p>
+    </div>
+
+  </div>
+
+  <!-- DEV NAV -->
+  <div style="position:fixed;bottom:0;left:0;right:0;background:#0a0c10;border-top:1px solid rgba(240,235,228,0.08);padding:0.6rem 1rem;display:flex;gap:1rem;align-items:center;z-index:9999;font-family:monospace;font-size:0.7rem;">
+    <span style="color:#5c5347;margin-right:auto;">DEV NAV</span>
+    <a href="index.html" style="color:var(--amber,#d4a853);padding:0.3rem 0.6rem;background:rgba(212,168,83,0.12);border-radius:4px;">1. Capture</a>
+    <a href="free-session.html" style="color:#7d9b8a;padding:0.3rem 0.6rem;background:rgba(125,155,138,0.1);border-radius:4px;">2. Listen</a>
+    <a href="checkout.html" style="color:#b8929a;padding:0.3rem 0.6rem;background:rgba(184,146,154,0.1);border-radius:4px;">3. Checkout</a>
+    <a href="my-program.html" style="color:#d4a853;padding:0.3rem 0.6rem;background:rgba(212,168,83,0.08);border-radius:4px;">4. Program</a>
+  </div>
+
+  <script>
+    // ===== SCROLL REVEAL =====
+    const reveals = document.querySelectorAll('.reveal');
+    const textReveals = document.querySelectorAll('.text-reveal');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+
+    reveals.forEach(el => observer.observe(el));
+    textReveals.forEach(el => observer.observe(el));
+
+    // ===== NAV SCROLL =====
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ===== EMAIL CAPTURE =====
+    const form = document.getElementById('captureForm');
+    const btn = document.getElementById('captureSubmit');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('captureName').value.trim();
+      const email = document.getElementById('captureEmail').value.trim();
+      if (!name || !email) return;
+
+      sessionStorage.setItem('st_name', name);
+      sessionStorage.setItem('st_email', email);
+
+      btn.innerHTML = 'Unlocking your session...';
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+
+      // TODO: Send to email service (ConvertKit, Mailchimp, etc.)
+
+      setTimeout(() => {
+        window.location.href = 'free-session.html';
+      }, 800);
+    });
+
+    // ===== COUNTER ANIMATION =====
+    function animateCounters() {
+      document.querySelectorAll('[data-count]').forEach(el => {
+        const target = parseInt(el.dataset.count);
+        const duration = 2000;
+        const start = performance.now();
+
+        function update(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.floor(eased * target);
+          el.textContent = current.toLocaleString() + '+';
+          if (progress < 1) requestAnimationFrame(update);
+        }
+
+        requestAnimationFrame(update);
+      });
+    }
+
+    // Trigger counter when proof bar enters view
+    const proofBar = document.querySelector('.landing-proof');
+    if (proofBar) {
+      const proofObs = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          animateCounters();
+          proofObs.unobserve(proofBar);
+        }
+      }, { threshold: 0.3 });
+      proofObs.observe(proofBar);
+    }
+  </script>
+
+</body>
+</html>
