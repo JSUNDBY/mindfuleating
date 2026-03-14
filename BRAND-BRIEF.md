@@ -126,13 +126,20 @@ People who have tried diets, calorie counting, restriction, and willpower. They 
 - **Domain:** superthoughts.com (GoDaddy)
 - **Email:** hello@superthoughts.com → forwards to j.sundby@gmail.com
 - **DNS:** SPF, DKIM, DMARC configured for Kit sending
-- **Hosting:** GitHub Pages – https://jsundby.github.io/mindfuleating/
+- **Hosting:** GitHub Pages – https://mindful-eating.superthoughts.com/
+- **Custom domain:** mindful-eating.superthoughts.com (CNAME in GoDaddy → jsundby.github.io, HTTPS enforced)
 - **Repo:** https://github.com/JSUNDBY/mindfuleating
 - **Auto-deploy:** GitHub Actions workflow on push to main
 - **Payments:** Stripe (payment link placeholder – needs real link in checkout.html)
 
+## Live URLs in Kit Emails
+
+- Free session: https://mindful-eating.superthoughts.com/free-session.html
+- Checkout: https://mindful-eating.superthoughts.com/checkout.html
+
 ## Still TODO
 
 - [ ] Connect real Stripe payment link in checkout.html
-- [ ] Point custom domain (superthoughts.com or mindfuleating.superthoughts.com) to GitHub Pages if desired
+- [x] Point custom domain mindful-eating.superthoughts.com to GitHub Pages (done – HTTPS enforced, cert expires 2026-06-12)
 - [ ] Set up Gmail "Send as" for hello@superthoughts.com so Josh can reply from that address
+- [ ] Update Kit sequence email links to use mindful-eating.superthoughts.com instead of jsundby.github.io/mindfuleating
