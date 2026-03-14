@@ -4,6 +4,8 @@
 
 Your mind already knows how to eat well. Superthoughts helps you tune back in. This is not a diet, not a meal plan, not another set of rules. It is a practice. Short, guided recordings that train your awareness around food so you naturally choose differently. No restriction. No guilt. Just clarity.
 
+This practice works alongside any approach to food – it supports a healthier lifestyle no matter what else someone is doing.
+
 ## Core Belief
 
 The mind is extraordinarily powerful with practice. We do not fight the mind or override it with willpower. We work with it. When you notice what your mind is doing around food – the habits, the autopilot, the emotional shortcuts – you naturally begin to shift. Awareness is the change.
@@ -58,10 +60,23 @@ Tying everything together. You do not need a program forever. You need a practic
 
 ## The Funnel
 
-1. **Landing page** (index.html) – Email capture offering a complimentary 6:30 guided mindful eating session
-2. **Session delivery page** (free-session.html) – Delivers the SoundCloud recording, then bridges to the full $49 program offer
-3. **Program details** (program.html) – Full breakdown of all 7 sessions, pricing, FAQ
-4. **Enrollment** (enroll.html) – Checkout page
+1. **Landing page** (index.html) – Email capture offering a complimentary 6:30 guided mindful eating session. Posts to Kit form 9204882.
+2. **Session delivery page** (free-session.html) – Delivers the audio recording via built-in player, then bridges to the full $49 program offer.
+3. **Checkout** (checkout.html) – Purchase page with Stripe payment link (placeholder – needs real Stripe link).
+4. **My Program** (my-program.html) – Post-purchase dashboard where customers stream/download all 7 sessions.
+
+## Email / Kit Integration
+
+- **Kit form ID:** 9204882 (inline form called "Mills form")
+- **Automation:** "Mindful Eating – Free Session Delivery" (ID: 1911494) – active
+- **Sequence:** "Mindful Eating Welcome"
+  - Email 1: Immediate – session delivery link
+  - Email 2: 2 days later – check-in nudge + checkout link
+- **Sender:** hello@superthoughts.com (verified, SPF/DKIM/DMARC configured)
+- **Incentive email:** Enabled with auto-confirm (double opt-in for spam protection)
+- **Live URLs in Kit emails:**
+  - Free session: https://jsundby.github.io/mindfuleating/free-session.html
+  - Checkout: https://jsundby.github.io/mindfuleating/checkout.html
 
 ## The Offer
 
@@ -70,23 +85,54 @@ Tying everything together. You do not need a program forever. You need a practic
 - No subscription, no upsells
 - Future recordings included at no additional cost
 - Stream or download on any device
+- 14-day satisfaction guarantee ("reach out and we'll make it right")
 
 ## Audience
 
-People who have tried diets, calorie counting, restriction, and willpower. They are tired of fighting themselves around food. They are open to a different approach. They want something that feels kind, not punishing. Many are already familiar with mindfulness or meditation. Some are completely new to it.
+People who have tried diets, calorie counting, restriction, and willpower. They are tired of fighting themselves around food. They are open to a different approach. They want something that feels kind, not punishing. Many are already familiar with mindfulness or meditation. Some are completely new to it. This practice complements any existing approach to food.
 
 ## Brand Identity
 
 - **Name:** Superthoughts (one word, lowercase t)
 - **Positioning:** Superthoughts is the overall brand. Mindful Eating is the first program under that umbrella.
-- **Visual tone:** Dark, modern, warm. Not the typical soft-pastel wellness aesthetic. Think premium and grounded.
-- **Colors:** Deep charcoal backgrounds, warm amber/gold accent, sage green secondary, dusty rose tertiary
-- **Typography:** Libre Baskerville (display), Source Sans 3 (body), IBM Plex Mono (tags/meta)
-- **Logo:** Gradient mark (amber to sage) + "Superthoughts" wordmark
+- **Visual tone:** Deep, dark, warm but not brown. Premium and grounded – not the typical soft-pastel wellness aesthetic.
+- **Colors:** Deep dark backgrounds (#0a0c10), warm amber/gold accent (#d4a853), sage green secondary (#7d9b8a), dusty rose tertiary (#b8929a)
+- **Typography:** Libre Baskerville (display), Source Sans 3 (body), DM Mono (tags/meta)
+- **Logo:** Gradient mark (amber to sage) + "SUPERTHOUGHTS" monospace wordmark
+- **Film grain texture:** Subtle SVG noise overlay across the entire site
 
 ## Key Proof Points
 
-- 37,500+ total plays across guided sessions
+- 40,000+ total plays across guided sessions
 - 4.9 out of 5 rating
-- Listeners in the US, UK, Canada, Germany, India, and beyond
+- 25+ years of mindfulness practice (Josh Sundby)
+- Listeners in 20+ countries
 - Real testimonials from real practitioners
+
+## Research Backing
+
+- Mindful eating leads to greater psychological wellbeing, increased pleasure when eating, and body satisfaction. It addresses shame and guilt by promoting a non-judgmental attitude. (The Nutrition Source)
+- A review of 68 studies found mindfulness-based approaches most effective at addressing binge eating, emotional eating, and eating in response to external cues. (PubMed)
+- Associated with reduced anxiety, depression, social dysfunction, and loss of confidence. (Springer)
+- Greater mindfulness practice leads to increased behavioral flexibility, helping break compulsive eating patterns. (Nature)
+
+## Key Headlines
+
+- **Hero:** "The hunger you feel isn't always hunger."
+- **Experience section:** "Awareness changes everything. Here's how."
+
+## Infrastructure
+
+- **Domain:** superthoughts.com (GoDaddy)
+- **Email:** hello@superthoughts.com → forwards to j.sundby@gmail.com
+- **DNS:** SPF, DKIM, DMARC configured for Kit sending
+- **Hosting:** GitHub Pages – https://jsundby.github.io/mindfuleating/
+- **Repo:** https://github.com/JSUNDBY/mindfuleating
+- **Auto-deploy:** GitHub Actions workflow on push to main
+- **Payments:** Stripe (payment link placeholder – needs real link in checkout.html)
+
+## Still TODO
+
+- [ ] Connect real Stripe payment link in checkout.html
+- [ ] Point custom domain (superthoughts.com or mindfuleating.superthoughts.com) to GitHub Pages if desired
+- [ ] Set up Gmail "Send as" for hello@superthoughts.com so Josh can reply from that address
