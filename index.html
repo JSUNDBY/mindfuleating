@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230a0c10'/><text x='50' y='72' font-family='Georgia,serif' font-size='68' font-weight='400' font-style='italic' fill='%23d4a853' text-anchor='middle'>S</text></svg>">
   <title>Superthoughts — Mindful Eating</title>
   <meta name="description" content="Change your relationship with food in 6 minutes. A complimentary guided mindful eating session from Superthoughts.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -342,12 +343,12 @@
 <body>
 
   <div class="landing">
+    <canvas id="star-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
 
     <!-- Nav -->
     <nav class="nav" id="nav">
       <div class="nav-inner">
         <a href="index.html" class="logo">
-          <div class="logo-mark"></div>
           <span class="logo-text">Superthoughts</span>
         </a>
       </div>
@@ -630,15 +631,6 @@
 
   </div>
 
-  <!-- DEV NAV -->
-  <div style="position:fixed;bottom:0;left:0;right:0;background:#0a0c10;border-top:1px solid rgba(240,235,228,0.08);padding:0.6rem 1rem;display:flex;gap:1rem;align-items:center;z-index:9999;font-family:monospace;font-size:0.7rem;">
-    <span style="color:#5c5347;margin-right:auto;">DEV NAV</span>
-    <a href="index.html" style="color:var(--amber,#d4a853);padding:0.3rem 0.6rem;background:rgba(212,168,83,0.12);border-radius:4px;">1. Capture</a>
-    <a href="free-session.html" style="color:#7d9b8a;padding:0.3rem 0.6rem;background:rgba(125,155,138,0.1);border-radius:4px;">2. Listen</a>
-    <a href="checkout.html" style="color:#b8929a;padding:0.3rem 0.6rem;background:rgba(184,146,154,0.1);border-radius:4px;">3. Checkout</a>
-    <a href="my-program.html" style="color:#d4a853;padding:0.3rem 0.6rem;background:rgba(212,168,83,0.08);border-radius:4px;">4. Program</a>
-  </div>
-
   <script>
     // ===== SCROLL REVEAL =====
     const reveals = document.querySelectorAll('.reveal');
@@ -723,6 +715,86 @@
       }, { threshold: 0.3 });
       proofObs.observe(proofBar);
     }
+
+    // ===== STAR CANVAS =====
+    (function() {
+      var canvas = document.getElementById('star-canvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var particles = [];
+      var w, h;
+
+      function resize() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+      }
+
+      function createParticles() {
+        particles = [];
+        for (var i = 0; i < 80; i++) {
+          particles.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            size: Math.random() * 1.2 + 0.6,
+            vx: (Math.random() - 0.5) * 0.12,
+            vy: (Math.random() - 0.5) * 0.12,
+            opacity: Math.random() * 0.5 + 0.15,
+            twinkleSpeed: Math.random() * 0.008 + 0.003,
+            twinkleOffset: Math.random() * Math.PI * 2,
+            isAmber: Math.random() < 0.2
+          });
+        }
+        for (var j = 0; j < 5; j++) {
+          particles.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            size: Math.random() * 1.2 + 1.8,
+            vx: (Math.random() - 0.5) * 0.06,
+            vy: (Math.random() - 0.5) * 0.06,
+            opacity: Math.random() * 0.3 + 0.5,
+            twinkleSpeed: Math.random() * 0.003 + 0.001,
+            twinkleOffset: Math.random() * Math.PI * 2,
+            isAmber: Math.random() < 0.4,
+            isBright: true
+          });
+        }
+      }
+
+      function draw(time) {
+        ctx.clearRect(0, 0, w, h);
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < -10) p.x = w + 10;
+          if (p.x > w + 10) p.x = -10;
+          if (p.y < -10) p.y = h + 10;
+          if (p.y > h + 10) p.y = -10;
+          var twinkle = Math.sin(time * p.twinkleSpeed + p.twinkleOffset);
+          var alpha = p.opacity + twinkle * 0.2;
+          ctx.fillStyle = p.isAmber
+            ? 'rgba(212, 168, 83, ' + Math.max(0.05, Math.min(alpha, 0.8)) + ')'
+            : 'rgba(240, 235, 228, ' + Math.max(0.05, Math.min(alpha, 0.7)) + ')';
+          if (p.isBright) {
+            ctx.save();
+            ctx.globalAlpha = Math.max(0.02, Math.min(alpha * 0.12, 0.1));
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+          }
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      createParticles();
+      requestAnimationFrame(draw);
+    })();
   </script>
 
 </body>
