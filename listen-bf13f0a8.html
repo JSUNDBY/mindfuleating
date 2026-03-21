@@ -847,16 +847,47 @@
     });
 
     // Download all
-    document.getElementById('downloadAll').addEventListener('click', (e) => {
+    const downloadBtn = document.getElementById('downloadAll');
+    const downloadLabel = downloadBtn.textContent.trim();
+    let downloading = false;
+
+    async function downloadFile(url, filename) {
+      const res = await fetch(url);
+      const blob = await res.blob();
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      URL.revokeObjectURL(a.href);
+      a.remove();
+    }
+
+    downloadBtn.addEventListener('click', async (e) => {
       e.preventDefault();
-      sessions.forEach((s, i) => {
-        const a = document.createElement('a');
-        a.href = CDN + '/' + s.file;
-        a.download = '';
-        a.target = '_blank';
-        document.body.appendChild(a);
-        setTimeout(() => { a.click(); a.remove(); }, i * 500);
-      });
+      if (downloading) return;
+      downloading = true;
+      downloadBtn.textContent = 'Preparing downloads...';
+      downloadBtn.style.opacity = '0.6';
+      downloadBtn.style.pointerEvents = 'none';
+
+      for (let i = 0; i < sessions.length; i++) {
+        const s = sessions[i];
+        const num = String(i + 1).padStart(2, '0');
+        const filename = num + ' - ' + s.title + '.mp3';
+        downloadBtn.textContent = 'Downloading ' + (i + 1) + ' of ' + sessions.length + '...';
+        try {
+          await downloadFile(CDN + '/' + s.file, filename);
+          await new Promise(r => setTimeout(r, 1000));
+        } catch (err) {
+          window.open(CDN + '/' + s.file, '_blank');
+        }
+      }
+
+      downloadBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download all';
+      downloadBtn.style.opacity = '';
+      downloadBtn.style.pointerEvents = '';
+      downloading = false;
     });
   </script>
 
