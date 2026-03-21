@@ -395,6 +395,81 @@
       position: relative; z-index: 1;
     }
 
+    /* Gate */
+    .gate {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .gate.hidden { display: none; }
+
+    .gate-inner { max-width: 400px; }
+
+    .gate-inner h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+
+    .gate-inner h1 em { font-style: italic; color: var(--amber); }
+
+    .gate-inner p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 1.75rem;
+    }
+
+    .gate-input {
+      width: 100%;
+      padding: 0.85rem 1.25rem;
+      border-radius: 50px;
+      border: 1px solid rgba(212, 168, 83, 0.15);
+      background: var(--bg-card);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.3s;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .gate-input::placeholder { color: var(--text-faint); }
+    .gate-input:focus { border-color: var(--amber); }
+
+    .gate-submit {
+      width: 100%;
+      padding: 0.85rem 1.25rem;
+      border-radius: 50px;
+      border: none;
+      background: var(--amber);
+      color: var(--bg);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    .gate-submit:hover { opacity: 0.85; }
+
+    .gate-error {
+      font-size: 0.8rem;
+      color: #c97a7a;
+      margin-top: 0.75rem;
+      display: none;
+    }
+
     @media (max-width: 600px) {
       .guide-tips { grid-template-columns: 1fr; gap: 0.5rem; }
       .download-card { flex-direction: column; text-align: center; }
@@ -404,6 +479,17 @@
   </style>
 </head>
 <body>
+
+  <!-- Email gate -->
+  <div class="gate" id="gate">
+    <div class="gate-inner">
+      <h1>Mindful <em>Eating</em></h1>
+      <p>Enter the email you used to purchase the program to access your sessions.</p>
+      <input type="email" class="gate-input" id="gateEmail" placeholder="your@email.com" autocomplete="email">
+      <button class="gate-submit" id="gateSubmit">Access my program</button>
+      <p class="gate-error" id="gateError">Please enter a valid email address.</p>
+    </div>
+  </div>
 
   <div class="breath-canvas" id="breathCanvas">
     <div class="breath-orb breath-orb--1"></div>
@@ -575,6 +661,36 @@
   </footer>
 
   <script>
+    // Email gate
+    const ACCESS_KEY = 'st_me_access';
+    const gate = document.getElementById('gate');
+    const gateEmail = document.getElementById('gateEmail');
+    const gateSubmit = document.getElementById('gateSubmit');
+    const gateError = document.getElementById('gateError');
+
+    if (localStorage.getItem(ACCESS_KEY)) {
+      gate.classList.add('hidden');
+    }
+
+    function validateEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    gateSubmit.addEventListener('click', () => {
+      const email = gateEmail.value.trim();
+      if (validateEmail(email)) {
+        localStorage.setItem(ACCESS_KEY, email);
+        gate.classList.add('hidden');
+        gateError.style.display = 'none';
+      } else {
+        gateError.style.display = 'block';
+      }
+    });
+
+    gateEmail.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') gateSubmit.click();
+    });
+
     const CDN = 'https://superthoughts-audio.b-cdn.net/mindful-eating';
     const sessions = [
       { title: 'Arriving at the Table', focus: 'Foundation', file: '01%20-%20Mindful%20Eating%20-%20Arriving%20at%20the%20Table.mp3' },
