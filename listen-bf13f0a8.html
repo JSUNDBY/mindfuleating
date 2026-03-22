@@ -455,13 +455,86 @@
     .guide-tip-icon { font-family: var(--font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--amber); margin-bottom: 0.5rem; }
     .guide-tip p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
 
-    /* Starfield */
-    .starfield {
+    /* Ambient light */
+    .ambient {
       position: fixed;
       inset: 0;
       z-index: 0;
       pointer-events: none;
+      overflow: hidden;
     }
+
+    .ambient-light {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+    }
+
+    .ambient-light--1 {
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(212, 168, 83, 0.04) 0%, transparent 70%);
+      top: -5%; left: 10%;
+      animation: ambient1 30s ease-in-out infinite;
+    }
+
+    .ambient-light--2 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(125, 155, 138, 0.035) 0%, transparent 70%);
+      top: 25%; right: -10%;
+      animation: ambient2 36s ease-in-out infinite;
+    }
+
+    .ambient-light--3 {
+      width: 450px; height: 450px;
+      background: radial-gradient(circle, rgba(212, 168, 83, 0.03) 0%, transparent 70%);
+      bottom: 10%; left: 30%;
+      animation: ambient3 42s ease-in-out infinite;
+    }
+
+    .ambient-light--4 {
+      width: 550px; height: 550px;
+      background: radial-gradient(circle, rgba(184, 146, 154, 0.025) 0%, transparent 70%);
+      top: 50%; left: -5%;
+      animation: ambient4 38s ease-in-out infinite;
+    }
+
+    .ambient-light--5 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(125, 155, 138, 0.03) 0%, transparent 70%);
+      top: -10%; right: 20%;
+      animation: ambient5 44s ease-in-out infinite;
+    }
+
+    @keyframes ambient1 {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+      33% { transform: translate(60px, 40px) scale(1.15); opacity: 0.8; }
+      66% { transform: translate(-30px, 20px) scale(1.05); opacity: 0.6; }
+    }
+
+    @keyframes ambient2 {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
+      40% { transform: translate(-50px, 30px) scale(1.2); opacity: 0.7; }
+      70% { transform: translate(20px, -40px) scale(1.1); opacity: 0.5; }
+    }
+
+    @keyframes ambient3 {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.35; }
+      35% { transform: translate(40px, -30px) scale(1.25); opacity: 0.65; }
+      65% { transform: translate(-20px, 20px) scale(1.1); opacity: 0.45; }
+    }
+
+    @keyframes ambient4 {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+      45% { transform: translate(30px, -20px) scale(1.15); opacity: 0.55; }
+      80% { transform: translate(-40px, 30px) scale(1.05); opacity: 0.4; }
+    }
+
+    @keyframes ambient5 {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.25; }
+      50% { transform: translate(-35px, 45px) scale(1.2); opacity: 0.5; }
+    }
+
+    .ambient.active .ambient-light { opacity: 1; }
 
     /* Breathing */
     .breath-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
@@ -951,7 +1024,13 @@
     </div>
   </div>
 
-  <canvas class="starfield" id="starfield"></canvas>
+  <div class="ambient" id="ambientLight">
+    <div class="ambient-light ambient-light--1"></div>
+    <div class="ambient-light ambient-light--2"></div>
+    <div class="ambient-light ambient-light--3"></div>
+    <div class="ambient-light ambient-light--4"></div>
+    <div class="ambient-light ambient-light--5"></div>
+  </div>
 
   <div class="breath-canvas idle" id="breathCanvas">
     <div class="breath-orb breath-orb--1"></div>
@@ -1132,136 +1211,6 @@
   </footer>
 
   <script>
-    // Starfield
-    const starCanvas = document.getElementById('starfield');
-    const starCtx = starCanvas.getContext('2d');
-    let stars = [];
-    const STAR_COUNT = 50;
-    let starIntensity = 0.6;
-    let targetIntensity = 0.6;
-
-    const dpr = window.devicePixelRatio || 1;
-    function resizeStarfield() {
-      starCanvas.width = window.innerWidth * dpr;
-      starCanvas.height = window.innerHeight * dpr;
-      starCanvas.style.width = window.innerWidth + 'px';
-      starCanvas.style.height = window.innerHeight + 'px';
-      starCtx.scale(dpr, dpr);
-      starCtx.imageSmoothingEnabled = true;
-      starCtx.imageSmoothingQuality = 'high';
-    }
-    resizeStarfield();
-    window.addEventListener('resize', resizeStarfield);
-
-    function createStar(seed) {
-      const colors = [
-        [212, 168, 83],
-        [212, 168, 83],
-        [212, 168, 83],
-        [125, 155, 138],
-        [125, 155, 138],
-        [240, 235, 228],
-      ];
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      const isLarge = Math.random() > 0.75;
-      return {
-        x: Math.random() * window.innerWidth,
-        y: seed ? Math.random() * window.innerHeight : -20 - Math.random() * 100,
-        r: isLarge ? (1.5 + Math.random() * 1.5) : (0.8 + Math.random() * 1.2),
-        vy: 0.03 + Math.random() * 0.08,
-        vx: (Math.random() - 0.5) * 0.06,
-        life: 0,
-        maxLife: 1200 + Math.random() * 1200,
-        color: color,
-        twinkleSpeed: 0.001 + Math.random() * 0.003,
-        twinkleOffset: Math.random() * Math.PI * 2,
-        glow: isLarge || Math.random() > 0.5,
-        glowSize: isLarge ? 10 + Math.random() * 8 : 6 + Math.random() * 4,
-        peakAlpha: 0.3 + Math.random() * 0.4,
-      };
-    }
-
-    for (let i = 0; i < STAR_COUNT; i++) {
-      const s = createStar(true);
-      s.life = Math.random() * s.maxLife * 0.7;
-      stars.push(s);
-    }
-
-    function drawStars() {
-      requestAnimationFrame(drawStars);
-      starCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      starCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-      // Smooth intensity transitions
-      starIntensity += (targetIntensity - starIntensity) * 0.02;
-
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-
-      for (let i = stars.length - 1; i >= 0; i--) {
-        const s = stars[i];
-        s.x += s.vx;
-        s.y += s.vy;
-        s.life++;
-
-        // Very long fade in (30%) and fade out (35%) for silky transitions
-        let alpha;
-        const fadeIn = s.maxLife * 0.3;
-        const fadeOut = s.maxLife * 0.35;
-        if (s.life < fadeIn) {
-          // Ease-in curve for smoother appearance
-          const t = s.life / fadeIn;
-          alpha = t * t;
-        } else if (s.life > s.maxLife - fadeOut) {
-          // Ease-out curve for smoother disappearance
-          const t = (s.maxLife - s.life) / fadeOut;
-          alpha = t * t;
-        } else {
-          alpha = 1;
-        }
-
-        // Very gentle twinkle (floor at 0.7, only 30% variation)
-        const twinkle = 0.7 + 0.3 * Math.sin(s.life * s.twinkleSpeed + s.twinkleOffset);
-        alpha *= twinkle * s.peakAlpha * starIntensity;
-
-        if (alpha < 0.005) {
-          if (s.life >= s.maxLife || s.y > h + 20) {
-            stars[i] = createStar(false);
-          }
-          continue;
-        }
-
-        const [r, g, b] = s.color;
-
-        // Outer glow (soft halo)
-        if (s.glow) {
-          starCtx.beginPath();
-          const grad = starCtx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.glowSize);
-          grad.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.2) + ')');
-          grad.addColorStop(0.4, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.06) + ')');
-          grad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
-          starCtx.fillStyle = grad;
-          starCtx.arc(s.x, s.y, s.glowSize, 0, Math.PI * 2);
-          starCtx.fill();
-        }
-
-        // Core: soft radial gradient instead of flat circle
-        starCtx.beginPath();
-        const coreGrad = starCtx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 2);
-        coreGrad.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')');
-        coreGrad.addColorStop(0.4, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.5) + ')');
-        coreGrad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
-        starCtx.fillStyle = coreGrad;
-        starCtx.arc(s.x, s.y, s.r * 2, 0, Math.PI * 2);
-        starCtx.fill();
-
-        if (s.life >= s.maxLife || s.y > h + 20) {
-          stars[i] = createStar();
-        }
-      }
-    }
-    drawStars();
-
     // Welcome moment (first visit only)
     const FIRST_VISIT_KEY = 'st_me_welcomed';
     const welcomeMoment = document.getElementById('welcomeMoment');
@@ -1443,7 +1392,6 @@
         playerCard.classList.add('playing');
         breathCanvas.classList.remove('idle');
         breathCanvas.classList.add('active');
-        targetIntensity = 1.0;
         initVisualizer();
         drawVisualizer();
       } else {
@@ -1452,7 +1400,6 @@
         playerCard.classList.remove('playing');
         breathCanvas.classList.remove('active');
         breathCanvas.classList.add('idle');
-        targetIntensity = 0.6;
       }
     }
 
