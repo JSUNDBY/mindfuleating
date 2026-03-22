@@ -1140,9 +1140,15 @@
     let starIntensity = 0.6;
     let targetIntensity = 0.6;
 
+    const dpr = window.devicePixelRatio || 1;
     function resizeStarfield() {
-      starCanvas.width = window.innerWidth;
-      starCanvas.height = window.innerHeight;
+      starCanvas.width = window.innerWidth * dpr;
+      starCanvas.height = window.innerHeight * dpr;
+      starCanvas.style.width = window.innerWidth + 'px';
+      starCanvas.style.height = window.innerHeight + 'px';
+      starCtx.scale(dpr, dpr);
+      starCtx.imageSmoothingEnabled = true;
+      starCtx.imageSmoothingQuality = 'high';
     }
     resizeStarfield();
     window.addEventListener('resize', resizeStarfield);
@@ -1184,10 +1190,14 @@
 
     function drawStars() {
       requestAnimationFrame(drawStars);
-      starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+      starCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      starCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
       // Smooth intensity transitions
       starIntensity += (targetIntensity - starIntensity) * 0.02;
+
+      const w = window.innerWidth;
+      const h = window.innerHeight;
 
       for (let i = stars.length - 1; i >= 0; i--) {
         const s = stars[i];
@@ -1212,7 +1222,7 @@
         alpha *= twinkle * s.peakAlpha * starIntensity;
 
         if (alpha < 0.005) {
-          if (s.life >= s.maxLife || s.y > starCanvas.height + 20) {
+          if (s.life >= s.maxLife || s.y > h + 20) {
             stars[i] = createStar();
           }
           continue;
@@ -1220,25 +1230,29 @@
 
         const [r, g, b] = s.color;
 
-        // Soft glow halo
+        // Outer glow (soft halo)
         if (s.glow) {
           starCtx.beginPath();
           const grad = starCtx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.glowSize);
-          grad.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.25) + ')');
-          grad.addColorStop(0.5, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.08) + ')');
+          grad.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.2) + ')');
+          grad.addColorStop(0.4, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.06) + ')');
           grad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
           starCtx.fillStyle = grad;
           starCtx.arc(s.x, s.y, s.glowSize, 0, Math.PI * 2);
           starCtx.fill();
         }
 
-        // Core dot
+        // Core: soft radial gradient instead of flat circle
         starCtx.beginPath();
-        starCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        starCtx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+        const coreGrad = starCtx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 2);
+        coreGrad.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')');
+        coreGrad.addColorStop(0.4, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.5) + ')');
+        coreGrad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+        starCtx.fillStyle = coreGrad;
+        starCtx.arc(s.x, s.y, s.r * 2, 0, Math.PI * 2);
         starCtx.fill();
 
-        if (s.life >= s.maxLife || s.y > starCanvas.height + 20) {
+        if (s.life >= s.maxLife || s.y > h + 20) {
           stars[i] = createStar();
         }
       }
