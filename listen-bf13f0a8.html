@@ -1313,9 +1313,12 @@
           sum += freqData[b]; count++;
         }
         const raw = (sum / count) / 255;
-        const boosted = Math.pow(raw, 0.6) * 1.3;
-        // Very slow smoothing for dreamy, laggy movement
-        smoothed[i] += (Math.min(boosted, 1) - smoothed[i]) * 0.035;
+        // More dynamic: boost highs, crush lows for real contrast
+        const shaped = Math.pow(raw, 0.5) * 1.6;
+        const target = Math.min(shaped, 1);
+        // Asymmetric smoothing: faster attack (rising), slower release (falling)
+        const speed = target > smoothed[i] ? 0.08 : 0.025;
+        smoothed[i] += (target - smoothed[i]) * speed;
       }
 
       for (let i = 0; i < barCount; i++) {
