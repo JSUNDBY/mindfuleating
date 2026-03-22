@@ -703,6 +703,14 @@
       document.querySelectorAll('[data-count]').forEach(el => {
         const target = parseInt(el.dataset.count);
         const duration = 2000;
+
+        // Lock width to final value so layout never shifts during counting
+        const finalText = target.toLocaleString() + '+';
+        el.textContent = finalText;
+        el.style.display = 'inline-block';
+        el.style.minWidth = el.offsetWidth + 'px';
+        el.textContent = '0+';
+
         const start = performance.now();
 
         function update(now) {

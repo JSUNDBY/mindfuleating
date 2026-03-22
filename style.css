@@ -959,6 +959,7 @@ body::after {
   font-size: 1.75rem;
   color: var(--text);
   line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
 .proof-stat-label {
