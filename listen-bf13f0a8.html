@@ -54,6 +54,12 @@
       padding: clamp(1.5rem, 3vw, 2.5rem);
       position: relative;
       overflow: hidden;
+      transition: border-color 0.8s ease, box-shadow 0.8s ease;
+    }
+
+    .player-card.playing {
+      border-color: rgba(212, 168, 83, 0.15);
+      box-shadow: 0 0 60px rgba(212, 168, 83, 0.04), 0 0 120px rgba(212, 168, 83, 0.02);
     }
 
     .player-card::before {
@@ -62,6 +68,79 @@
       top: 0; left: 0; right: 0;
       height: 2px;
       background: linear-gradient(90deg, var(--amber), var(--sage));
+      opacity: 0.6;
+      transition: opacity 0.8s;
+    }
+
+    .player-card.playing::before { opacity: 1; }
+
+    .player-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--amber), var(--sage));
+      filter: blur(8px);
+      opacity: 0;
+      transition: opacity 0.8s;
+    }
+
+    .player-card.playing::after { opacity: 0.6; }
+
+    /* Visualizer */
+    .player-visualizer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .player-card.playing .player-visualizer { opacity: 1; }
+
+    /* Session title transition */
+    .player-session-title {
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .player-session-title.switching {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+
+    /* Program progress */
+    .program-progress {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .program-progress-bar {
+      flex: 1;
+      height: 3px;
+      background: rgba(240, 235, 228, 0.04);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .program-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--sage), var(--amber));
+      border-radius: 2px;
+      transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .program-progress-label {
+      font-family: var(--font-mono);
+      font-size: 0.58rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-faint);
+      white-space: nowrap;
     }
 
     .player-session-label {
@@ -84,6 +163,12 @@
       font-size: 0.88rem;
       color: var(--text-muted);
       margin-bottom: 1.75rem;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .player-session-focus.switching {
+      opacity: 0;
+      transform: translateY(-8px);
     }
 
     .player-progress {
@@ -156,12 +241,37 @@
       border-radius: 50%;
       color: var(--bg);
       transition: transform 0.2s var(--ease), box-shadow 0.2s;
+      position: relative;
+    }
+
+    .player-btn--play::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(212, 168, 83, 0.3);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .player-btn--play.is-playing::before {
+      opacity: 1;
+      animation: play-ring 3s ease-in-out infinite;
+    }
+
+    @keyframes play-ring {
+      0%, 100% { transform: scale(1); opacity: 0.3; }
+      50% { transform: scale(1.1); opacity: 0.1; }
     }
 
     .player-btn--play:hover {
       transform: scale(1.06);
       box-shadow: 0 4px 24px rgba(212, 168, 83, 0.3);
       color: var(--bg);
+    }
+
+    .player-btn--play.is-playing {
+      box-shadow: 0 0 30px rgba(212, 168, 83, 0.2);
     }
 
     .player-btn--speed {
@@ -347,48 +457,75 @@
 
     /* Breathing */
     .breath-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-    .breath-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0; transition: opacity 1.5s ease; }
-    .breath-canvas.active .breath-orb { opacity: 1; }
+    .breath-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0; transition: opacity 2s ease, filter 2s ease; }
+    .breath-canvas.idle .breath-orb { opacity: 0.3; }
+    .breath-canvas.active .breath-orb { opacity: 1; filter: blur(60px); }
 
     .breath-orb--1 {
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(212, 168, 83, 0.08) 0%, transparent 70%);
-      top: 20%; left: 30%;
+      width: 350px; height: 350px;
+      background: radial-gradient(circle, rgba(212, 168, 83, 0.1) 0%, transparent 70%);
+      top: 15%; left: 25%;
       animation: breathe1 8s ease-in-out infinite;
     }
 
     .breath-orb--2 {
-      width: 250px; height: 250px;
-      background: radial-gradient(circle, rgba(125, 155, 138, 0.06) 0%, transparent 70%);
-      top: 35%; right: 25%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(125, 155, 138, 0.08) 0%, transparent 70%);
+      top: 30%; right: 20%;
       animation: breathe2 10s ease-in-out infinite;
     }
 
     .breath-orb--3 {
-      width: 200px; height: 200px;
-      background: radial-gradient(circle, rgba(184, 146, 154, 0.05) 0%, transparent 70%);
-      bottom: 30%; left: 40%;
+      width: 250px; height: 250px;
+      background: radial-gradient(circle, rgba(184, 146, 154, 0.06) 0%, transparent 70%);
+      bottom: 25%; left: 35%;
       animation: breathe3 12s ease-in-out infinite;
+    }
+
+    .breath-orb--4 {
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(212, 168, 83, 0.05) 0%, transparent 70%);
+      top: 60%; right: 30%;
+      animation: breathe4 14s ease-in-out infinite;
+    }
+
+    .breath-orb--5 {
+      width: 280px; height: 280px;
+      background: radial-gradient(circle, rgba(125, 155, 138, 0.04) 0%, transparent 70%);
+      bottom: 10%; left: 15%;
+      animation: breathe5 16s ease-in-out infinite;
     }
 
     @keyframes breathe1 {
       0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
-      25% { transform: translate(30px, -20px) scale(1.15); opacity: 0.8; }
-      50% { transform: translate(-10px, 15px) scale(1.05); opacity: 0.6; }
-      75% { transform: translate(20px, 10px) scale(1.2); opacity: 0.9; }
+      25% { transform: translate(40px, -30px) scale(1.2); opacity: 0.9; }
+      50% { transform: translate(-15px, 20px) scale(1.05); opacity: 0.6; }
+      75% { transform: translate(25px, 10px) scale(1.25); opacity: 1; }
     }
 
     @keyframes breathe2 {
       0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
-      30% { transform: translate(-25px, 15px) scale(1.2); opacity: 0.7; }
-      60% { transform: translate(15px, -10px) scale(0.95); opacity: 0.5; }
-      85% { transform: translate(-10px, -20px) scale(1.1); opacity: 0.8; }
+      30% { transform: translate(-35px, 20px) scale(1.25); opacity: 0.8; }
+      60% { transform: translate(20px, -15px) scale(0.95); opacity: 0.5; }
+      85% { transform: translate(-15px, -25px) scale(1.15); opacity: 0.9; }
     }
 
     @keyframes breathe3 {
       0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-      35% { transform: translate(20px, 20px) scale(1.25); opacity: 0.6; }
-      65% { transform: translate(-15px, -10px) scale(1.1); opacity: 0.5; }
+      35% { transform: translate(25px, 25px) scale(1.3); opacity: 0.7; }
+      65% { transform: translate(-20px, -15px) scale(1.1); opacity: 0.5; }
+    }
+
+    @keyframes breathe4 {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.25; }
+      40% { transform: translate(-30px, -20px) scale(1.2); opacity: 0.6; }
+      70% { transform: translate(15px, 25px) scale(1.1); opacity: 0.4; }
+    }
+
+    @keyframes breathe5 {
+      0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.2; }
+      45% { transform: translate(20px, -15px) scale(1.15); opacity: 0.5; }
+      80% { transform: translate(-25px, 10px) scale(1.05); opacity: 0.35; }
     }
 
     .nav, .welcome, .now-playing, .sessions, .download-section, .guide-note, .footer {
@@ -806,10 +943,12 @@
     </div>
   </div>
 
-  <div class="breath-canvas" id="breathCanvas">
+  <div class="breath-canvas idle" id="breathCanvas">
     <div class="breath-orb breath-orb--1"></div>
     <div class="breath-orb breath-orb--2"></div>
     <div class="breath-orb breath-orb--3"></div>
+    <div class="breath-orb breath-orb--4"></div>
+    <div class="breath-orb breath-orb--5"></div>
   </div>
 
   <nav class="nav">
@@ -832,10 +971,11 @@
 
   <section class="now-playing">
     <div class="container">
-      <div class="player-card">
+      <div class="player-card" id="playerCard">
+        <canvas class="player-visualizer" id="visualizer"></canvas>
         <p class="player-session-label">Session 01 of 07</p>
-        <h2 class="player-session-title">Arriving at the Table</h2>
-        <p class="player-session-focus">Foundation</p>
+        <h2 class="player-session-title" id="playerTitle">Arriving at the Table</h2>
+        <p class="player-session-focus" id="playerFocus">Foundation</p>
 
         <div class="player-progress" id="progressBar">
           <div class="player-progress-fill" id="progressFill" style="width: 0%"></div>
@@ -864,6 +1004,12 @@
 
   <section class="sessions">
     <div class="container">
+      <div class="program-progress" id="programProgress">
+        <div class="program-progress-bar">
+          <div class="program-progress-fill" id="programProgressFill" style="width: 0%"></div>
+        </div>
+        <span class="program-progress-label" id="programProgressLabel">0 of 7 complete</span>
+      </div>
       <div class="sessions-header">
         <span class="sessions-title">All sessions</span>
         <span class="sessions-meta">7 sessions &middot; 80 min total</span>
@@ -1050,19 +1196,65 @@
     ];
 
     const audio = new Audio();
+    audio.crossOrigin = 'anonymous';
     audio.preload = 'metadata';
     let currentIndex = 0;
     let isPlaying = false;
 
     const breathCanvas = document.getElementById('breathCanvas');
+    const playerCard = document.getElementById('playerCard');
     const playBtn = document.getElementById('playBtn');
     const progressBar = document.getElementById('progressBar');
     const progressFill = document.getElementById('progressFill');
     const currentTimeEl = document.getElementById('currentTime');
     const totalTimeEl = document.getElementById('totalTime');
+    const playerTitle = document.getElementById('playerTitle');
+    const playerFocus = document.getElementById('playerFocus');
     const items = document.querySelectorAll('.session-item');
     const playIcon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
     const pauseIcon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
+
+    // Audio visualizer
+    const visCanvas = document.getElementById('visualizer');
+    const visCtx = visCanvas.getContext('2d');
+    let audioCtx, analyser, source, dataArray, visConnected = false;
+
+    function initVisualizer() {
+      if (visConnected) return;
+      try {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 128;
+        source = audioCtx.createMediaElementSource(audio);
+        source.connect(analyser);
+        analyser.connect(audioCtx.destination);
+        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        visConnected = true;
+      } catch(e) {}
+    }
+
+    function drawVisualizer() {
+      if (!visConnected || !isPlaying) return;
+      requestAnimationFrame(drawVisualizer);
+      const rect = visCanvas.parentElement.getBoundingClientRect();
+      visCanvas.width = rect.width;
+      visCanvas.height = 80;
+      analyser.getByteFrequencyData(dataArray);
+      visCtx.clearRect(0, 0, visCanvas.width, visCanvas.height);
+
+      const bars = dataArray.length;
+      const barW = visCanvas.width / bars;
+      for (let i = 0; i < bars; i++) {
+        const val = dataArray[i] / 255;
+        const h = val * 60;
+        const x = i * barW;
+        const gradient = visCtx.createLinearGradient(0, visCanvas.height, 0, visCanvas.height - h);
+        gradient.addColorStop(0, 'rgba(212, 168, 83, 0.06)');
+        gradient.addColorStop(1, 'rgba(212, 168, 83, 0)');
+        visCtx.fillStyle = gradient;
+        visCtx.fillRect(x, visCanvas.height - h, barW - 1, h);
+      }
+    }
 
     // Completed sessions stored in localStorage
     const STORAGE_KEY = 'st_me_completed';
@@ -1073,6 +1265,7 @@
       const c = getCompleted();
       if (!c.includes(idx)) { c.push(idx); localStorage.setItem(STORAGE_KEY, JSON.stringify(c)); }
       updateCheckmarks();
+      updateProgramProgress();
     }
     function updateCheckmarks() {
       const c = getCompleted();
@@ -1082,7 +1275,18 @@
         else check.classList.remove('completed');
       });
     }
+
+    // Program progress
+    const progFill = document.getElementById('programProgressFill');
+    const progLabel = document.getElementById('programProgressLabel');
+    function updateProgramProgress() {
+      const c = getCompleted();
+      const pct = (c.length / sessions.length) * 100;
+      progFill.style.width = pct + '%';
+      progLabel.textContent = c.length + ' of ' + sessions.length + ' complete';
+    }
     updateCheckmarks();
+    updateProgramProgress();
 
     function fmt(sec) {
       if (!sec || !isFinite(sec)) return '0:00';
@@ -1091,26 +1295,56 @@
       return m + ':' + String(s).padStart(2, '0');
     }
 
+    function setPlayingState(playing) {
+      isPlaying = playing;
+      if (playing) {
+        playBtn.innerHTML = pauseIcon;
+        playBtn.classList.add('is-playing');
+        playerCard.classList.add('playing');
+        breathCanvas.classList.remove('idle');
+        breathCanvas.classList.add('active');
+        initVisualizer();
+        drawVisualizer();
+      } else {
+        playBtn.innerHTML = playIcon;
+        playBtn.classList.remove('is-playing');
+        playerCard.classList.remove('playing');
+        breathCanvas.classList.remove('active');
+        breathCanvas.classList.add('idle');
+      }
+    }
+
     function loadSession(idx, autoplay) {
+      const switching = currentIndex !== idx;
       currentIndex = idx;
       const s = sessions[idx];
       audio.src = CDN + '/' + s.file;
       document.querySelector('.player-session-label').textContent = 'Session ' + String(idx + 1).padStart(2, '0') + ' of 07';
-      document.querySelector('.player-session-title').textContent = s.title;
-      document.querySelector('.player-session-focus').textContent = s.focus;
+
+      // Smooth title transition
+      if (switching) {
+        playerTitle.classList.add('switching');
+        playerFocus.classList.add('switching');
+        setTimeout(() => {
+          playerTitle.textContent = s.title;
+          playerFocus.textContent = s.focus;
+          playerTitle.classList.remove('switching');
+          playerFocus.classList.remove('switching');
+        }, 300);
+      } else {
+        playerTitle.textContent = s.title;
+        playerFocus.textContent = s.focus;
+      }
+
       progressFill.style.width = '0%';
       currentTimeEl.textContent = '0:00';
       items.forEach(i => i.classList.remove('active'));
       items[idx].classList.add('active');
       if (autoplay) {
         audio.play();
-        isPlaying = true;
-        playBtn.innerHTML = pauseIcon;
-        breathCanvas.classList.add('active');
+        setPlayingState(true);
       } else {
-        isPlaying = false;
-        playBtn.innerHTML = playIcon;
-        breathCanvas.classList.remove('active');
+        setPlayingState(false);
       }
     }
 
@@ -1121,14 +1355,10 @@
     playBtn.addEventListener('click', () => {
       if (isPlaying) {
         audio.pause();
-        isPlaying = false;
-        playBtn.innerHTML = playIcon;
-        breathCanvas.classList.remove('active');
+        setPlayingState(false);
       } else {
         audio.play();
-        isPlaying = true;
-        playBtn.innerHTML = pauseIcon;
-        breathCanvas.classList.add('active');
+        setPlayingState(true);
       }
     });
 
@@ -1158,9 +1388,7 @@
       if (currentIndex < sessions.length - 1) {
         loadSession(currentIndex + 1, true);
       } else {
-        isPlaying = false;
-        playBtn.innerHTML = playIcon;
-        breathCanvas.classList.remove('active');
+        setPlayingState(false);
         checkCompletion();
       }
     });
