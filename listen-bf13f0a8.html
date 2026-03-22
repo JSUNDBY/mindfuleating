@@ -1136,8 +1136,9 @@
     const starCanvas = document.getElementById('starfield');
     const starCtx = starCanvas.getContext('2d');
     let stars = [];
-    const STAR_COUNT = 70;
-    let starIntensity = 0.4;
+    const STAR_COUNT = 50;
+    let starIntensity = 0.6;
+    let targetIntensity = 0.6;
 
     function resizeStarfield() {
       starCanvas.width = window.innerWidth;
@@ -1150,24 +1151,27 @@
       const colors = [
         [212, 168, 83],
         [212, 168, 83],
+        [212, 168, 83],
         [125, 155, 138],
-        [220, 215, 208],
-        [184, 146, 154],
+        [125, 155, 138],
         [240, 235, 228],
       ];
       const color = colors[Math.floor(Math.random() * colors.length)];
+      const isLarge = Math.random() > 0.75;
       return {
         x: Math.random() * starCanvas.width,
-        y: -10 - Math.random() * 100,
-        r: 0.5 + Math.random() * 1.8,
-        vy: 0.08 + Math.random() * 0.25,
-        vx: (Math.random() - 0.5) * 0.15,
+        y: -10 - Math.random() * 60,
+        r: isLarge ? (1.5 + Math.random() * 1.5) : (0.8 + Math.random() * 1.2),
+        vy: 0.06 + Math.random() * 0.14,
+        vx: (Math.random() - 0.5) * 0.1,
         life: 0,
-        maxLife: 400 + Math.random() * 600,
+        maxLife: 600 + Math.random() * 800,
         color: color,
-        twinkleSpeed: 0.005 + Math.random() * 0.015,
+        twinkleSpeed: 0.003 + Math.random() * 0.008,
         twinkleOffset: Math.random() * Math.PI * 2,
-        glow: Math.random() > 0.7,
+        glow: isLarge || Math.random() > 0.5,
+        glowSize: isLarge ? 10 + Math.random() * 8 : 6 + Math.random() * 4,
+        peakAlpha: 0.35 + Math.random() * 0.45,
       };
     }
 
@@ -1182,16 +1186,19 @@
       requestAnimationFrame(drawStars);
       starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
 
+      // Smooth intensity transitions
+      starIntensity += (targetIntensity - starIntensity) * 0.02;
+
       for (let i = stars.length - 1; i >= 0; i--) {
         const s = stars[i];
         s.x += s.vx;
         s.y += s.vy;
         s.life++;
 
-        // Fade in first 15%, fade out last 25%
+        // Fade in first 12%, fade out last 20%
         let alpha;
-        const fadeIn = s.maxLife * 0.15;
-        const fadeOut = s.maxLife * 0.25;
+        const fadeIn = s.maxLife * 0.12;
+        const fadeOut = s.maxLife * 0.2;
         if (s.life < fadeIn) {
           alpha = s.life / fadeIn;
         } else if (s.life > s.maxLife - fadeOut) {
@@ -1200,11 +1207,11 @@
           alpha = 1;
         }
 
-        // Twinkle
-        const twinkle = 0.5 + 0.5 * Math.sin(s.life * s.twinkleSpeed + s.twinkleOffset);
-        alpha *= twinkle * starIntensity;
+        // Gentle twinkle (never fully fades, floor at 0.4)
+        const twinkle = 0.4 + 0.6 * Math.sin(s.life * s.twinkleSpeed + s.twinkleOffset);
+        alpha *= twinkle * s.peakAlpha * starIntensity;
 
-        if (alpha < 0.01) {
+        if (alpha < 0.005) {
           if (s.life >= s.maxLife || s.y > starCanvas.height + 20) {
             stars[i] = createStar();
           }
@@ -1213,16 +1220,19 @@
 
         const [r, g, b] = s.color;
 
+        // Soft glow halo
         if (s.glow) {
           starCtx.beginPath();
-          const grad = starCtx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 6);
-          grad.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.15) + ')');
+          const grad = starCtx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.glowSize);
+          grad.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.25) + ')');
+          grad.addColorStop(0.5, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.08) + ')');
           grad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
           starCtx.fillStyle = grad;
-          starCtx.arc(s.x, s.y, s.r * 6, 0, Math.PI * 2);
+          starCtx.arc(s.x, s.y, s.glowSize, 0, Math.PI * 2);
           starCtx.fill();
         }
 
+        // Core dot
         starCtx.beginPath();
         starCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         starCtx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
@@ -1416,7 +1426,7 @@
         playerCard.classList.add('playing');
         breathCanvas.classList.remove('idle');
         breathCanvas.classList.add('active');
-        starIntensity = 0.8;
+        targetIntensity = 1.0;
         initVisualizer();
         drawVisualizer();
       } else {
@@ -1425,7 +1435,7 @@
         playerCard.classList.remove('playing');
         breathCanvas.classList.remove('active');
         breathCanvas.classList.add('idle');
-        starIntensity = 0.4;
+        targetIntensity = 0.6;
       }
     }
 
