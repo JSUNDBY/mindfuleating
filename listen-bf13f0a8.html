@@ -1256,27 +1256,19 @@
     let audioCtx, analyser, sourceNode, freqData, vizAnimId;
     let vizReady = false;
     let smoothed = null;
+    // Never route audio through Web Audio API on mobile — it kills playback on screen lock
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
     function initAudioContext() {
-      if (vizReady) return;
+      if (vizReady || isMobile) return;
       vizReady = true;
       audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       analyser = audioCtx.createAnalyser();
       analyser.fftSize = 256;
       analyser.smoothingTimeConstant = 0.82;
-      // Use captureStream instead of createMediaElementSource so audio
-      // plays through the normal HTML5 path and survives phone sleep/lock
-      if (audio.captureStream) {
-        var stream = audio.captureStream();
-        sourceNode = audioCtx.createMediaStreamSource(stream);
-        sourceNode.connect(analyser);
-        // Don't connect analyser to destination — audio plays via the element itself
-      } else {
-        // Fallback for browsers without captureStream (older Safari)
-        sourceNode = audioCtx.createMediaElementSource(audio);
-        sourceNode.connect(analyser);
-        analyser.connect(audioCtx.destination);
-      }
+      sourceNode = audioCtx.createMediaElementSource(audio);
+      sourceNode.connect(analyser);
+      analyser.connect(audioCtx.destination);
       freqData = new Uint8Array(analyser.frequencyBinCount);
     }
 
@@ -1290,6 +1282,7 @@
       return [c2r+(c3r-c2r)*l, c2g+(c3g-c2g)*l, c2b+(c3b-c2b)*l];
     }
 
+    // Desktop: real frequency-reactive visualizer
     function drawViz() {
       vizAnimId = requestAnimationFrame(drawViz);
       const dp = window.devicePixelRatio || 1;
@@ -1299,7 +1292,6 @@
       vizCanvas.height = rect.height * dp;
       vizCtx.scale(dp, dp);
       const W = rect.width, H = rect.height;
-      // Soft fade: don't fully clear, leave a ghost trail
       vizCtx.fillStyle = 'rgba(19, 21, 26, 0.35)';
       vizCtx.fillRect(0, 0, W, H);
 
@@ -1324,7 +1316,6 @@
         }
         const raw = (sum / count) / 255;
         const boosted = Math.pow(raw, 0.6) * 1.3;
-        // Very slow smoothing for dreamy, drifting movement
         smoothed[i] += (Math.min(boosted, 1) - smoothed[i]) * 0.03;
       }
 
@@ -1337,14 +1328,78 @@
         const y = (H - barH) / 2;
         const [r,g,b] = vizColor(i/(barCount-1));
 
-        // Soft glowing bar: draw a wider faint glow behind, then the bar on top
         const glowW = barW + 4;
         const glowX = x - 2;
         const glowAlpha = val * 0.15;
         vizCtx.fillStyle = 'rgba('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+','+glowAlpha+')';
         vizCtx.fillRect(glowX, y - 2, glowW, barH + 4);
 
-        // Main bar with soft opacity
+        const alpha = 0.15 + val * 0.45;
+        vizCtx.beginPath();
+        vizCtx.fillStyle = 'rgba('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+','+alpha+')';
+        const rad = barW / 2;
+        vizCtx.moveTo(x+rad, y);
+        vizCtx.lineTo(x+barW-rad, y);
+        vizCtx.quadraticCurveTo(x+barW, y, x+barW, y+rad);
+        vizCtx.lineTo(x+barW, y+barH-rad);
+        vizCtx.quadraticCurveTo(x+barW, y+barH, x+barW-rad, y+barH);
+        vizCtx.lineTo(x+rad, y+barH);
+        vizCtx.quadraticCurveTo(x, y+barH, x, y+barH-rad);
+        vizCtx.lineTo(x, y+rad);
+        vizCtx.quadraticCurveTo(x, y, x+rad, y);
+        vizCtx.fill();
+      }
+    }
+
+    // Mobile: gentle ambient breathing animation (no Web Audio API)
+    let mobileVizStart = 0;
+    function drawVizMobile() {
+      vizAnimId = requestAnimationFrame(drawVizMobile);
+      const dp = window.devicePixelRatio || 1;
+      const rect = vizCanvas.getBoundingClientRect();
+      if (rect.width === 0) return;
+      vizCanvas.width = rect.width * dp;
+      vizCanvas.height = rect.height * dp;
+      vizCtx.scale(dp, dp);
+      const W = rect.width, H = rect.height;
+      vizCtx.fillStyle = 'rgba(19, 21, 26, 0.35)';
+      vizCtx.fillRect(0, 0, W, H);
+
+      if (!mobileVizStart) mobileVizStart = performance.now();
+      const elapsed = (performance.now() - mobileVizStart) / 1000;
+
+      const barCount = 48;
+      const half = barCount / 2;
+      const gap = 3;
+      const barW = (W - (barCount-1)*gap) / barCount;
+      const maxH = H - 10;
+      if (!smoothed) smoothed = new Float32Array(half).fill(0);
+
+      for (let i = 0; i < half; i++) {
+        const t = i / half;
+        // Layered slow sine waves for organic drift
+        const wave1 = Math.sin(elapsed * 0.4 + i * 0.3) * 0.5 + 0.5;
+        const wave2 = Math.sin(elapsed * 0.25 + i * 0.5 + 1.5) * 0.5 + 0.5;
+        const wave3 = Math.sin(elapsed * 0.15 + i * 0.2 + 3.0) * 0.5 + 0.5;
+        const target = (wave1 * 0.4 + wave2 * 0.35 + wave3 * 0.25) * (0.3 + (1 - t) * 0.4);
+        smoothed[i] += (target - smoothed[i]) * 0.02;
+      }
+
+      for (let i = 0; i < barCount; i++) {
+        const distFromCenter = Math.abs(i - (barCount - 1) / 2);
+        const si = Math.floor((distFromCenter / (half - 1)) * (half - 1));
+        const val = smoothed[Math.min(si, half - 1)];
+        const barH = Math.max(2, val * maxH);
+        const x = i * (barW + gap);
+        const y = (H - barH) / 2;
+        const [r,g,b] = vizColor(i/(barCount-1));
+
+        const glowW = barW + 4;
+        const glowX = x - 2;
+        const glowAlpha = val * 0.15;
+        vizCtx.fillStyle = 'rgba('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+','+glowAlpha+')';
+        vizCtx.fillRect(glowX, y - 2, glowW, barH + 4);
+
         const alpha = 0.15 + val * 0.45;
         vizCtx.beginPath();
         vizCtx.fillStyle = 'rgba('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+','+alpha+')';
@@ -1383,6 +1438,12 @@
     }
 
     function startVisualizer() {
+      if (isMobile) {
+        mobileVizStart = 0;
+        smoothed = null;
+        if (!vizAnimId) drawVizMobile();
+        return;
+      }
       initAudioContext();
       if (audioCtx.state === 'suspended') audioCtx.resume();
       if (!vizAnimId) drawViz();
@@ -1394,13 +1455,13 @@
       drawIdle();
     }
 
-    // Pause visualizer when phone sleeps / tab hidden, resume when visible
+    // Pause visualizer animation when page hidden, resume when visible
     document.addEventListener('visibilitychange', function() {
       if (document.hidden) {
         if (vizAnimId) { cancelAnimationFrame(vizAnimId); vizAnimId = null; }
-      } else if (!audio.paused && vizReady) {
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        if (!vizAnimId) drawViz();
+      } else if (!audio.paused) {
+        if (!isMobile && vizReady && audioCtx.state === 'suspended') audioCtx.resume();
+        startVisualizer();
       }
     });
 
