@@ -1299,16 +1299,30 @@
       const maxH = H - 8;
       if (!smoothed) smoothed = new Float32Array(barCount).fill(0);
 
+      // Use only the meaningful frequency range (voice + music sits in first ~40% of bins)
+      // and spread it across all bars using a logarithmic-ish curve
+      const usableBins = Math.floor(freqData.length * 0.45);
+
       for (let i = 0; i < barCount; i++) {
-        const bin = 2 + Math.floor((i/barCount) * (freqData.length-2));
-        const raw = freqData[bin] / 255;
-        smoothed[i] += (raw - smoothed[i]) * 0.14;
+        // Logarithmic mapping: spread low frequencies across more bars
+        const t = i / barCount;
+        const curved = Math.pow(t, 1.8);
+        const bin = 1 + Math.floor(curved * (usableBins - 1));
+        // Average a few neighboring bins for smoother response
+        let sum = 0, count = 0;
+        for (let b = Math.max(0, bin-1); b <= Math.min(freqData.length-1, bin+1); b++) {
+          sum += freqData[b]; count++;
+        }
+        const raw = (sum / count) / 255;
+        // Boost quieter bars so they're more visible
+        const boosted = Math.pow(raw, 0.7) * 1.3;
+        smoothed[i] += (Math.min(boosted, 1) - smoothed[i]) * 0.14;
         const val = smoothed[i];
         const barH = Math.max(2, val * maxH);
         const x = i * (barW + gap);
         const y = (H - barH) / 2;
         const [r,g,b] = vizColor(i/(barCount-1));
-        const alpha = 0.3 + val * 0.55;
+        const alpha = 0.25 + val * 0.6;
 
         vizCtx.beginPath();
         vizCtx.fillStyle = 'rgba('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+','+alpha+')';
