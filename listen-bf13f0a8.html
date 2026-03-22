@@ -1289,7 +1289,9 @@
       vizCanvas.height = rect.height * dp;
       vizCtx.scale(dp, dp);
       const W = rect.width, H = rect.height;
-      vizCtx.clearRect(0, 0, W, H);
+      // Soft fade: don't fully clear, leave a ghost trail
+      vizCtx.fillStyle = 'rgba(19, 21, 26, 0.35)';
+      vizCtx.fillRect(0, 0, W, H);
 
       analyser.getByteFrequencyData(freqData);
 
@@ -1297,31 +1299,26 @@
       const half = barCount / 2;
       const gap = 3;
       const barW = (W - (barCount-1)*gap) / barCount;
-      const maxH = H - 8;
+      const maxH = H - 10;
       if (!smoothed) smoothed = new Float32Array(half).fill(0);
 
-      // Build mirrored values: compute half, then mirror outward from center
-      // Map across the usable frequency range with a gentle curve
       const usableBins = Math.floor(freqData.length * 0.5);
 
       for (let i = 0; i < half; i++) {
         const t = i / half;
         const curved = Math.pow(t, 1.4);
         const bin = 1 + Math.floor(curved * (usableBins - 1));
-        // Average neighboring bins
         let sum = 0, count = 0;
         for (let b = Math.max(0, bin-2); b <= Math.min(freqData.length-1, bin+2); b++) {
           sum += freqData[b]; count++;
         }
         const raw = (sum / count) / 255;
-        const boosted = Math.pow(raw, 0.6) * 1.4;
-        // Slower smoothing for silky movement
-        smoothed[i] += (Math.min(boosted, 1) - smoothed[i]) * 0.06;
+        const boosted = Math.pow(raw, 0.6) * 1.3;
+        // Very slow smoothing for dreamy, laggy movement
+        smoothed[i] += (Math.min(boosted, 1) - smoothed[i]) * 0.035;
       }
 
-      // Draw mirrored: center is loudest (low freq), edges are highest freq
       for (let i = 0; i < barCount; i++) {
-        // Map bar index to smoothed index: center bars = low freq, edge bars = high freq
         const distFromCenter = Math.abs(i - (barCount - 1) / 2);
         const si = Math.floor((distFromCenter / (half - 1)) * (half - 1));
         const val = smoothed[Math.min(si, half - 1)];
@@ -1329,8 +1326,16 @@
         const x = i * (barW + gap);
         const y = (H - barH) / 2;
         const [r,g,b] = vizColor(i/(barCount-1));
-        const alpha = 0.25 + val * 0.6;
 
+        // Soft glowing bar: draw a wider faint glow behind, then the bar on top
+        const glowW = barW + 4;
+        const glowX = x - 2;
+        const glowAlpha = val * 0.15;
+        vizCtx.fillStyle = 'rgba('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+','+glowAlpha+')';
+        vizCtx.fillRect(glowX, y - 2, glowW, barH + 4);
+
+        // Main bar with soft opacity
+        const alpha = 0.15 + val * 0.45;
         vizCtx.beginPath();
         vizCtx.fillStyle = 'rgba('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+','+alpha+')';
         const rad = barW / 2;
