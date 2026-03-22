@@ -398,7 +398,6 @@
     .breath-orb {
       position: absolute;
       border-radius: 50%;
-      filter: blur(80px);
       opacity: 0;
       transition: opacity 2s ease;
     }
@@ -406,44 +405,44 @@
     .breath-canvas.active .breath-orb { opacity: 1; }
 
     .breath-orb--1 {
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(212, 168, 83, 0.08) 0%, transparent 70%);
-      top: 15%; left: 25%;
-      animation: breathe-a 8s ease-in-out infinite;
+      width: 650px; height: 650px;
+      background: radial-gradient(circle, rgba(212, 168, 83, 0.045) 0%, rgba(212, 168, 83, 0.02) 30%, rgba(212, 168, 83, 0.005) 55%, transparent 75%);
+      top: 10%; left: 20%;
+      animation: breathe-a 20s ease-in-out infinite;
     }
 
     .breath-orb--2 {
-      width: 250px; height: 250px;
-      background: radial-gradient(circle, rgba(125, 155, 138, 0.06) 0%, transparent 70%);
-      top: 40%; right: 20%;
-      animation: breathe-b 10s ease-in-out infinite;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(125, 155, 138, 0.035) 0%, rgba(125, 155, 138, 0.015) 30%, rgba(125, 155, 138, 0.004) 55%, transparent 75%);
+      top: 35%; right: 15%;
+      animation: breathe-b 25s ease-in-out infinite;
     }
 
     .breath-orb--3 {
-      width: 220px; height: 220px;
-      background: radial-gradient(circle, rgba(184, 146, 154, 0.05) 0%, transparent 70%);
-      bottom: 25%; left: 35%;
-      animation: breathe-c 12s ease-in-out infinite;
+      width: 550px; height: 550px;
+      background: radial-gradient(circle, rgba(184, 146, 154, 0.03) 0%, rgba(184, 146, 154, 0.012) 30%, rgba(184, 146, 154, 0.003) 55%, transparent 75%);
+      bottom: 20%; left: 30%;
+      animation: breathe-c 30s ease-in-out infinite;
     }
 
     @keyframes breathe-a {
       0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
-      25% { transform: translate(25px, -15px) scale(1.15); opacity: 0.8; }
-      50% { transform: translate(-10px, 10px) scale(1.05); opacity: 0.6; }
-      75% { transform: translate(15px, 8px) scale(1.2); opacity: 0.9; }
+      25% { transform: translate(15px, -10px) scale(1.08); opacity: 0.7; }
+      50% { transform: translate(-8px, 8px) scale(1.02); opacity: 0.55; }
+      75% { transform: translate(10px, 5px) scale(1.1); opacity: 0.75; }
     }
 
     @keyframes breathe-b {
       0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.4; }
-      30% { transform: translate(-20px, 12px) scale(1.2); opacity: 0.7; }
-      60% { transform: translate(12px, -8px) scale(0.95); opacity: 0.5; }
-      85% { transform: translate(-8px, -15px) scale(1.1); opacity: 0.8; }
+      30% { transform: translate(-12px, 8px) scale(1.1); opacity: 0.6; }
+      60% { transform: translate(8px, -6px) scale(0.97); opacity: 0.45; }
+      85% { transform: translate(-6px, -10px) scale(1.06); opacity: 0.65; }
     }
 
     @keyframes breathe-c {
       0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-      35% { transform: translate(18px, 15px) scale(1.25); opacity: 0.6; }
-      65% { transform: translate(-12px, -8px) scale(1.1); opacity: 0.5; }
+      35% { transform: translate(12px, 10px) scale(1.12); opacity: 0.5; }
+      65% { transform: translate(-8px, -6px) scale(1.05); opacity: 0.4; }
     }
 
     .delivery-hero, .player-section, .bridge, .offer, .offer-testimonials, .final-push, .footer, nav.nav {
@@ -484,7 +483,7 @@
     <div class="glow glow--sage" style="bottom: -15%; left: 15%; width: 350px; height: 350px;"></div>
     <div class="container">
       <p class="tag">You're in</p>
-      <h1 class="headline headline--lg"><span class="welcome-name" id="welcomeName">Welcome</span> &mdash; your session is <em>ready.</em></h1>
+      <h1 class="headline headline--lg"><span class="welcome-name" id="welcomeName">Welcome</span>, your session is <em>ready.</em></h1>
       <p class="body-lg" style="max-width: 540px; margin: 1rem auto 0;">Find a quiet spot. Take a breath. Press play when you're ready. This works best right before a meal.</p>
     </div>
   </section>
@@ -556,9 +555,9 @@
         <div class="offer-copy">
           <p class="tag">The full program</p>
           <h2 class="headline headline--md">Seven sessions that <em>realign</em> your relationship with food.</h2>
-          <p class="body-lg">Each recording builds on the one before. By the end, mindful eating isn't something you "do" &ndash; it's just how you eat.</p>
+          <p class="body-lg">Each recording builds on the one before. By the end, mindful eating isn't something you "do." It's just how you eat.</p>
           <ul class="offer-sessions">
-            <li><span class="offer-session-num">01</span><div><div class="offer-session-title">Arriving at the Table</div><div class="offer-session-desc">The foundation you just tasted &ndash; taken deeper.</div></div></li>
+            <li><span class="offer-session-num">01</span><div><div class="offer-session-title">Arriving at the Table</div><div class="offer-session-desc">The foundation you just tasted, taken deeper.</div></div></li>
             <li><span class="offer-session-num">02</span><div><div class="offer-session-title">Hunger vs. Habit</div><div class="offer-session-desc">Know the difference. Change the pattern.</div></div></li>
             <li><span class="offer-session-num">03</span><div><div class="offer-session-title">The Pause</div><div class="offer-session-desc">The most powerful skill you'll learn.</div></div></li>
             <li><span class="offer-session-num">04</span><div><div class="offer-session-title">Eating With Your Senses</div><div class="offer-session-desc">More satisfaction from every bite.</div></div></li>
@@ -580,7 +579,7 @@
             <li><span class="offer-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>7 guided mindful eating recordings</li>
             <li><span class="offer-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>80 minutes of professional audio</li>
             <li><span class="offer-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>Stream or download, any device</li>
-            <li><span class="offer-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>Lifetime access &ndash; no subscription</li>
+            <li><span class="offer-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>Lifetime access, no subscription</li>
             <li><span class="offer-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>Future recordings included at no cost</li>
             <li><span class="offer-check"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></span>From the same voice you just listened to</li>
           </ul>
@@ -622,7 +621,7 @@
       <p class="tag">You felt it in 7 minutes</p>
       <h2 class="headline headline--lg">Imagine what <em>seven sessions</em> will do.</h2>
       <p class="body-lg">The awareness you just experienced? That's the foundation. The full program builds a practice you carry into every meal, every day.</p>
-      <a href="checkout.html" class="btn btn--primary btn--lg">Start the full program &mdash; $49 <span class="btn-arrow">&rarr;</span></a>
+      <a href="checkout.html" class="btn btn--primary btn--lg">Start the full program, $49 <span class="btn-arrow">&rarr;</span></a>
       <p class="final-push-note">One payment. Lifetime access. No subscription.</p>
     </div>
   </section>
@@ -632,7 +631,11 @@
     <div class="container">
       <div class="footer-bottom" style="border: none; padding-top: 0;">
         <p>&copy; 2026 Superthoughts. All rights reserved.</p>
-        <p>Questions? hello@superthoughts.com</p>
+        <div class="footer-links">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="mailto:hello@superthoughts.com">Contact</a>
+        </div>
       </div>
     </div>
   </footer>

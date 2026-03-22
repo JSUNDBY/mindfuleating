@@ -136,6 +136,38 @@
       transform: translateY(-8px);
     }
 
+    /* Visualizer */
+    .visualizer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5px;
+      height: 64px;
+      margin-bottom: 1.25rem;
+      padding: 0 4px;
+      border-radius: 10px;
+      background: rgba(212, 168, 83, 0.02);
+    }
+
+    .viz-bar {
+      flex: 1;
+      min-width: 0;
+      border-radius: 50px;
+      height: 2px;
+      transition: height 0.6s ease, opacity 0.6s ease;
+      opacity: 0.18;
+    }
+
+    .playing .viz-bar {
+      animation: vizPulse var(--dur) var(--delay) ease-in-out infinite;
+      opacity: 1;
+    }
+
+    @keyframes vizPulse {
+      0%, 100% { height: var(--min); opacity: var(--lo); }
+      50% { height: var(--max); opacity: var(--hi); }
+    }
+
     .player-progress {
       width: 100%;
       height: 6px;
@@ -893,6 +925,8 @@
         <h2 class="player-session-title" id="playerTitle">Arriving at the Table</h2>
         <p class="player-session-focus" id="playerFocus">Foundation</p>
 
+        <div class="visualizer" id="visualizer"></div>
+
         <div class="player-progress" id="progressBar">
           <div class="player-progress-fill" id="progressFill" style="width: 0%"></div>
         </div>
@@ -1229,6 +1263,42 @@
     let currentIndex = 0;
     let isPlaying = false;
 
+    // ===== VISUALIZER (pure CSS bars) =====
+    const vizEl = document.getElementById('visualizer');
+    const VIZ_COUNT = 40;
+    const c1 = [212, 168, 83];   // amber
+    const c2 = [125, 155, 138];  // sage
+    const c3 = [184, 146, 154];  // rose
+
+    for (let i = 0; i < VIZ_COUNT; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'viz-bar';
+      const t = i / (VIZ_COUNT - 1);
+      let r, g, b;
+      if (t < 0.5) {
+        const lt = t * 2;
+        r = c1[0] + (c2[0] - c1[0]) * lt;
+        g = c1[1] + (c2[1] - c1[1]) * lt;
+        b = c1[2] + (c2[2] - c1[2]) * lt;
+      } else {
+        const lt = (t - 0.5) * 2;
+        r = c2[0] + (c3[0] - c2[0]) * lt;
+        g = c2[1] + (c3[1] - c2[1]) * lt;
+        b = c2[2] + (c3[2] - c2[2]) * lt;
+      }
+      // Center bars taller, edges shorter
+      const center = 1 - Math.abs(t - 0.5) * 1.4;
+      const maxH = 10 + center * 38;
+      const minH = 3 + center * 5;
+      const dur = (2.5 + Math.random() * 3).toFixed(2);
+      const delay = (Math.random() * -5).toFixed(2);
+      bar.style.cssText = 'background:rgba(' + Math.round(r) + ',' + Math.round(g) + ',' + Math.round(b) + ',1);'
+        + '--dur:' + dur + 's;--delay:' + delay + 's;'
+        + '--min:' + minH.toFixed(0) + 'px;--max:' + maxH.toFixed(0) + 'px;'
+        + '--lo:' + (0.2 + center * 0.15).toFixed(2) + ';--hi:' + (0.4 + center * 0.4).toFixed(2) + ';';
+      vizEl.appendChild(bar);
+    }
+
     const breathCanvas = document.getElementById('breathCanvas');
     const playBtn = document.getElementById('playBtn');
     const progressBar = document.getElementById('progressBar');
@@ -1286,10 +1356,12 @@
         playBtn.innerHTML = pauseIcon;
         breathCanvas.classList.remove('idle');
         breathCanvas.classList.add('active');
+        vizEl.classList.add('playing');
       } else {
         playBtn.innerHTML = playIcon;
         breathCanvas.classList.remove('active');
         breathCanvas.classList.add('idle');
+        vizEl.classList.remove('playing');
       }
     }
 
