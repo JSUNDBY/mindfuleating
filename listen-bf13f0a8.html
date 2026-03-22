@@ -1294,30 +1294,37 @@
       analyser.getByteFrequencyData(freqData);
 
       const barCount = 48;
+      const half = barCount / 2;
       const gap = 3;
       const barW = (W - (barCount-1)*gap) / barCount;
       const maxH = H - 8;
-      if (!smoothed) smoothed = new Float32Array(barCount).fill(0);
+      if (!smoothed) smoothed = new Float32Array(half).fill(0);
 
-      // Use only the meaningful frequency range (voice + music sits in first ~40% of bins)
-      // and spread it across all bars using a logarithmic-ish curve
-      const usableBins = Math.floor(freqData.length * 0.45);
+      // Build mirrored values: compute half, then mirror outward from center
+      // Map across the usable frequency range with a gentle curve
+      const usableBins = Math.floor(freqData.length * 0.5);
 
-      for (let i = 0; i < barCount; i++) {
-        // Logarithmic mapping: spread low frequencies across more bars
-        const t = i / barCount;
-        const curved = Math.pow(t, 1.8);
+      for (let i = 0; i < half; i++) {
+        const t = i / half;
+        const curved = Math.pow(t, 1.4);
         const bin = 1 + Math.floor(curved * (usableBins - 1));
-        // Average a few neighboring bins for smoother response
+        // Average neighboring bins
         let sum = 0, count = 0;
-        for (let b = Math.max(0, bin-1); b <= Math.min(freqData.length-1, bin+1); b++) {
+        for (let b = Math.max(0, bin-2); b <= Math.min(freqData.length-1, bin+2); b++) {
           sum += freqData[b]; count++;
         }
         const raw = (sum / count) / 255;
-        // Boost quieter bars so they're more visible
-        const boosted = Math.pow(raw, 0.7) * 1.3;
-        smoothed[i] += (Math.min(boosted, 1) - smoothed[i]) * 0.14;
-        const val = smoothed[i];
+        const boosted = Math.pow(raw, 0.6) * 1.4;
+        // Slower smoothing for silky movement
+        smoothed[i] += (Math.min(boosted, 1) - smoothed[i]) * 0.06;
+      }
+
+      // Draw mirrored: center is loudest (low freq), edges are highest freq
+      for (let i = 0; i < barCount; i++) {
+        // Map bar index to smoothed index: center bars = low freq, edge bars = high freq
+        const distFromCenter = Math.abs(i - (barCount - 1) / 2);
+        const si = Math.floor((distFromCenter / (half - 1)) * (half - 1));
+        const val = smoothed[Math.min(si, half - 1)];
         const barH = Math.max(2, val * maxH);
         const x = i * (barW + gap);
         const y = (H - barH) / 2;
