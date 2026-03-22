@@ -455,6 +455,14 @@
     .guide-tip-icon { font-family: var(--font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--amber); margin-bottom: 0.5rem; }
     .guide-tip p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
 
+    /* Starfield */
+    .starfield {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
     /* Breathing */
     .breath-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
     .breath-orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0; transition: opacity 2s ease, filter 2s ease; }
@@ -943,6 +951,8 @@
     </div>
   </div>
 
+  <canvas class="starfield" id="starfield"></canvas>
+
   <div class="breath-canvas idle" id="breathCanvas">
     <div class="breath-orb breath-orb--1"></div>
     <div class="breath-orb breath-orb--2"></div>
@@ -1122,6 +1132,109 @@
   </footer>
 
   <script>
+    // Starfield
+    const starCanvas = document.getElementById('starfield');
+    const starCtx = starCanvas.getContext('2d');
+    let stars = [];
+    const STAR_COUNT = 70;
+    let starIntensity = 0.4;
+
+    function resizeStarfield() {
+      starCanvas.width = window.innerWidth;
+      starCanvas.height = window.innerHeight;
+    }
+    resizeStarfield();
+    window.addEventListener('resize', resizeStarfield);
+
+    function createStar() {
+      const colors = [
+        [212, 168, 83],
+        [212, 168, 83],
+        [125, 155, 138],
+        [220, 215, 208],
+        [184, 146, 154],
+        [240, 235, 228],
+      ];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      return {
+        x: Math.random() * starCanvas.width,
+        y: -10 - Math.random() * 100,
+        r: 0.5 + Math.random() * 1.8,
+        vy: 0.08 + Math.random() * 0.25,
+        vx: (Math.random() - 0.5) * 0.15,
+        life: 0,
+        maxLife: 400 + Math.random() * 600,
+        color: color,
+        twinkleSpeed: 0.005 + Math.random() * 0.015,
+        twinkleOffset: Math.random() * Math.PI * 2,
+        glow: Math.random() > 0.7,
+      };
+    }
+
+    for (let i = 0; i < STAR_COUNT; i++) {
+      const s = createStar();
+      s.y = Math.random() * starCanvas.height;
+      s.life = Math.random() * s.maxLife;
+      stars.push(s);
+    }
+
+    function drawStars() {
+      requestAnimationFrame(drawStars);
+      starCtx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+
+      for (let i = stars.length - 1; i >= 0; i--) {
+        const s = stars[i];
+        s.x += s.vx;
+        s.y += s.vy;
+        s.life++;
+
+        // Fade in first 15%, fade out last 25%
+        let alpha;
+        const fadeIn = s.maxLife * 0.15;
+        const fadeOut = s.maxLife * 0.25;
+        if (s.life < fadeIn) {
+          alpha = s.life / fadeIn;
+        } else if (s.life > s.maxLife - fadeOut) {
+          alpha = (s.maxLife - s.life) / fadeOut;
+        } else {
+          alpha = 1;
+        }
+
+        // Twinkle
+        const twinkle = 0.5 + 0.5 * Math.sin(s.life * s.twinkleSpeed + s.twinkleOffset);
+        alpha *= twinkle * starIntensity;
+
+        if (alpha < 0.01) {
+          if (s.life >= s.maxLife || s.y > starCanvas.height + 20) {
+            stars[i] = createStar();
+          }
+          continue;
+        }
+
+        const [r, g, b] = s.color;
+
+        if (s.glow) {
+          starCtx.beginPath();
+          const grad = starCtx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 6);
+          grad.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.15) + ')');
+          grad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+          starCtx.fillStyle = grad;
+          starCtx.arc(s.x, s.y, s.r * 6, 0, Math.PI * 2);
+          starCtx.fill();
+        }
+
+        starCtx.beginPath();
+        starCtx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        starCtx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+        starCtx.fill();
+
+        if (s.life >= s.maxLife || s.y > starCanvas.height + 20) {
+          stars[i] = createStar();
+        }
+      }
+    }
+    drawStars();
+
     // Welcome moment (first visit only)
     const FIRST_VISIT_KEY = 'st_me_welcomed';
     const welcomeMoment = document.getElementById('welcomeMoment');
@@ -1303,6 +1416,7 @@
         playerCard.classList.add('playing');
         breathCanvas.classList.remove('idle');
         breathCanvas.classList.add('active');
+        starIntensity = 0.8;
         initVisualizer();
         drawVisualizer();
       } else {
@@ -1311,6 +1425,7 @@
         playerCard.classList.remove('playing');
         breathCanvas.classList.remove('active');
         breathCanvas.classList.add('idle');
+        starIntensity = 0.4;
       }
     }
 
