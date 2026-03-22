@@ -1264,9 +1264,19 @@
       analyser = audioCtx.createAnalyser();
       analyser.fftSize = 256;
       analyser.smoothingTimeConstant = 0.82;
-      sourceNode = audioCtx.createMediaElementSource(audio);
-      sourceNode.connect(analyser);
-      analyser.connect(audioCtx.destination);
+      // Use captureStream instead of createMediaElementSource so audio
+      // plays through the normal HTML5 path and survives phone sleep/lock
+      if (audio.captureStream) {
+        var stream = audio.captureStream();
+        sourceNode = audioCtx.createMediaStreamSource(stream);
+        sourceNode.connect(analyser);
+        // Don't connect analyser to destination — audio plays via the element itself
+      } else {
+        // Fallback for browsers without captureStream (older Safari)
+        sourceNode = audioCtx.createMediaElementSource(audio);
+        sourceNode.connect(analyser);
+        analyser.connect(audioCtx.destination);
+      }
       freqData = new Uint8Array(analyser.frequencyBinCount);
     }
 
@@ -1383,6 +1393,16 @@
       smoothed = null;
       drawIdle();
     }
+
+    // Pause visualizer when phone sleeps / tab hidden, resume when visible
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        if (vizAnimId) { cancelAnimationFrame(vizAnimId); vizAnimId = null; }
+      } else if (!audio.paused && vizReady) {
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+        if (!vizAnimId) drawViz();
+      }
+    });
 
     // Draw idle state once visible
     setTimeout(drawIdle, 100);
