@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230a0c10'/><text x='50' y='72' font-family='Georgia,serif' font-size='68' font-weight='400' font-style='italic' fill='%23d4a853' text-anchor='middle'>S</text></svg>">
+  <title>Mindful Eating for Insight Timer Listeners — Superthoughts</title>
+  <meta name="description" content="You've practiced with Josh Sundby on Insight Timer. Now bring that same awareness to your relationship with food. A dedicated mindful eating program from the voice you already trust.">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://mindful-eating.superthoughts.com/lp-timer.html">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="product">
+  <meta property="og:url" content="https://mindful-eating.superthoughts.com/lp-timer.html">
+  <meta property="og:title" content="Mindful Eating — For Insight Timer Listeners">
+  <meta property="og:description" content="The voice that guided your meditation now guides your meals. A dedicated mindful eating program from Josh Sundby.">
+  <meta property="og:image" content="https://mindful-eating.superthoughts.com/og-share.png">
+  <meta property="og:site_name" content="Superthoughts">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mindful Eating — For Insight Timer Listeners">
+  <meta name="twitter:description" content="The voice that guided your meditation now guides your meals. A dedicated mindful eating program from Josh Sundby.">
+  <meta name="twitter:image" content="https://mindful-eating.superthoughts.com/og-share.png">
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-S151YE55PJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-S151YE55PJ');
+  </script>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '168292265148');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=168292265148&ev=PageView&noscript=1"/></noscript>
+
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Superthoughts: Mindful Eating",
+    "description": "A guided mindfulness program for transforming how you eat. From Josh Sundby, trusted by 40,000+ Insight Timer listeners.",
+    "brand": {
+      "@type": "Brand",
+      "name": "Superthoughts"
+    },
+    "creator": {
+      "@type": "Person",
+      "name": "Josh Sundby",
+      "description": "25+ years of mindfulness practice, 40,000+ sessions guided on Insight Timer"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "https://buy.stripe.com/28EfZjb8c2Xy9BEc8s3Je00",
+      "priceCurrency": "USD",
+      "price": "49.00",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== LANDING PAGE SPECIFICS ===== */
+
+    .landing { min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* Hero */
+    .landing-hero {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: clamp(8rem, 16vh, 12rem) 0 clamp(4rem, 8vh, 6rem);
+    }
+
+    .landing-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(240, 235, 228, 0.015) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+    }
+
+    .landing-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: clamp(3rem, 6vw, 6rem);
+      align-items: center;
+    }
+
+    /* Left copy */
+    .landing-copy { position: relative; z-index: 2; }
+    .landing-copy .tag { margin-bottom: 1.5rem; display: inline-block; }
+
+    .landing-copy .headline {
+      margin-bottom: 1.5rem;
+    }
+
+    .landing-copy .body-lg {
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+    }
+
+    /* Proof bar under copy */
+    .landing-proof {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(240, 235, 228, 0.06);
+    }
+
+    /* Right card */
+    .capture-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(212, 168, 83, 0.08);
+      border-radius: 28px;
+      padding: clamp(2rem, 4vw, 3rem);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+    }
+
+    .capture-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--amber), var(--sage));
+    }
+
+    .capture-card::after {
+      content: '';
+      position: absolute;
+      top: -150px;
+      right: -150px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(212, 168, 83, 0.06), transparent 70%);
+      pointer-events: none;
+    }
+
+    .capture-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .capture-badge {
+      display: inline-block;
+      background: var(--amber-deep);
+      color: var(--amber);
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      padding: 0.4rem 1rem;
+      border-radius: 50px;
+      margin-bottom: 1.25rem;
+    }
+
+    .capture-header h2 {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      color: var(--text);
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .capture-header p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .capture-form { position: relative; }
+
+    .capture-form .btn {
+      margin-top: 0.5rem;
+    }
+
+    .capture-note {
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--text-faint);
+      margin-top: 1rem;
+      line-height: 1.5;
+    }
+
+    /* ===== FROM JOSH SECTION ===== */
+    .from-josh {
+      padding: var(--section-pad) 0;
+      background: var(--bg-alt);
+      position: relative;
+    }
+
+    .from-josh-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .from-josh-inner blockquote {
+      font-family: var(--font-display);
+      font-size: clamp(1.05rem, 2vw, 1.2rem);
+      color: var(--text-muted);
+      line-height: 1.9;
+      font-style: normal;
+      font-weight: 400;
+      text-align: left;
+    }
+
+    .from-josh-inner cite {
+      display: block;
+      margin-top: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--amber);
+      font-style: normal;
+      text-align: left;
+    }
+
+    /* ===== PROGRAM SESSIONS LIST ===== */
+    .program-overview {
+      padding: var(--section-pad) 0;
+      position: relative;
+    }
+
+    .session-list-clean {
+      max-width: 580px;
+      margin: clamp(2.5rem, 5vw, 4rem) auto 0;
+      list-style: none;
+    }
+
+    .session-list-clean li {
+      display: flex;
+      align-items: baseline;
+      gap: 1.25rem;
+      padding: 1rem 0;
+      border-bottom: 1px solid rgba(240, 235, 228, 0.04);
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .session-list-clean li:first-child {
+      border-top: 1px solid rgba(240, 235, 228, 0.04);
+    }
+
+    .session-num {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--amber);
+      opacity: 0.6;
+      flex-shrink: 0;
+      letter-spacing: 0.06em;
+    }
+
+    .session-title {
+      color: var(--text);
+      font-family: var(--font-display);
+      font-weight: 400;
+    }
+
+    .session-dur {
+      margin-left: auto;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-faint);
+      flex-shrink: 0;
+    }
+
+    /* ===== TRUST FOOTER ===== */
+    .trust-strip {
+      border-top: 1px solid rgba(240, 235, 228, 0.03);
+      padding: 1.5rem 0;
+      text-align: center;
+    }
+
+    .trust-strip p {
+      font-size: 0.72rem;
+      color: var(--text-faint);
+      letter-spacing: 0.04em;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .landing-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .capture-card { order: -1; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="landing">
+    <canvas id="star-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+
+    <!-- Nav -->
+    <nav class="nav" id="nav">
+      <div class="nav-inner">
+        <a href="index.html" class="logo">
+          <span class="logo-text">Superthoughts</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="landing-hero">
+      <!-- Organic glow orbs -->
+      <div class="glow glow--amber" style="top: -15%; right: 5%;"></div>
+      <div class="glow glow--sage" style="bottom: -10%; left: -5%;"></div>
+      <div class="glow glow--rose" style="top: 35%; left: 45%;"></div>
+
+      <div class="container">
+        <div class="landing-grid">
+
+          <!-- Left: Copy -->
+          <div class="landing-copy">
+            <p class="tag reveal">For Insight Timer listeners</p>
+            <h1 class="headline headline--hero reveal reveal-delay-1">
+              <span class="text-reveal"><span class="text-reveal-inner">You already know</span></span><br>
+              <span class="text-reveal"><span class="text-reveal-inner">the practice. Now bring it</span></span><br>
+              <span class="text-reveal"><span class="text-reveal-inner">to the <em>table.</em></span></span>
+            </h1>
+            <p class="body-lg reveal reveal-delay-2">I built this program because so many of you asked for it. Seven guided recordings that bring the same mindfulness you practice on the cushion to the place most of us forget it — our meals.</p>
+
+            <div class="landing-proof reveal reveal-delay-3">
+              <div class="proof-bar">
+                <div class="proof-stat">
+                  <span class="proof-stat-value" data-count="40000">40,000+</span>
+                  <span class="proof-stat-label">sessions on Insight Timer</span>
+                </div>
+                <div class="proof-divider"></div>
+                <div class="proof-stat">
+                  <span class="proof-stat-value">4.8/5</span>
+                  <span class="proof-stat-label">average rating</span>
+                </div>
+                <div class="proof-divider"></div>
+                <div class="proof-stat">
+                  <span class="proof-stat-value">7 sessions</span>
+                  <span class="proof-stat-label">dedicated eating program</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Capture Card -->
+          <div class="capture-card reveal reveal-delay-2">
+            <div class="capture-header">
+              <div class="capture-badge">For Insight Timer listeners</div>
+              <h2>Your complimentary <em style="color:var(--amber);font-style:normal;">Mindful Eating</em> session</h2>
+              <p>Same voice, same approach — designed specifically for your relationship with food.</p>
+            </div>
+
+            <form class="capture-form" id="captureForm">
+              <div class="form-group">
+                <label for="captureName">First name</label>
+                <input type="text" id="captureName" name="firstName" placeholder="Your first name" required autocomplete="given-name">
+              </div>
+              <div class="form-group">
+                <label for="captureEmail">Email</label>
+                <input type="email" id="captureEmail" name="email" placeholder="you@email.com" required autocomplete="email">
+              </div>
+              <button type="submit" class="btn btn--primary btn--full btn--lg" id="captureSubmit">
+                Send me the session <span class="btn-arrow">&rarr;</span>
+              </button>
+              <p class="capture-note">
+                Instant access. No spam, ever. Unsubscribe anytime.
+              </p>
+            </form>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Marquee trust strip -->
+    <div class="marquee">
+      <div class="marquee-track">
+        <div class="marquee-content">
+          <span>40,000+ Insight Timer sessions</span>
+          <div class="marquee-dot"></div>
+          <span>4.8 out of 5 rating</span>
+          <div class="marquee-dot"></div>
+          <span>Listeners in 30+ countries</span>
+          <div class="marquee-dot"></div>
+          <span>25+ years of mindfulness practice</span>
+          <div class="marquee-dot"></div>
+          <span>Now a dedicated mindful eating program</span>
+          <div class="marquee-dot"></div>
+          <span>Created by Josh Sundby</span>
+          <div class="marquee-dot"></div>
+        </div>
+        <div class="marquee-content" aria-hidden="true">
+          <span>40,000+ Insight Timer sessions</span>
+          <div class="marquee-dot"></div>
+          <span>4.8 out of 5 rating</span>
+          <div class="marquee-dot"></div>
+          <span>Listeners in 30+ countries</span>
+          <div class="marquee-dot"></div>
+          <span>25+ years of mindfulness practice</span>
+          <div class="marquee-dot"></div>
+          <span>Now a dedicated mindful eating program</span>
+          <div class="marquee-dot"></div>
+          <span>Created by Josh Sundby</span>
+          <div class="marquee-dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- A note from Josh -->
+    <section class="from-josh">
+      <div class="container">
+        <div class="from-josh-inner reveal">
+          <p class="tag" style="margin-bottom: 1.5rem;">A note from Josh</p>
+          <blockquote>
+            So many of you have told me the same thing: "I can be mindful on the cushion, but the moment I sit down to eat, I'm on autopilot." This program is my answer. Seven recordings, each designed for a different aspect of how you relate to food — hunger, habit, emotion, pleasure, the stories you carry about what you should or shouldn't eat. Start with the free session tonight. If it resonates the way our other work together has, the rest will be here when you're ready.
+          </blockquote>
+          <cite>— Josh Sundby</cite>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+      <div class="container">
+        <div class="testimonials-header">
+          <p class="tag reveal">What listeners say</p>
+          <h2 class="headline headline--lg reveal reveal-delay-1" style="margin-top: 1rem;">Words from the <em>community.</em></h2>
+        </div>
+
+        <div class="testimonials-grid">
+          <div class="testimonial reveal">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote>"Perfect prep for my day. Josh has a <strong>gentle, soothing voice</strong> with powerful yet subtle guidance. I moved through my day with ease and clarity."</blockquote>
+            <div class="testimonial-author">
+              <strong>Cher M.</strong>
+              <span>Los Angeles, CA</span>
+            </div>
+          </div>
+          <div class="testimonial reveal reveal-delay-1">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote>"I found it so grounding, comforting and reassuring. I felt <strong>calm and confident with clarity and purpose.</strong> You have a lovely, warm and sincere voice."</blockquote>
+            <div class="testimonial-author">
+              <strong>Alison W.</strong>
+              <span>Scotland, UK</span>
+            </div>
+          </div>
+          <div class="testimonial reveal reveal-delay-2">
+            <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <blockquote>"This relieved my stress and tension <strong>completely.</strong> Simple and so very practical. I love it."</blockquote>
+            <div class="testimonial-author">
+              <strong>Diba H.</strong>
+              <span>Ottawa, Canada</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Program overview -->
+    <section class="program-overview">
+      <div class="container">
+        <div style="text-align: center;">
+          <p class="tag reveal">The full program</p>
+          <h2 class="headline headline--lg reveal reveal-delay-1" style="max-width: 600px; margin: 1rem auto 0;">Seven sessions. Every aspect of <em>how you eat.</em></h2>
+        </div>
+
+        <ul class="session-list-clean reveal reveal-delay-2">
+          <li>
+            <span class="session-num">01</span>
+            <span class="session-title">Arriving at the Table</span>
+            <span class="session-dur">12 min</span>
+          </li>
+          <li>
+            <span class="session-num">02</span>
+            <span class="session-title">Hunger vs. Habit</span>
+            <span class="session-dur">14 min</span>
+          </li>
+          <li>
+            <span class="session-num">03</span>
+            <span class="session-title">The Pause</span>
+            <span class="session-dur">11 min</span>
+          </li>
+          <li>
+            <span class="session-num">04</span>
+            <span class="session-title">Eating With Your Senses</span>
+            <span class="session-dur">15 min</span>
+          </li>
+          <li>
+            <span class="session-num">05</span>
+            <span class="session-title">The Stories We Tell</span>
+            <span class="session-dur">13 min</span>
+          </li>
+          <li>
+            <span class="session-num">06</span>
+            <span class="session-title">Emotional Weather</span>
+            <span class="session-dur">16 min</span>
+          </li>
+          <li>
+            <span class="session-num">07</span>
+            <span class="session-title">Your Own Way Forward</span>
+            <span class="session-dur">14 min</span>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="cta-section">
+      <div class="glow glow--amber" style="top: 10%; left: 20%; width: 400px; height: 400px;"></div>
+      <div class="glow glow--sage" style="bottom: 10%; right: 15%; width: 350px; height: 350px;"></div>
+      <div class="container reveal">
+        <p class="tag">Start now</p>
+        <h2 class="headline headline--xl" style="margin-top: 1rem;">You've practiced with me before.<br>Now let me help you eat with the <em>same awareness.</em></h2>
+        <p class="body-lg" style="max-width: 520px; margin: 1.5rem auto 2.5rem;">One free session. Seven minutes. The same voice and approach you already know — applied to the place where most of us lose our practice first.</p>
+        <a href="#top" class="btn btn--primary btn--lg" onclick="document.getElementById('captureName').focus(); return false;">
+          Get your complimentary session <span class="btn-arrow">&rarr;</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Trust strip -->
+    <div class="trust-strip">
+      <p>A Superthoughts program &middot; 40,000+ Insight Timer sessions &middot; 25+ years of mindfulness practice &middot; Not medical advice</p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-bottom">
+          <p>&copy; 2026 Superthoughts. All rights reserved.</p>
+          <div class="footer-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="mailto:hello@superthoughts.com">Contact</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    // ===== UTM PARAMETER CAPTURE =====
+    (function() {
+      var params = new URLSearchParams(window.location.search);
+      var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+      utmKeys.forEach(function(key) {
+        var val = params.get(key);
+        if (val) sessionStorage.setItem('st_' + key, val);
+      });
+      // Default source tagging for this landing page
+      if (!sessionStorage.getItem('st_utm_source')) {
+        sessionStorage.setItem('st_utm_source', 'insight_timer');
+      }
+      sessionStorage.setItem('st_landing_source', 'insight_timer_lp');
+    })();
+
+    // ===== SCROLL REVEAL =====
+    const reveals = document.querySelectorAll('.reveal');
+    const textReveals = document.querySelectorAll('.text-reveal');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+
+    reveals.forEach(el => observer.observe(el));
+    textReveals.forEach(el => observer.observe(el));
+
+    // ===== NAV SCROLL =====
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ===== EMAIL CAPTURE =====
+    const form = document.getElementById('captureForm');
+    const btn = document.getElementById('captureSubmit');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('captureName').value.trim();
+      const email = document.getElementById('captureEmail').value.trim();
+      if (!name || !email) return;
+
+      sessionStorage.setItem('st_name', name);
+      sessionStorage.setItem('st_email', email);
+
+      btn.innerHTML = 'Unlocking your session...';
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+
+      // Build Kit payload with source tagging
+      var kitPayload = {
+        email_address: email,
+        first_name: name,
+        tags: ['insight_timer_lp']
+      };
+
+      // Post to Kit silently in the background
+      fetch('https://app.kit.com/forms/9204882/subscriptions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(kitPayload)
+      }).catch(() => {}); // fail silently — never block the user
+
+      // Fire conversion events with source tagging
+      var conversionData = {
+        event_category: 'engagement',
+        event_label: 'free_session_signup',
+        source: 'insight_timer_lp'
+      };
+
+      // Append UTM params to conversion data
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'].forEach(function(key) {
+        var val = sessionStorage.getItem('st_' + key);
+        if (val) conversionData[key] = val;
+      });
+
+      if (typeof gtag === 'function') gtag('event', 'generate_lead', conversionData);
+      if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'Mindful Eating Free Session', source: 'insight_timer_lp' });
+
+      // Redirect to free session page
+      setTimeout(() => {
+        window.location.href = 'free-session.html';
+      }, 800);
+    });
+
+    // ===== COUNTER ANIMATION =====
+    function animateCounters() {
+      document.querySelectorAll('[data-count]').forEach(el => {
+        const target = parseInt(el.dataset.count);
+        const duration = 2000;
+
+        // Lock width to final value so layout never shifts during counting
+        const finalText = target.toLocaleString() + '+';
+        el.textContent = finalText;
+        el.style.display = 'inline-block';
+        el.style.minWidth = el.offsetWidth + 'px';
+        el.textContent = '0+';
+
+        const start = performance.now();
+
+        function update(now) {
+          const elapsed = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.floor(eased * target);
+          el.textContent = current.toLocaleString() + '+';
+          if (progress < 1) requestAnimationFrame(update);
+        }
+
+        requestAnimationFrame(update);
+      });
+    }
+
+    // Trigger counter when proof bar enters view
+    const proofBar = document.querySelector('.landing-proof');
+    if (proofBar) {
+      const proofObs = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          animateCounters();
+          proofObs.unobserve(proofBar);
+        }
+      }, { threshold: 0.3 });
+      proofObs.observe(proofBar);
+    }
+
+    // ===== STAR CANVAS (HiDPI + radial gradient cores) =====
+    (function() {
+      var canvas = document.getElementById('star-canvas');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var particles = [];
+      var w, h, dpr;
+      var PARTICLE_COUNT = 50;
+      var INTENSITY = 0.7;
+
+      function resize() {
+        dpr = window.devicePixelRatio || 1;
+        w = window.innerWidth;
+        h = window.innerHeight;
+        canvas.width = w * dpr;
+        canvas.height = h * dpr;
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function spawnParticle() {
+        var life = 8000 + Math.random() * 12000;
+        return {
+          x: Math.random() * w,
+          y: Math.random() * h,
+          size: Math.random() * 1.5 + 0.8,
+          vx: (Math.random() - 0.5) * 0.06,
+          vy: (Math.random() - 0.5) * 0.06,
+          baseAlpha: (Math.random() * 0.4 + 0.15) * INTENSITY,
+          twinkleSpeed: Math.random() * 0.003 + 0.001,
+          twinkleOffset: Math.random() * Math.PI * 2,
+          isAmber: Math.random() < 0.2,
+          born: performance.now() - Math.random() * life,
+          life: life
+        };
+      }
+
+      function init() {
+        particles = [];
+        for (var i = 0; i < PARTICLE_COUNT; i++) particles.push(spawnParticle());
+      }
+
+      function draw(time) {
+        ctx.clearRect(0, 0, w, h);
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          var age = time - p.born;
+          if (age > p.life) { particles[i] = spawnParticle(); particles[i].born = time; continue; }
+
+          var fadeIn = Math.min(age / (p.life * 0.3), 1);
+          fadeIn = fadeIn * fadeIn;
+          var fadeOut = Math.min((p.life - age) / (p.life * 0.35), 1);
+          fadeOut = fadeOut * fadeOut;
+          var envelope = fadeIn * fadeOut;
+
+          var twinkle = 0.7 + 0.3 * Math.sin(time * p.twinkleSpeed + p.twinkleOffset);
+          var alpha = p.baseAlpha * envelope * twinkle;
+          if (alpha < 0.01) continue;
+
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < -10) p.x = w + 10;
+          if (p.x > w + 10) p.x = -10;
+          if (p.y < -10) p.y = h + 10;
+          if (p.y > h + 10) p.y = -10;
+
+          var r = p.isAmber ? 212 : 240;
+          var g = p.isAmber ? 168 : 235;
+          var b = p.isAmber ? 83 : 228;
+
+          var grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2.5);
+          grad.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')');
+          grad.addColorStop(0.4, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.5) + ')');
+          grad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        requestAnimationFrame(draw);
+      }
+
+      window.addEventListener('resize', resize);
+      resize();
+      init();
+      requestAnimationFrame(draw);
+    })();
+  </script>
+
+</body>
+</html>
