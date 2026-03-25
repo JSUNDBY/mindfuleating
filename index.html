@@ -6,6 +6,116 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230a0c10'/><text x='50' y='72' font-family='Georgia,serif' font-size='68' font-weight='400' font-style='italic' fill='%23d4a853' text-anchor='middle'>S</text></svg>">
   <title>Superthoughts — Mindful Eating</title>
   <meta name="description" content="Change your relationship with food in 7 minutes. A complimentary guided mindful eating session from Superthoughts.">
+
+  <!-- Canonical -->
+  <link rel="canonical" href="https://mindful-eating.superthoughts.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="product">
+  <meta property="og:url" content="https://mindful-eating.superthoughts.com/">
+  <meta property="og:title" content="Mindful Eating — Change Your Relationship with Food">
+  <meta property="og:description" content="A guided mindfulness program for transforming how you eat. No diets, no restriction. Just awareness. Try a free 7-minute session.">
+  <meta property="og:image" content="https://mindful-eating.superthoughts.com/og-share.png">
+  <meta property="og:site_name" content="Superthoughts">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mindful Eating — Change Your Relationship with Food">
+  <meta name="twitter:description" content="A guided mindfulness program for transforming how you eat. No diets, no restriction. Just awareness. Try a free 7-minute session.">
+  <meta name="twitter:image" content="https://mindful-eating.superthoughts.com/og-share.png">
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-S151YE55PJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-S151YE55PJ');
+  </script>
+
+  <!-- Meta Pixel -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '168292265148');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=168292265148&ev=PageView&noscript=1"/></noscript>
+
+  <!-- Schema.org Product -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Superthoughts: Mindful Eating",
+    "description": "A guided mindfulness program for transforming how you eat. No diets, no restriction. Just awareness.",
+    "brand": {
+      "@type": "Brand",
+      "name": "Superthoughts"
+    },
+    "creator": {
+      "@type": "Person",
+      "name": "Josh Sundby",
+      "description": "25+ years of mindfulness practice, 40,000+ sessions guided on Insight Timer"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "https://buy.stripe.com/28EfZjb8c2Xy9BEc8s3Je00",
+      "priceCurrency": "USD",
+      "price": "49.00",
+      "availability": "https://schema.org/InStock"
+    }
+  }
+  </script>
+
+  <!-- Schema.org FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the Superthoughts Mindful Eating program?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Superthoughts: Mindful Eating is a guided mindfulness program with seven recordings designed to transform your relationship with food. No diets, no restriction — just awareness built on 25+ years of mindfulness practice."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I try it for free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. You can listen to a complimentary 7-minute guided mindful eating session instantly — just enter your name and email on the landing page."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does the program cost?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The full program is a one-time payment of $49. No subscription, no upsells. You get lifetime access to all seven guided recordings."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the refund policy?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Superthoughts offers a 30-day guarantee. If the program doesn't help after an honest try, reach out within 30 days for a full refund."
+        }
+      }
+    ]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
@@ -642,6 +752,10 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email_address: email, first_name: name })
       }).catch(() => {}); // fail silently — never block the user
+
+      // Fire conversion events
+      if (typeof gtag === 'function') gtag('event', 'generate_lead', { event_category: 'engagement', event_label: 'free_session_signup' });
+      if (typeof fbq === 'function') fbq('track', 'Lead', { content_name: 'Mindful Eating Free Session' });
 
       // Redirect to free session page
       setTimeout(() => {
