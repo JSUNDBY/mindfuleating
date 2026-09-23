@@ -1,1734 +1,501 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230a0c10'/><text x='50' y='72' font-family='Georgia,serif' font-size='68' font-weight='400' font-style='italic' fill='%23d4a853' text-anchor='middle'>S</text></svg>">
-  <title>Mindful Eating — Superthoughts</title>
-  <meta name="robots" content="noindex, nofollow">
-
-  <!-- Google Analytics (GA4) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-S151YE55PJ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-S151YE55PJ');
-  </script>
-
-  <!-- Meta Pixel -->
-  <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '168292265148');
-    fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=168292265148&ev=PageView&noscript=1"/></noscript>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    html {
-      overflow-x: hidden;
-      touch-action: pan-y;
-    }
-    body {
-      background-image: linear-gradient(180deg, #0a0c10 0%, #0e1014 35%, #121418 65%, #0a0c10 100%);
-      background-attachment: fixed;
-      min-height: 100vh;
-      overflow-x: hidden;
-      touch-action: pan-y;
-      -webkit-text-size-adjust: 100%;
-    }
-
-
-    .container { max-width: 760px; }
-
-    /* Welcome */
-    .welcome {
-      padding: clamp(3rem, 8vh, 5rem) 0 clamp(2rem, 4vh, 3rem);
-      text-align: center;
-      position: relative;
-    }
-
-    .welcome h1 {
-      font-family: var(--font-display);
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
-      font-weight: 400;
-      line-height: 1.2;
-      margin-bottom: 0.75rem;
-    }
-
-    .welcome h1 em { font-style: italic; color: var(--amber); }
-
-    .welcome p {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      max-width: 480px;
-      margin: 0 auto;
-      line-height: 1.75;
-    }
-
-    /* Player */
-    .now-playing { padding: 1rem 0 2rem; }
-
-    .player-card {
-      background: var(--bg-card);
-      border: 1px solid rgba(212, 168, 83, 0.08);
-      border-radius: 24px;
-      padding: clamp(1.5rem, 3vw, 2.5rem);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .player-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--amber), var(--sage), transparent);
-      opacity: 0.4;
-    }
-
-    /* Session title transition */
-    .player-session-title {
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-
-    .player-session-title.switching {
-      opacity: 0;
-      transform: translateY(-8px);
-    }
-
-    /* Program progress */
-    .program-progress {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .program-progress-bar {
-      flex: 1;
-      height: 3px;
-      background: rgba(240, 235, 228, 0.04);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .program-progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--sage), var(--amber));
-      border-radius: 2px;
-      transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .program-progress-label {
-      font-family: var(--font-mono);
-      font-size: 0.58rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--text-faint);
-      white-space: nowrap;
-    }
-
-    .player-session-label {
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--text-faint);
-      margin-bottom: 0.5rem;
-    }
-
-    .player-session-title {
-      font-family: var(--font-display);
-      font-size: clamp(1.2rem, 2.5vw, 1.5rem);
-      font-weight: 400;
-      margin-bottom: 0.25rem;
-    }
-
-    .player-session-focus {
-      font-size: 0.88rem;
-      color: var(--text-muted);
-      margin-bottom: 1.75rem;
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-
-    .player-session-focus.switching {
-      opacity: 0;
-      transform: translateY(-8px);
-    }
-
-    /* Visualizer */
-    .visualizer-wrap {
-      width: 100%;
-      height: 72px;
-      margin-bottom: 1.25rem;
-      border-radius: 10px;
-      background: rgba(212, 168, 83, 0.02);
-      overflow: hidden;
-    }
-
-    .visualizer-wrap canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-    }
-
-    .player-progress {
-      width: 100%;
-      height: 6px;
-      background: rgba(212, 168, 83, 0.08);
-      border-radius: 3px;
-      cursor: pointer;
-      margin-bottom: 0.5rem;
-      position: relative;
-    }
-
-    .player-progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--amber), var(--sage));
-      border-radius: 3px;
-      width: 35%;
-      transition: width 0.1s linear;
-      position: relative;
-    }
-
-    .player-progress-fill::after {
-      content: '';
-      position: absolute;
-      right: -5px; top: 50%;
-      transform: translateY(-50%);
-      width: 14px; height: 14px;
-      background: var(--amber);
-      border-radius: 50%;
-      box-shadow: 0 0 12px rgba(212, 168, 83, 0.2);
-      opacity: 0;
-      transition: opacity 0.2s;
-    }
-
-    .player-card:hover .player-progress-fill::after { opacity: 1; }
-
-    .player-times {
-      display: flex;
-      justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      color: var(--text-faint);
-      margin-bottom: 1.75rem;
-    }
-
-    .player-controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-    }
-
-    .player-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: color 0.2s, transform 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .player-btn:hover { color: var(--text); }
-    .player-btn--skip { width: 40px; height: 40px; }
-
-    .player-btn--play {
-      width: 64px; height: 64px;
-      background: var(--amber);
-      border-radius: 50%;
-      color: var(--bg);
-      transition: transform 0.2s var(--ease), box-shadow 0.2s;
-    }
-
-    .player-btn--play:hover {
-      transform: scale(1.06);
-      box-shadow: 0 4px 24px rgba(212, 168, 83, 0.3);
-      color: var(--bg);
-    }
-
-    .player-btn--speed {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.05em;
-      color: var(--text-faint);
-      padding: 0.3rem 0.6rem;
-      border-radius: 6px;
-      background: rgba(240, 235, 228, 0.04);
-    }
-
-    .player-btn--speed:hover { background: rgba(240, 235, 228, 0.08); }
-
-    /* Sessions list */
-    .sessions { padding: 1rem 0 clamp(3rem, 6vh, 5rem); }
-
-    .sessions-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-
-    .sessions-title {
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--text-faint);
-    }
-
-    .sessions-meta {
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      color: var(--text-faint);
-    }
-
-    .session-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      padding: 1rem 1.25rem;
-      border-radius: 14px;
-      cursor: pointer;
-      transition: background 0.2s;
-      border: 1px solid transparent;
-    }
-
-    .session-item:hover { background: rgba(212, 168, 83, 0.03); }
-
-    .session-item.active {
-      background: var(--bg-card);
-      border-color: rgba(212, 168, 83, 0.08);
-    }
-
-    .session-number {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--text-faint);
-      width: 24px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .session-item.active .session-number { color: var(--amber); }
-
-    .session-playing-icon {
-      display: none;
-      width: 24px;
-      justify-content: center;
-      align-items: center;
-      gap: 2px;
-      flex-shrink: 0;
-    }
-
-    .session-item.active .session-playing-icon { display: flex; }
-    .session-item.active .session-number { display: none; }
-
-    .session-playing-icon span {
-      width: 3px;
-      background: var(--amber);
-      border-radius: 2px;
-      animation: bars 0.8s ease-in-out infinite;
-    }
-
-    .session-playing-icon span:nth-child(1) { height: 12px; animation-delay: 0s; }
-    .session-playing-icon span:nth-child(2) { height: 16px; animation-delay: 0.15s; }
-    .session-playing-icon span:nth-child(3) { height: 10px; animation-delay: 0.3s; }
-
-    @keyframes bars {
-      0%, 100% { transform: scaleY(0.5); }
-      50% { transform: scaleY(1); }
-    }
-
-    .session-info { flex: 1; min-width: 0; }
-    .session-name { font-size: 0.95rem; font-weight: 500; color: var(--text); margin-bottom: 0.1rem; }
-    .session-item.active .session-name { color: var(--amber); }
-    .session-focus { font-size: 0.8rem; color: var(--text-faint); }
-    .session-duration { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-faint); flex-shrink: 0; }
-
-    .session-check {
-      width: 20px; height: 20px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(240, 235, 228, 0.08);
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-    }
-
-    .session-check.completed { background: var(--sage); border-color: var(--sage); }
-    .session-check.completed svg { opacity: 1; }
-    .session-check svg { opacity: 0; transition: opacity 0.3s; }
-
-    .session-download {
-      flex-shrink: 0;
-      width: 28px;
-      height: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      color: var(--text-faint);
-      transition: all 0.2s;
-      -webkit-tap-highlight-color: transparent;
-    }
-    .session-download:hover { color: var(--amber); background: rgba(212, 168, 83, 0.08); }
-    .session-download:active { color: var(--amber); background: rgba(212, 168, 83, 0.15); }
-
-    /* Guide */
-    .guide-note { padding: 0 0 clamp(3rem, 6vh, 5rem); }
-
-    .guide-card {
-      background: var(--bg-card);
-      border: 1px solid rgba(240, 235, 228, 0.04);
-      border-radius: 18px;
-      padding: clamp(2rem, 4vw, 3rem);
-      text-align: center;
-    }
-
-    .guide-card h3 { font-family: var(--font-display); font-size: 1.25rem; font-weight: 400; margin-bottom: 0.75rem; }
-    .guide-card h3 em { font-style: italic; color: var(--amber); }
-    .guide-card > p { font-size: 0.95rem; color: var(--text-muted); max-width: 480px; margin: 0 auto; line-height: 1.8; }
-
-    .guide-tips {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 2rem;
-      text-align: center;
-    }
-
-    .guide-tip { padding: 1.25rem; }
-    .guide-tip-icon { font-family: var(--font-mono); font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--amber); margin-bottom: 0.5rem; }
-    .guide-tip p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
-
-    /* Starfield */
-    .starfield {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    /* Breathing */
-    .breath-canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
-    .breath-orb { position: absolute; border-radius: 50%; opacity: 0; transition: opacity 2s ease; }
-    .breath-canvas.idle .breath-orb { opacity: 0.3; }
-    .breath-canvas.active .breath-orb { opacity: 1; }
-
-    .breath-orb--1 {
-      width: 700px; height: 700px;
-      background: radial-gradient(circle, rgba(212, 168, 83, 0.045) 0%, rgba(212, 168, 83, 0.02) 30%, rgba(212, 168, 83, 0.005) 55%, transparent 75%);
-      top: 5%; left: 15%;
-      animation: breathe1 20s ease-in-out infinite;
-    }
-
-    .breath-orb--2 {
-      width: 650px; height: 650px;
-      background: radial-gradient(circle, rgba(125, 155, 138, 0.04) 0%, rgba(125, 155, 138, 0.015) 30%, rgba(125, 155, 138, 0.004) 55%, transparent 75%);
-      top: 20%; right: 5%;
-      animation: breathe2 26s ease-in-out infinite;
-    }
-
-    .breath-orb--3 {
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(184, 146, 154, 0.03) 0%, rgba(184, 146, 154, 0.01) 30%, rgba(184, 146, 154, 0.003) 55%, transparent 75%);
-      bottom: 15%; left: 25%;
-      animation: breathe3 30s ease-in-out infinite;
-    }
-
-    @keyframes breathe1 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(40px, 20px) scale(1.1); }
-    }
-
-    @keyframes breathe2 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(-30px, 15px) scale(1.15); }
-    }
-
-    @keyframes breathe3 {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(20px, -25px) scale(1.1); }
-    }
-
-    .nav, .welcome, .now-playing, .sessions, .guide-note, .footer {
-      position: relative; z-index: 1;
-    }
-
-    /* Gate */
-    .gate {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      background: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-    }
-
-    .gate.hidden { display: none; }
-
-    .gate-inner { max-width: 400px; }
-
-    .gate-inner h1 {
-      font-family: var(--font-display);
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 400;
-      margin-bottom: 0.5rem;
-    }
-
-    .gate-inner h1 em { font-style: italic; color: var(--amber); }
-
-    .gate-inner p {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-      margin-bottom: 1.75rem;
-    }
-
-    .gate-input {
-      width: 100%;
-      padding: 0.85rem 1.25rem;
-      border-radius: 50px;
-      border: 1px solid rgba(212, 168, 83, 0.15);
-      background: var(--bg-card);
-      color: var(--text);
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.3s;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-
-    .gate-input::placeholder { color: var(--text-faint); }
-    .gate-input:focus { border-color: var(--amber); }
-
-    .gate-submit {
-      width: 100%;
-      padding: 0.85rem 1.25rem;
-      border-radius: 50px;
-      border: none;
-      background: var(--amber);
-      color: var(--bg);
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      cursor: pointer;
-      transition: opacity 0.3s;
-    }
-
-    .gate-submit:hover { opacity: 0.85; }
-
-    .gate-error {
-      font-size: 0.8rem;
-      color: #c97a7a;
-      margin-top: 0.75rem;
-      display: none;
-    }
-
-    /* Welcome moment */
-    .welcome-moment {
-      position: fixed;
-      inset: 0;
-      z-index: 9998;
-      background: var(--bg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-      opacity: 1;
-      transition: opacity 1.5s ease;
-    }
-
-    .welcome-moment.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .welcome-moment.hidden { display: none; }
-
-    .wm-line {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-
-    .wm-line.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .wm-greeting {
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--amber);
-      margin-bottom: 1.5rem;
-    }
-
-    .wm-headline {
-      font-family: var(--font-display);
-      font-size: clamp(1.75rem, 4.5vw, 2.75rem);
-      font-weight: 400;
-      line-height: 1.3;
-      color: var(--text);
-      margin-bottom: 1.25rem;
-      max-width: 500px;
-    }
-
-    .wm-headline em { font-style: italic; color: var(--amber); }
-
-    .wm-body {
-      font-size: 1rem;
-      color: var(--text-muted);
-      line-height: 1.8;
-      max-width: 420px;
-      margin-bottom: 2.5rem;
-    }
-
-    .wm-begin {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-faint);
-      background: none;
-      border: 1px solid rgba(212, 168, 83, 0.2);
-      padding: 0.85rem 2.5rem;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.4s;
-    }
-
-    .wm-begin:hover {
-      border-color: var(--amber);
-      color: var(--amber);
-      box-shadow: 0 0 30px rgba(212, 168, 83, 0.1);
-    }
-
-    .wm-orb {
-      position: absolute;
-      width: 350px;
-      height: 350px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(212, 168, 83, 0.06) 0%, transparent 70%);
-      filter: blur(60px);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation: wm-pulse 6s ease-in-out infinite;
-    }
-
-    @keyframes wm-pulse {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.4; }
-      50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.7; }
-    }
-
-    /* Completion celebration */
-    .celebration {
-      position: fixed;
-      inset: 0;
-      z-index: 9997;
-      background: var(--bg);
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-      opacity: 0;
-      transition: opacity 1.5s ease;
-      overflow: hidden;
-    }
-
-    .celebration.active {
-      display: flex;
-      opacity: 1;
-    }
-
-    .cele-particles {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .cele-particle {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0;
-    }
-
-    .celebration.active .cele-particle {
-      animation: cele-float var(--dur) var(--delay) ease-out forwards;
-    }
-
-    @keyframes cele-float {
-      0% { opacity: 0; transform: translateY(0) scale(0); }
-      15% { opacity: var(--peak-opacity); transform: translateY(calc(var(--drift-y) * 0.15)) scale(1); }
-      85% { opacity: var(--peak-opacity); }
-      100% { opacity: 0; transform: translateY(var(--drift-y)) scale(0.5); }
-    }
-
-    .cele-ring {
-      position: absolute;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      border: 1px solid rgba(212, 168, 83, 0.15);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) scale(0);
-      opacity: 0;
-    }
-
-    .celebration.active .cele-ring {
-      animation: cele-ring-expand 3s ease-out forwards;
-    }
-
-    .cele-ring:nth-child(2) { animation-delay: 0.4s !important; width: 350px; height: 350px; border-color: rgba(125, 155, 138, 0.1); }
-    .cele-ring:nth-child(3) { animation-delay: 0.8s !important; width: 500px; height: 500px; border-color: rgba(212, 168, 83, 0.06); }
-
-    @keyframes cele-ring-expand {
-      0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-      30% { opacity: 1; }
-      100% { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
-    }
-
-    .cele-orb {
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(212, 168, 83, 0.08) 0%, transparent 70%);
-      filter: blur(60px);
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      animation: cele-orb-pulse 5s ease-in-out infinite;
-    }
-
-    @keyframes cele-orb-pulse {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
-      50% { transform: translate(-50%, -50%) scale(1.4); opacity: 0.6; }
-    }
-
-    .cele-content {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .cele-line {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-
-    .cele-line.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .cele-icon {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--amber), var(--sage));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 2.5rem;
-      animation: cele-glow 3s ease-in-out infinite;
-      position: relative;
-    }
-
-    .cele-icon::after {
-      content: '';
-      position: absolute;
-      inset: -8px;
-      border-radius: 50%;
-      border: 1px solid rgba(212, 168, 83, 0.2);
-      animation: cele-icon-ring 3s ease-in-out infinite;
-    }
-
-    @keyframes cele-glow {
-      0%, 100% { box-shadow: 0 0 40px rgba(212, 168, 83, 0.2), 0 0 80px rgba(212, 168, 83, 0.05); }
-      50% { box-shadow: 0 0 60px rgba(212, 168, 83, 0.4), 0 0 120px rgba(212, 168, 83, 0.1); }
-    }
-
-    @keyframes cele-icon-ring {
-      0%, 100% { transform: scale(1); opacity: 0.5; }
-      50% { transform: scale(1.15); opacity: 0.2; }
-    }
-
-    .cele-count {
-      font-family: var(--font-mono);
-      font-size: 0.6rem;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--amber);
-      margin-bottom: 1.25rem;
-    }
-
-    .cele-headline {
-      font-family: var(--font-display);
-      font-size: clamp(1.75rem, 4.5vw, 2.75rem);
-      font-weight: 400;
-      color: var(--text);
-      margin-bottom: 1.25rem;
-      line-height: 1.3;
-    }
-
-    .cele-headline em { font-style: italic; color: var(--amber); }
-
-    .cele-body {
-      font-size: 1rem;
-      color: var(--text-muted);
-      line-height: 1.85;
-      max-width: 440px;
-      margin-bottom: 2.5rem;
-    }
-
-    .cele-close {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-faint);
-      background: none;
-      border: 1px solid rgba(212, 168, 83, 0.2);
-      padding: 0.85rem 2.5rem;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.4s;
-    }
-
-    .cele-close:hover {
-      border-color: var(--amber);
-      color: var(--amber);
-      box-shadow: 0 0 30px rgba(212, 168, 83, 0.1);
-    }
-
-    @media (max-width: 600px) {
-      .guide-tips { grid-template-columns: 1fr; gap: 0.5rem; }
-      .player-controls { gap: 1rem; }
-      .player-btn--play { width: 56px; height: 56px; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mindful Eating | Superthoughts</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F4F3EF'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23161615' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="superthoughts.css">
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S151YE55PJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-S151YE55PJ');
+</script>
+<!-- Meta Pixel -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '168292265148');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=168292265148&ev=PageView&noscript=1"/></noscript>
 </head>
 <body>
 
-  <!-- Email gate -->
-  <div class="gate" id="gate">
-    <div class="gate-inner">
-      <h1>Mindful <em>Eating</em></h1>
+<!-- Email gate -->
+<div class="screen" id="gate">
+  <div class="wrap">
+    <div class="inner">
+      <h2>Mindful Eating</h2>
       <p>Enter the email you used to purchase the program to access your sessions.</p>
-      <input type="email" class="gate-input" id="gateEmail" placeholder="your@email.com" autocomplete="email">
-      <button class="gate-submit" id="gateSubmit">Access my program</button>
-      <p class="gate-error" id="gateError">Please enter a valid email address.</p>
+      <form novalidate onsubmit="return false;">
+        <div class="fieldset">
+          <label for="gateEmail">Email<input type="email" id="gateEmail" autocomplete="email"></label>
+        </div>
+        <button class="submit" type="button" id="gateSubmit">Access my program</button>
+        <p class="err" id="gateError" aria-live="polite">Please enter a valid email address.</p>
+      </form>
     </div>
   </div>
+</div>
 
-  <!-- Welcome moment (first visit only) -->
-  <div class="welcome-moment hidden" id="welcomeMoment">
-    <div class="wm-orb"></div>
-    <p class="wm-line wm-greeting" id="wmGreeting">Welcome</p>
-    <h1 class="wm-line wm-headline">You just did something <em>beautiful</em> for yourself.</h1>
-    <p class="wm-line wm-body">This is your space now. Seven sessions, yours forever. Take your time. There is no rush, no schedule, no right way to do this. Just you, your breath, and a quieter relationship with food.</p>
-    <button class="wm-line wm-begin" id="wmBegin">Begin</button>
-  </div>
-
-  <!-- Completion celebration -->
-  <div class="celebration" id="celebration">
-    <div class="cele-orb"></div>
-    <div class="cele-ring"></div>
-    <div class="cele-ring"></div>
-    <div class="cele-ring"></div>
-    <div class="cele-particles" id="celeParticles"></div>
-    <div class="cele-content">
-      <div class="cele-line cele-icon">
-        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0a0c10" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-      </div>
-      <p class="cele-line cele-count">7 of 7 sessions complete</p>
-      <h1 class="cele-line cele-headline">You did something <em>remarkable.</em></h1>
-      <p class="cele-line cele-body">Seven sessions. Every single one. That takes real commitment, and it says something about how seriously you are showing up for yourself. The practice is yours now. Come back to any session whenever you need it. This page is here for you, always.</p>
-      <button class="cele-line cele-close" id="celeClose">Continue listening</button>
+<!-- Welcome moment (first visit only) -->
+<div class="screen hidden" id="welcomeMoment">
+  <div class="wrap">
+    <div class="inner">
+      <p class="wm-line label" id="wmGreeting">Welcome</p>
+      <h2 class="wm-line">You just did something beautiful for yourself.</h2>
+      <p class="wm-line">This is your space now. Seven sessions, yours forever. Take your time. There is no rush, no schedule, no right way to do this. Just you, your breath, and a quieter relationship with food.</p>
+      <button class="wm-line submit" id="wmBegin">Begin</button>
     </div>
   </div>
+</div>
 
-  <canvas class="starfield" id="starfield"></canvas>
-
-  <div class="breath-canvas idle" id="breathCanvas">
-    <div class="breath-orb breath-orb--1"></div>
-    <div class="breath-orb breath-orb--2"></div>
-    <div class="breath-orb breath-orb--3"></div>
-  </div>
-
-  <nav class="nav">
-    <div class="nav-inner">
-      <a href="#" class="logo">
-        <span class="logo-text" style="font-size:0.8rem;">Superthoughts</span>
-      </a>
-      <a href="#" style="font-family:var(--font-mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-faint);transition:color 0.3s;">&larr; Back to programs</a>
+<!-- Completion -->
+<div class="screen celebration" id="celebration">
+  <div class="wrap">
+    <div class="inner">
+      <p class="cele-line label">7 of 7 sessions complete</p>
+      <h2 class="cele-line">You did something remarkable.</h2>
+      <p class="cele-line">Seven sessions. Every single one. That takes real commitment, and it says something about how seriously you are showing up for yourself. The practice is yours now. Come back to any session whenever you need it. This page is here for you, always.</p>
+      <button class="cele-line submit" id="celeClose">Continue listening</button>
     </div>
+  </div>
+</div>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="wrap">
+  <nav class="nav" aria-label="Primary">
+    <a class="wordmark" href="https://superthoughts.com">Superthoughts</a>
+    <ul>
+      <li><a href="https://superthoughts.com/#programs">Programs</a></li>
+      <li><a href="https://superthoughts.com/#about">About</a></li>
+      <li><a href="#listen">Listen</a></li>
+    </ul>
   </nav>
+</header>
 
-  <section class="welcome">
-    <div class="glow glow--amber" style="top:-30%;left:50%;transform:translateX(-50%);width:400px;height:400px;"></div>
-    <div class="container">
-      <p class="tag" style="margin-bottom: 1.25rem;">Superthoughts</p>
-      <h1>Mindful <em>Eating</em></h1>
-      <p>Seven guided sessions to realign your relationship with food. Listen before meals, at your own pace, as many times as you need.</p>
+<main id="main" class="wrap">
+
+  <section class="hero grid" id="listen">
+    <h1 class="rise">Mindful Eating</h1>
+    <p class="lede rise">Seven guided sessions to realign your relationship with food. Listen before meals, at your own pace, as many times as you need.</p>
+
+    <div class="work rise">
+      <div class="field" id="field" aria-hidden="true"><canvas id="canvas"></canvas></div>
+      <div class="labelrow">
+        <div class="meta">
+          <span class="label player-session-label">Session 01 of 07</span>
+          <span class="title" id="playerTitle">Arriving at the Table</span>
+          <span class="small" id="playerFocus">Foundation</span>
+          <span class="small"><span id="currentTime">0:00</span> / <span id="totalTime">0:00</span></span>
+          <span class="small status" id="status" aria-live="polite">Idle</span>
+        </div>
+        <button class="play" id="play" aria-pressed="false" aria-label="Play Arriving at the Table" data-name="Arriving at the Table">
+          <svg class="go" viewBox="0 0 18 18" aria-hidden="true"><path d="M4 2.5v13l11-6.5z"/></svg>
+          <svg class="pause" viewBox="0 0 18 18" aria-hidden="true"><path d="M4 3h3.5v12H4zM10.5 3H14v12h-3.5z"/></svg>
+        </button>
+      </div>
+      <div class="seek" id="progressBar" aria-hidden="true"><div class="fill" id="progressFill" style="width: 0%"></div></div>
+      <div class="controls">
+        <button class="textbtn player-btn--skip" aria-label="Previous session">Previous</button>
+        <button class="textbtn player-btn--skip" aria-label="Next session">Next</button>
+        <button class="textbtn player-btn--speed" aria-label="Playback speed">1x</button>
+        <button class="textbtn player-btn--speed" aria-label="Forward 30 seconds">Forward 30s</button>
+      </div>
+      <audio id="audio" crossorigin="anonymous" preload="metadata"></audio>
     </div>
   </section>
 
-  <section class="now-playing">
-    <div class="container">
-      <div class="player-card">
-        <p class="player-session-label">Session 01 of 07</p>
-        <h2 class="player-session-title" id="playerTitle">Arriving at the Table</h2>
-        <p class="player-session-focus" id="playerFocus">Foundation</p>
-
-        <div class="visualizer-wrap">
-          <canvas id="visualizer"></canvas>
-        </div>
-
-        <div class="player-progress" id="progressBar">
-          <div class="player-progress-fill" id="progressFill" style="width: 0%"></div>
-        </div>
-        <div class="player-times">
-          <span id="currentTime">0:00</span>
-          <span id="totalTime">0:00</span>
-        </div>
-
-        <div class="player-controls">
-          <button class="player-btn player-btn--speed">1x</button>
-          <button class="player-btn player-btn--skip" aria-label="Previous">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-          </button>
-          <button class="player-btn player-btn--play" id="playBtn" aria-label="Play">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
-          <button class="player-btn player-btn--skip" aria-label="Next">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
-          </button>
-          <button class="player-btn player-btn--speed">30s</button>
-        </div>
-      </div>
+  <section class="grid" id="sessions">
+    <div class="lead"><h2>All sessions</h2></div>
+    <div class="body measure">
+      <p>7 sessions &middot; 80 min total</p>
+      <div class="progress" id="programProgress"><div class="fill" id="programProgressFill" style="width: 0%"></div></div>
+      <span class="label" id="programProgressLabel">0 of 7 complete</span>
     </div>
+    <ol class="index" id="sessionList">
+      <li class="row session-item active" data-index="0">
+        <span class="n label">01</span>
+        <h3 class="t"><button class="pick" type="button">Arriving at the Table</button></h3>
+        <div class="d"><p>Foundation</p><div class="small"><a class="session-download" title="Download">Download</a><span class="session-check">Done</span></div></div>
+        <span class="dur small">13:00</span>
+      </li>
+      <li class="row session-item" data-index="1">
+        <span class="n label">02</span>
+        <h3 class="t"><button class="pick" type="button">Hunger vs. Habit</button></h3>
+        <div class="d"><p>Awareness</p><div class="small"><a class="session-download" title="Download">Download</a><span class="session-check">Done</span></div></div>
+        <span class="dur small">11:00</span>
+      </li>
+      <li class="row session-item" data-index="2">
+        <span class="n label">03</span>
+        <h3 class="t"><button class="pick" type="button">The Pause</button></h3>
+        <div class="d"><p>Core practice</p><div class="small"><a class="session-download" title="Download">Download</a><span class="session-check">Done</span></div></div>
+        <span class="dur small">11:00</span>
+      </li>
+      <li class="row session-item" data-index="3">
+        <span class="n label">04</span>
+        <h3 class="t"><button class="pick" type="button">Eating with Your Senses</button></h3>
+        <div class="d"><p>Sensory</p><div class="small"><a class="session-download" title="Download">Download</a><span class="session-check">Done</span></div></div>
+        <span class="dur small">10:00</span>
+      </li>
+      <li class="row session-item" data-index="4">
+        <span class="n label">05</span>
+        <h3 class="t"><button class="pick" type="button">The Stories We Tell</button></h3>
+        <div class="d"><p>Mental patterns</p><div class="small"><a class="session-download" title="Download">Download</a><span class="session-check">Done</span></div></div>
+        <span class="dur small">11:00</span>
+      </li>
+      <li class="row session-item" data-index="5">
+        <span class="n label">06</span>
+        <h3 class="t"><button class="pick" type="button">Emotional Weather</button></h3>
+        <div class="d"><p>Emotional awareness</p><div class="small"><a class="session-download" title="Download">Download</a><span class="session-check">Done</span></div></div>
+        <span class="dur small">12:00</span>
+      </li>
+      <li class="row session-item" data-index="6">
+        <span class="n label">07</span>
+        <h3 class="t"><button class="pick" type="button">Your Own Way Forward</button></h3>
+        <div class="d"><p>Integration</p><div class="small"><a class="session-download" title="Download">Download</a><span class="session-check">Done</span></div></div>
+        <span class="dur small">12:00</span>
+      </li>
+    </ol>
   </section>
 
-  <section class="sessions">
-    <div class="container">
-      <div class="program-progress" id="programProgress">
-        <div class="program-progress-bar">
-          <div class="program-progress-fill" id="programProgressFill" style="width: 0%"></div>
-        </div>
-        <span class="program-progress-label" id="programProgressLabel">0 of 7 complete</span>
-      </div>
-      <div class="sessions-header">
-        <span class="sessions-title">All sessions</span>
-        <span class="sessions-meta">7 sessions &middot; 80 min total</span>
-      </div>
-
-      <div class="session-item active" data-index="0">
-        <span class="session-number">01</span>
-        <div class="session-playing-icon"><span></span><span></span><span></span></div>
-        <div class="session-info"><div class="session-name">Arriving at the Table</div><div class="session-focus">Foundation</div></div>
-        <span class="session-duration">13:00</span>
-        <a class="session-download" title="Download"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
-        <div class="session-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0a0c10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-      </div>
-
-      <div class="session-item" data-index="1">
-        <span class="session-number">02</span>
-        <div class="session-playing-icon"><span></span><span></span><span></span></div>
-        <div class="session-info"><div class="session-name">Hunger vs. Habit</div><div class="session-focus">Awareness</div></div>
-        <span class="session-duration">11:00</span>
-        <a class="session-download" title="Download"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
-        <div class="session-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0a0c10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-      </div>
-
-      <div class="session-item" data-index="2">
-        <span class="session-number">03</span>
-        <div class="session-playing-icon"><span></span><span></span><span></span></div>
-        <div class="session-info"><div class="session-name">The Pause</div><div class="session-focus">Core practice</div></div>
-        <span class="session-duration">11:00</span>
-        <a class="session-download" title="Download"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
-        <div class="session-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0a0c10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-      </div>
-
-      <div class="session-item" data-index="3">
-        <span class="session-number">04</span>
-        <div class="session-playing-icon"><span></span><span></span><span></span></div>
-        <div class="session-info"><div class="session-name">Eating with Your Senses</div><div class="session-focus">Sensory</div></div>
-        <span class="session-duration">10:00</span>
-        <a class="session-download" title="Download"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
-        <div class="session-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0a0c10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-      </div>
-
-      <div class="session-item" data-index="4">
-        <span class="session-number">05</span>
-        <div class="session-playing-icon"><span></span><span></span><span></span></div>
-        <div class="session-info"><div class="session-name">The Stories We Tell</div><div class="session-focus">Mental patterns</div></div>
-        <span class="session-duration">11:00</span>
-        <a class="session-download" title="Download"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
-        <div class="session-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0a0c10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-      </div>
-
-      <div class="session-item" data-index="5">
-        <span class="session-number">06</span>
-        <div class="session-playing-icon"><span></span><span></span><span></span></div>
-        <div class="session-info"><div class="session-name">Emotional Weather</div><div class="session-focus">Emotional awareness</div></div>
-        <span class="session-duration">12:00</span>
-        <a class="session-download" title="Download"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
-        <div class="session-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0a0c10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-      </div>
-
-      <div class="session-item" data-index="6">
-        <span class="session-number">07</span>
-        <div class="session-playing-icon"><span></span><span></span><span></span></div>
-        <div class="session-info"><div class="session-name">Your Own Way Forward</div><div class="session-focus">Integration</div></div>
-        <span class="session-duration">12:00</span>
-        <a class="session-download" title="Download"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>
-        <div class="session-check"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#0a0c10" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
-      </div>
-    </div>
+  <section class="grid" id="practice">
+    <div class="lead"><h2>How to practice</h2></div>
+    <div class="body measure"><p>There is no wrong way to use this program. But here are a few suggestions.</p></div>
+    <ul class="list">
+      <li>
+        <div class="k"><h3>Before meals</h3></div>
+        <div class="v"><p>Listen to a session before eating. Let the guidance settle in, then simply eat and notice what happens.</p></div>
+      </li>
+      <li>
+        <div class="k"><h3>Repeat freely</h3></div>
+        <div class="v"><p>These are not one-and-done lessons. Come back to any session whenever you want. Repetition is the practice.</p></div>
+      </li>
+      <li>
+        <div class="k"><h3>Be patient</h3></div>
+        <div class="v"><p>Change happens quietly. You may not notice it right away. Trust the process and give yourself grace.</p></div>
+      </li>
+    </ul>
   </section>
 
+</main>
 
-  <section class="guide-note">
-    <div class="container">
-      <div class="guide-card">
-        <h3>How to <em>practice</em></h3>
-        <p>There is no wrong way to use this program. But here are a few suggestions.</p>
-        <div class="guide-tips">
-          <div class="guide-tip">
-            <p class="guide-tip-icon">Before meals</p>
-            <p>Listen to a session before eating. Let the guidance settle in, then simply eat and notice what happens.</p>
-          </div>
-          <div class="guide-tip">
-            <p class="guide-tip-icon">Repeat freely</p>
-            <p>These are not one-and-done lessons. Come back to any session whenever you want. Repetition is the practice.</p>
-          </div>
-          <div class="guide-tip">
-            <p class="guide-tip-icon">Be patient</p>
-            <p>Change happens quietly. You may not notice it right away. Trust the process and give yourself grace.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<footer class="site wrap">
+  <div class="grid">
+    <div class="a"><span class="wordmark">Superthoughts</span><p class="small">This page is your lifetime access. Bookmark it.</p></div>
+    <ul class="b small">
+      <li>Minneapolis, Minnesota</li>
+    </ul>
+    <ul class="c small">
+      <li><a href="mailto:hello@superthoughts.com">hello@superthoughts.com</a></li>
+    </ul>
+    <ul class="d small">
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="terms.html">Terms</a></li>
+    </ul>
+  </div>
+</footer>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-bottom" style="justify-content: center; gap: 1.5rem;">
-        <p>Superthoughts</p>
-        <p><a href="mailto:hello@superthoughts.com" style="color:var(--text-muted);transition:color 0.3s;">hello@superthoughts.com</a></p>
-        <p>This page is your lifetime access. Bookmark it.</p>
-      </div>
-    </div>
-  </footer>
+<script src="field.js" defer></script>
+<script>
+  // Welcome moment (first visit only)
+  const FIRST_VISIT_KEY = 'st_me_welcomed';
+  const welcomeMoment = document.getElementById('welcomeMoment');
+  const wmBegin = document.getElementById('wmBegin');
+  const wmGreeting = document.getElementById('wmGreeting');
 
-  <script>
-    // Starfield
-    const starCanvas = document.getElementById('starfield');
-    const starCtx = starCanvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
-    let stars = [];
-    const STAR_COUNT = 50;
+  function showWelcomeMoment() {
+    if (localStorage.getItem(FIRST_VISIT_KEY)) return;
+    welcomeMoment.classList.remove('hidden');
 
-    function resizeStarfield() {
-      starCanvas.width = window.innerWidth * dpr;
-      starCanvas.height = window.innerHeight * dpr;
-      starCanvas.style.width = window.innerWidth + 'px';
-      starCanvas.style.height = window.innerHeight + 'px';
-    }
-    resizeStarfield();
-    window.addEventListener('resize', resizeStarfield);
-
-    function createStar(seed) {
-      const colors = [
-        [212, 168, 83],
-        [212, 168, 83],
-        [212, 168, 83],
-        [125, 155, 138],
-        [125, 155, 138],
-        [240, 235, 228],
-      ];
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      const isLarge = Math.random() > 0.75;
-      return {
-        x: Math.random() * window.innerWidth,
-        y: seed ? Math.random() * window.innerHeight : -20 - Math.random() * 100,
-        r: isLarge ? (1.5 + Math.random() * 1.5) : (0.8 + Math.random() * 1.2),
-        vy: 0.03 + Math.random() * 0.08,
-        vx: (Math.random() - 0.5) * 0.06,
-        life: 0,
-        maxLife: 1200 + Math.random() * 1200,
-        color: color,
-        twinkleSpeed: 0.001 + Math.random() * 0.003,
-        twinkleOffset: Math.random() * Math.PI * 2,
-        glow: isLarge || Math.random() > 0.5,
-        glowSize: isLarge ? 12 + Math.random() * 8 : 6 + Math.random() * 4,
-        peakAlpha: 0.3 + Math.random() * 0.4,
-      };
+    // Personalize with stored email name or generic
+    const storedEmail = localStorage.getItem('st_me_access');
+    if (storedEmail) {
+      const name = storedEmail.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      wmGreeting.textContent = 'Welcome, ' + name;
     }
 
-    for (let i = 0; i < STAR_COUNT; i++) {
-      const s = createStar(true);
-      s.life = Math.random() * s.maxLife * 0.7;
-      stars.push(s);
-    }
-
-    function drawStars() {
-      requestAnimationFrame(drawStars);
-      starCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      starCtx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-      for (let i = stars.length - 1; i >= 0; i--) {
-        const s = stars[i];
-        s.x += s.vx;
-        s.y += s.vy;
-        s.life++;
-
-        let alpha;
-        const fadeIn = s.maxLife * 0.3;
-        const fadeOut = s.maxLife * 0.35;
-        if (s.life < fadeIn) {
-          const t = s.life / fadeIn;
-          alpha = t * t;
-        } else if (s.life > s.maxLife - fadeOut) {
-          const t = (s.maxLife - s.life) / fadeOut;
-          alpha = t * t;
-        } else {
-          alpha = 1;
-        }
-
-        const twinkle = 0.7 + 0.3 * Math.sin(s.life * s.twinkleSpeed + s.twinkleOffset);
-        alpha *= twinkle * s.peakAlpha * 0.7;
-
-        if (alpha < 0.005) {
-          if (s.life >= s.maxLife || s.y > window.innerHeight + 20) {
-            stars[i] = createStar(false);
-          }
-          continue;
-        }
-
-        const [r, g, b] = s.color;
-
-        if (s.glow) {
-          starCtx.beginPath();
-          const grad = starCtx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.glowSize);
-          grad.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.2) + ')');
-          grad.addColorStop(0.4, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.06) + ')');
-          grad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
-          starCtx.fillStyle = grad;
-          starCtx.arc(s.x, s.y, s.glowSize, 0, Math.PI * 2);
-          starCtx.fill();
-        }
-
-        starCtx.beginPath();
-        const coreGrad = starCtx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 2);
-        coreGrad.addColorStop(0, 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')');
-        coreGrad.addColorStop(0.4, 'rgba(' + r + ',' + g + ',' + b + ',' + (alpha * 0.5) + ')');
-        coreGrad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ',0)');
-        starCtx.fillStyle = coreGrad;
-        starCtx.arc(s.x, s.y, s.r * 2, 0, Math.PI * 2);
-        starCtx.fill();
-
-        if (s.life >= s.maxLife || s.y > window.innerHeight + 20) {
-          stars[i] = createStar(false);
-        }
-      }
-    }
-    drawStars();
-
-    // Welcome moment (first visit only)
-    const FIRST_VISIT_KEY = 'st_me_welcomed';
-    const welcomeMoment = document.getElementById('welcomeMoment');
-    const wmBegin = document.getElementById('wmBegin');
-    const wmGreeting = document.getElementById('wmGreeting');
-
-    function showWelcomeMoment() {
-      if (localStorage.getItem(FIRST_VISIT_KEY)) return;
-      welcomeMoment.classList.remove('hidden');
-
-      // Personalize with stored email name or generic
-      const storedEmail = localStorage.getItem('st_me_access');
-      if (storedEmail) {
-        const name = storedEmail.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-        wmGreeting.textContent = 'Welcome, ' + name;
-      }
-
-      // Stagger the lines
-      const lines = welcomeMoment.querySelectorAll('.wm-line');
-      lines.forEach((line, i) => {
-        setTimeout(() => line.classList.add('visible'), 600 + i * 700);
-      });
-    }
-
-    wmBegin.addEventListener('click', () => {
-      localStorage.setItem(FIRST_VISIT_KEY, 'true');
-      welcomeMoment.classList.add('fade-out');
-      setTimeout(() => welcomeMoment.classList.add('hidden'), 1500);
+    // Stagger the lines
+    const lines = welcomeMoment.querySelectorAll('.wm-line');
+    lines.forEach((line, i) => {
+      setTimeout(() => line.classList.add('visible'), 600 + i * 700);
     });
+  }
 
-    // Email gate
-    const ACCESS_KEY = 'st_me_access';
-    const gate = document.getElementById('gate');
-    const gateEmail = document.getElementById('gateEmail');
-    const gateSubmit = document.getElementById('gateSubmit');
-    const gateError = document.getElementById('gateError');
+  wmBegin.addEventListener('click', () => {
+    localStorage.setItem(FIRST_VISIT_KEY, 'true');
+    welcomeMoment.classList.add('fade-out');
+    setTimeout(() => welcomeMoment.classList.add('hidden'), 1500);
+  });
 
-    if (localStorage.getItem(ACCESS_KEY)) {
+  // Email gate
+  const ACCESS_KEY = 'st_me_access';
+  const gate = document.getElementById('gate');
+  const gateEmail = document.getElementById('gateEmail');
+  const gateSubmit = document.getElementById('gateSubmit');
+  const gateError = document.getElementById('gateError');
+
+  if (localStorage.getItem(ACCESS_KEY)) {
+    gate.classList.add('hidden');
+    showWelcomeMoment();
+  }
+
+  function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  gateSubmit.addEventListener('click', () => {
+    const email = gateEmail.value.trim();
+    if (validateEmail(email)) {
+      localStorage.setItem(ACCESS_KEY, email);
       gate.classList.add('hidden');
+      gateError.style.display = 'none';
       showWelcomeMoment();
+    } else {
+      gateError.style.display = 'block';
     }
+  });
 
-    function validateEmail(email) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    }
+  gateEmail.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') gateSubmit.click();
+  });
 
-    gateSubmit.addEventListener('click', () => {
-      const email = gateEmail.value.trim();
-      if (validateEmail(email)) {
-        localStorage.setItem(ACCESS_KEY, email);
-        gate.classList.add('hidden');
-        gateError.style.display = 'none';
-        showWelcomeMoment();
-      } else {
-        gateError.style.display = 'block';
-      }
-    });
+  const CDN = 'https://superthoughts-audio.b-cdn.net/mindful-eating';
+  const sessions = [
+    { title: 'Arriving at the Table', focus: 'Foundation', file: '01%20-%20Mindful%20Eating%20-%20Arriving%20at%20the%20Table.mp3' },
+    { title: 'Hunger vs. Habit', focus: 'Awareness', file: '02%20-%20Mindful%20Eating%20-%20Hunger%20vs.%20Habit.mp3' },
+    { title: 'The Pause', focus: 'Core practice', file: '03%20-%20Mindful%20Eating%20-%20The%20Pause.mp3' },
+    { title: 'Eating with Your Senses', focus: 'Sensory', file: '04%20-%20Mindful%20Eating%20-%20Eating%20with%20Your%20Senses.mp3' },
+    { title: 'The Stories We Tell', focus: 'Mental patterns', file: '05%20-%20Mindful%20Eating%20-%20The%20Stories%20We%20Tell.mp3' },
+    { title: 'Emotional Weather', focus: 'Emotional awareness', file: '06%20-%20Mindful%20Eating%20-%20Emotional%20Weather.mp3' },
+    { title: 'Your Own Way Forward', focus: 'Integration', file: '07%20-%20Mindful%20Eating%20-%20Your%20Own%20Way%20Forward.mp3' }
+  ];
 
-    gateEmail.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') gateSubmit.click();
-    });
+  // The audio element is shared with field.js, which owns play/pause on #play,
+  // the analyser, and the status text. This script owns everything else.
+  const audio = document.getElementById('audio');
+  let currentIndex = 0;
+  let isPlaying = false;
 
-    const CDN = 'https://superthoughts-audio.b-cdn.net/mindful-eating';
-    const sessions = [
-      { title: 'Arriving at the Table', focus: 'Foundation', file: '01%20-%20Mindful%20Eating%20-%20Arriving%20at%20the%20Table.mp3' },
-      { title: 'Hunger vs. Habit', focus: 'Awareness', file: '02%20-%20Mindful%20Eating%20-%20Hunger%20vs.%20Habit.mp3' },
-      { title: 'The Pause', focus: 'Core practice', file: '03%20-%20Mindful%20Eating%20-%20The%20Pause.mp3' },
-      { title: 'Eating with Your Senses', focus: 'Sensory', file: '04%20-%20Mindful%20Eating%20-%20Eating%20with%20Your%20Senses.mp3' },
-      { title: 'The Stories We Tell', focus: 'Mental patterns', file: '05%20-%20Mindful%20Eating%20-%20The%20Stories%20We%20Tell.mp3' },
-      { title: 'Emotional Weather', focus: 'Emotional awareness', file: '06%20-%20Mindful%20Eating%20-%20Emotional%20Weather.mp3' },
-      { title: 'Your Own Way Forward', focus: 'Integration', file: '07%20-%20Mindful%20Eating%20-%20Your%20Own%20Way%20Forward.mp3' }
-    ];
+  const playBtn = document.getElementById('play');
+  const progressBar = document.getElementById('progressBar');
+  const progressFill = document.getElementById('progressFill');
+  const currentTimeEl = document.getElementById('currentTime');
+  const totalTimeEl = document.getElementById('totalTime');
+  const playerTitle = document.getElementById('playerTitle');
+  const playerFocus = document.getElementById('playerFocus');
+  const items = document.querySelectorAll('.session-item');
 
-    const audio = new Audio();
-    audio.crossOrigin = 'anonymous';
-    audio.preload = 'metadata';
-    let currentIndex = 0;
-    let isPlaying = false;
-
-    // ===== VISUALIZER (Web Audio API) =====
-    const vizCanvas = document.getElementById('visualizer');
-    const vizCtx = vizCanvas.getContext('2d');
-    let audioCtx, analyser, sourceNode, freqData, vizAnimId;
-    let vizReady = false;
-    let smoothed = null;
-    // Never route audio through Web Audio API on mobile — it kills playback on screen lock
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-    function initAudioContext() {
-      if (vizReady || isMobile) return;
-      vizReady = true;
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 256;
-      analyser.smoothingTimeConstant = 0.82;
-      sourceNode = audioCtx.createMediaElementSource(audio);
-      sourceNode.connect(analyser);
-      analyser.connect(audioCtx.destination);
-      freqData = new Uint8Array(analyser.frequencyBinCount);
-    }
-
-    function vizColor(t) {
-      const c1r=212,c1g=168,c1b=83, c2r=125,c2g=155,c2b=138, c3r=184,c3g=146,c3b=154;
-      if (t < 0.5) {
-        const l = t * 2;
-        return [c1r+(c2r-c1r)*l, c1g+(c2g-c1g)*l, c1b+(c2b-c1b)*l];
-      }
-      const l = (t-0.5)*2;
-      return [c2r+(c3r-c2r)*l, c2g+(c3g-c2g)*l, c2b+(c3b-c2b)*l];
-    }
-
-    // Desktop: real frequency-reactive visualizer
-    function drawViz() {
-      vizAnimId = requestAnimationFrame(drawViz);
-      const dp = window.devicePixelRatio || 1;
-      const rect = vizCanvas.getBoundingClientRect();
-      if (rect.width === 0) return;
-      vizCanvas.width = rect.width * dp;
-      vizCanvas.height = rect.height * dp;
-      vizCtx.scale(dp, dp);
-      const W = rect.width, H = rect.height;
-      vizCtx.fillStyle = 'rgba(19, 21, 26, 0.35)';
-      vizCtx.fillRect(0, 0, W, H);
-
-      analyser.getByteFrequencyData(freqData);
-
-      const barCount = 48;
-      const half = barCount / 2;
-      const gap = 3;
-      const barW = (W - (barCount-1)*gap) / barCount;
-      const maxH = H - 10;
-      if (!smoothed) smoothed = new Float32Array(half).fill(0);
-
-      const usableBins = Math.floor(freqData.length * 0.5);
-
-      for (let i = 0; i < half; i++) {
-        const t = i / half;
-        const curved = Math.pow(t, 1.4);
-        const bin = 1 + Math.floor(curved * (usableBins - 1));
-        let sum = 0, count = 0;
-        for (let b = Math.max(0, bin-2); b <= Math.min(freqData.length-1, bin+2); b++) {
-          sum += freqData[b]; count++;
-        }
-        const raw = (sum / count) / 255;
-        const boosted = Math.pow(raw, 0.6) * 1.3;
-        smoothed[i] += (Math.min(boosted, 1) - smoothed[i]) * 0.03;
-      }
-
-      for (let i = 0; i < barCount; i++) {
-        const distFromCenter = Math.abs(i - (barCount - 1) / 2);
-        const si = Math.floor((distFromCenter / (half - 1)) * (half - 1));
-        const val = smoothed[Math.min(si, half - 1)];
-        const barH = Math.max(2, val * maxH);
-        const x = i * (barW + gap);
-        const y = (H - barH) / 2;
-        const [r,g,b] = vizColor(i/(barCount-1));
-
-        const glowW = barW + 4;
-        const glowX = x - 2;
-        const glowAlpha = val * 0.15;
-        vizCtx.fillStyle = 'rgba('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+','+glowAlpha+')';
-        vizCtx.fillRect(glowX, y - 2, glowW, barH + 4);
-
-        const alpha = 0.15 + val * 0.45;
-        vizCtx.beginPath();
-        vizCtx.fillStyle = 'rgba('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+','+alpha+')';
-        const rad = barW / 2;
-        vizCtx.moveTo(x+rad, y);
-        vizCtx.lineTo(x+barW-rad, y);
-        vizCtx.quadraticCurveTo(x+barW, y, x+barW, y+rad);
-        vizCtx.lineTo(x+barW, y+barH-rad);
-        vizCtx.quadraticCurveTo(x+barW, y+barH, x+barW-rad, y+barH);
-        vizCtx.lineTo(x+rad, y+barH);
-        vizCtx.quadraticCurveTo(x, y+barH, x, y+barH-rad);
-        vizCtx.lineTo(x, y+rad);
-        vizCtx.quadraticCurveTo(x, y, x+rad, y);
-        vizCtx.fill();
-      }
-    }
-
-    // Mobile: gentle ambient breathing animation (no Web Audio API)
-    let mobileVizStart = 0;
-    function drawVizMobile() {
-      vizAnimId = requestAnimationFrame(drawVizMobile);
-      const dp = window.devicePixelRatio || 1;
-      const rect = vizCanvas.getBoundingClientRect();
-      if (rect.width === 0) return;
-      vizCanvas.width = rect.width * dp;
-      vizCanvas.height = rect.height * dp;
-      vizCtx.scale(dp, dp);
-      const W = rect.width, H = rect.height;
-      vizCtx.fillStyle = 'rgba(19, 21, 26, 0.35)';
-      vizCtx.fillRect(0, 0, W, H);
-
-      if (!mobileVizStart) mobileVizStart = performance.now();
-      const elapsed = (performance.now() - mobileVizStart) / 1000;
-
-      const barCount = 48;
-      const half = barCount / 2;
-      const gap = 3;
-      const barW = (W - (barCount-1)*gap) / barCount;
-      const maxH = H - 10;
-      if (!smoothed) smoothed = new Float32Array(half).fill(0);
-
-      for (let i = 0; i < half; i++) {
-        const t = i / half;
-        // Layered slow sine waves for organic drift
-        const wave1 = Math.sin(elapsed * 0.4 + i * 0.3) * 0.5 + 0.5;
-        const wave2 = Math.sin(elapsed * 0.25 + i * 0.5 + 1.5) * 0.5 + 0.5;
-        const wave3 = Math.sin(elapsed * 0.15 + i * 0.2 + 3.0) * 0.5 + 0.5;
-        const target = (wave1 * 0.4 + wave2 * 0.35 + wave3 * 0.25) * (0.3 + (1 - t) * 0.4);
-        smoothed[i] += (target - smoothed[i]) * 0.02;
-      }
-
-      for (let i = 0; i < barCount; i++) {
-        const distFromCenter = Math.abs(i - (barCount - 1) / 2);
-        const si = Math.floor((distFromCenter / (half - 1)) * (half - 1));
-        const val = smoothed[Math.min(si, half - 1)];
-        const barH = Math.max(2, val * maxH);
-        const x = i * (barW + gap);
-        const y = (H - barH) / 2;
-        const [r,g,b] = vizColor(i/(barCount-1));
-
-        const glowW = barW + 4;
-        const glowX = x - 2;
-        const glowAlpha = val * 0.15;
-        vizCtx.fillStyle = 'rgba('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+','+glowAlpha+')';
-        vizCtx.fillRect(glowX, y - 2, glowW, barH + 4);
-
-        const alpha = 0.15 + val * 0.45;
-        vizCtx.beginPath();
-        vizCtx.fillStyle = 'rgba('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+','+alpha+')';
-        const rad = barW / 2;
-        vizCtx.moveTo(x+rad, y);
-        vizCtx.lineTo(x+barW-rad, y);
-        vizCtx.quadraticCurveTo(x+barW, y, x+barW, y+rad);
-        vizCtx.lineTo(x+barW, y+barH-rad);
-        vizCtx.quadraticCurveTo(x+barW, y+barH, x+barW-rad, y+barH);
-        vizCtx.lineTo(x+rad, y+barH);
-        vizCtx.quadraticCurveTo(x, y+barH, x, y+barH-rad);
-        vizCtx.lineTo(x, y+rad);
-        vizCtx.quadraticCurveTo(x, y, x+rad, y);
-        vizCtx.fill();
-      }
-    }
-
-    function drawIdle() {
-      const dp = window.devicePixelRatio || 1;
-      const rect = vizCanvas.getBoundingClientRect();
-      if (rect.width === 0) return;
-      vizCanvas.width = rect.width * dp;
-      vizCanvas.height = rect.height * dp;
-      vizCtx.scale(dp, dp);
-      const W = rect.width, H = rect.height;
-      vizCtx.clearRect(0, 0, W, H);
-      const barCount = 48, gap = 3;
-      const barW = (W - (barCount-1)*gap) / barCount;
-      for (let i = 0; i < barCount; i++) {
-        const x = i * (barW + gap);
-        const y = (H - 2) / 2;
-        const [r,g,b] = vizColor(i/(barCount-1));
-        vizCtx.fillStyle = 'rgba('+Math.round(r)+','+Math.round(g)+','+Math.round(b)+',0.18)';
-        vizCtx.fillRect(x, y, barW, 2);
-      }
-    }
-
-    function startVisualizer() {
-      if (isMobile) {
-        mobileVizStart = 0;
-        smoothed = null;
-        if (!vizAnimId) drawVizMobile();
-        return;
-      }
-      initAudioContext();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      if (!vizAnimId) drawViz();
-    }
-
-    function stopVisualizer() {
-      if (vizAnimId) { cancelAnimationFrame(vizAnimId); vizAnimId = null; }
-      smoothed = null;
-      drawIdle();
-    }
-
-    // Pause visualizer animation when page hidden, resume when visible
-    document.addEventListener('visibilitychange', function() {
-      if (document.hidden) {
-        if (vizAnimId) { cancelAnimationFrame(vizAnimId); vizAnimId = null; }
-      } else if (!audio.paused) {
-        if (!isMobile && vizReady && audioCtx.state === 'suspended') audioCtx.resume();
-        startVisualizer();
-      }
-    });
-
-    // Draw idle state once visible
-    setTimeout(drawIdle, 100);
-
-    const breathCanvas = document.getElementById('breathCanvas');
-    const playBtn = document.getElementById('playBtn');
-    const progressBar = document.getElementById('progressBar');
-    const progressFill = document.getElementById('progressFill');
-    const currentTimeEl = document.getElementById('currentTime');
-    const totalTimeEl = document.getElementById('totalTime');
-    const playerTitle = document.getElementById('playerTitle');
-    const playerFocus = document.getElementById('playerFocus');
-    const items = document.querySelectorAll('.session-item');
-    const playIcon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
-    const pauseIcon = '<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>';
-
-    // Completed sessions stored in localStorage
-    const STORAGE_KEY = 'st_me_completed';
-    function getCompleted() {
-      try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
-    }
-    function markCompleted(idx) {
-      const c = getCompleted();
-      if (!c.includes(idx)) { c.push(idx); localStorage.setItem(STORAGE_KEY, JSON.stringify(c)); }
-      updateCheckmarks();
-      updateProgramProgress();
-    }
-    function updateCheckmarks() {
-      const c = getCompleted();
-      items.forEach((item, i) => {
-        const check = item.querySelector('.session-check');
-        if (c.includes(i)) check.classList.add('completed');
-        else check.classList.remove('completed');
-      });
-    }
-
-    // Program progress
-    const progFill = document.getElementById('programProgressFill');
-    const progLabel = document.getElementById('programProgressLabel');
-    function updateProgramProgress() {
-      const c = getCompleted();
-      const pct = (c.length / sessions.length) * 100;
-      progFill.style.width = pct + '%';
-      progLabel.textContent = c.length + ' of ' + sessions.length + ' complete';
-    }
+  // Completed sessions stored in localStorage
+  const STORAGE_KEY = 'st_me_completed';
+  function getCompleted() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
+  }
+  function markCompleted(idx) {
+    const c = getCompleted();
+    if (!c.includes(idx)) { c.push(idx); localStorage.setItem(STORAGE_KEY, JSON.stringify(c)); }
     updateCheckmarks();
     updateProgramProgress();
-
-    function fmt(sec) {
-      if (!sec || !isFinite(sec)) return '0:00';
-      const m = Math.floor(sec / 60);
-      const s = Math.floor(sec % 60);
-      return m + ':' + String(s).padStart(2, '0');
-    }
-
-    function setPlayingState(playing) {
-      isPlaying = playing;
-      if (playing) {
-        playBtn.innerHTML = pauseIcon;
-        breathCanvas.classList.remove('idle');
-        breathCanvas.classList.add('active');
-        startVisualizer();
-      } else {
-        playBtn.innerHTML = playIcon;
-        breathCanvas.classList.remove('active');
-        breathCanvas.classList.add('idle');
-        stopVisualizer();
-      }
-    }
-
-    function loadSession(idx, autoplay) {
-      const switching = currentIndex !== idx;
-      currentIndex = idx;
-      const s = sessions[idx];
-      audio.src = CDN + '/' + s.file;
-      document.querySelector('.player-session-label').textContent = 'Session ' + String(idx + 1).padStart(2, '0') + ' of 07';
-
-      // Smooth title transition
-      if (switching) {
-        playerTitle.classList.add('switching');
-        playerFocus.classList.add('switching');
-        setTimeout(() => {
-          playerTitle.textContent = s.title;
-          playerFocus.textContent = s.focus;
-          playerTitle.classList.remove('switching');
-          playerFocus.classList.remove('switching');
-        }, 300);
-      } else {
-        playerTitle.textContent = s.title;
-        playerFocus.textContent = s.focus;
-      }
-
-      progressFill.style.width = '0%';
-      currentTimeEl.textContent = '0:00';
-      items.forEach(i => i.classList.remove('active'));
-      items[idx].classList.add('active');
-
-      // Update lock screen / notification metadata
-      if ('mediaSession' in navigator) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-          title: s.title,
-          artist: 'SUPERTHOUGHTS',
-          album: 'Mindful Eating',
-          artwork: [
-            { src: 'images/superthoughts_Abstract_warm_smoke_or_light_trails_in_ambergol_78472999-e564-4ead-bed3-6458d85135f9_2.png', sizes: '512x512', type: 'image/png' }
-          ]
-        });
-      }
-
-      if (autoplay) {
-        audio.play();
-        setPlayingState(true);
-      } else {
-        setPlayingState(false);
-      }
-    }
-
-    // Load first session
-    loadSession(0, false);
-
-    // Play / pause
-    playBtn.addEventListener('click', () => {
-      if (isPlaying) {
-        audio.pause();
-        setPlayingState(false);
-      } else {
-        audio.play();
-        setPlayingState(true);
-      }
-    });
-
-    // Progress update
-    audio.addEventListener('timeupdate', () => {
-      if (!audio.duration) return;
-      const pct = (audio.currentTime / audio.duration) * 100;
-      progressFill.style.width = pct + '%';
-      currentTimeEl.textContent = fmt(audio.currentTime);
-    });
-
-    audio.addEventListener('loadedmetadata', () => {
-      totalTimeEl.textContent = fmt(audio.duration);
-    });
-
-    // Seek
-    progressBar.addEventListener('click', (e) => {
-      if (!audio.duration) return;
-      const rect = progressBar.getBoundingClientRect();
-      const pct = (e.clientX - rect.left) / rect.width;
-      audio.currentTime = pct * audio.duration;
-    });
-
-    // Lock screen controls
-    if ('mediaSession' in navigator) {
-      navigator.mediaSession.setActionHandler('play', () => { audio.play(); setPlayingState(true); });
-      navigator.mediaSession.setActionHandler('pause', () => { audio.pause(); setPlayingState(false); });
-      navigator.mediaSession.setActionHandler('previoustrack', () => { if (currentIndex > 0) loadSession(currentIndex - 1, isPlaying); });
-      navigator.mediaSession.setActionHandler('nexttrack', () => { if (currentIndex < sessions.length - 1) loadSession(currentIndex + 1, isPlaying); });
-    }
-
-    // Session ended: mark complete, auto-advance
-    audio.addEventListener('ended', () => {
-      markCompleted(currentIndex);
-      if (currentIndex < sessions.length - 1) {
-        loadSession(currentIndex + 1, true);
-      } else {
-        setPlayingState(false);
-        checkCompletion();
-      }
-    });
-
-    // Click session items
+  }
+  function updateCheckmarks() {
+    const c = getCompleted();
     items.forEach((item, i) => {
-      item.addEventListener('click', () => { loadSession(i, true); });
+      const check = item.querySelector('.session-check');
+      if (c.includes(i)) check.classList.add('completed');
+      else check.classList.remove('completed');
     });
+  }
 
-    // Skip buttons
-    const skipBtns = document.querySelectorAll('.player-btn--skip');
-    skipBtns[0].addEventListener('click', () => {
-      if (currentIndex > 0) loadSession(currentIndex - 1, isPlaying);
-    });
-    skipBtns[1].addEventListener('click', () => {
-      if (currentIndex < sessions.length - 1) loadSession(currentIndex + 1, isPlaying);
-    });
+  // Program progress
+  const progFill = document.getElementById('programProgressFill');
+  const progLabel = document.getElementById('programProgressLabel');
+  function updateProgramProgress() {
+    const c = getCompleted();
+    const pct = (c.length / sessions.length) * 100;
+    progFill.style.width = pct + '%';
+    progLabel.textContent = c.length + ' of ' + sessions.length + ' complete';
+  }
+  updateCheckmarks();
+  updateProgramProgress();
 
-    // Speed
-    const speeds = [1, 1.25, 1.5, 0.75];
-    let speedIdx = 0;
-    const speedBtns = document.querySelectorAll('.player-btn--speed');
-    speedBtns[0].addEventListener('click', () => {
-      speedIdx = (speedIdx + 1) % speeds.length;
-      audio.playbackRate = speeds[speedIdx];
-      speedBtns[0].textContent = speeds[speedIdx] + 'x';
-    });
+  function fmt(sec) {
+    if (!sec || !isFinite(sec)) return '0:00';
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return m + ':' + String(s).padStart(2, '0');
+  }
 
-    // 30s skip forward
-    speedBtns[1].addEventListener('click', () => {
-      if (audio.duration) audio.currentTime = Math.min(audio.currentTime + 30, audio.duration);
-    });
+  function setPlayingState(playing) {
+    isPlaying = playing;
+  }
+  audio.addEventListener('play', () => setPlayingState(true));
+  audio.addEventListener('pause', () => setPlayingState(false));
 
-    // Completion celebration
-    const CELE_KEY = 'st_me_celebrated';
-    const celebration = document.getElementById('celebration');
-    const celeClose = document.getElementById('celeClose');
-    const celeParticles = document.getElementById('celeParticles');
+  function startPlayback() {
+    // Route the first play through the field's play control so the analyser connects.
+    if (audio.paused) playBtn.click();
+    else audio.play();
+  }
 
-    function createParticles() {
-      celeParticles.innerHTML = '';
-      const colors = [
-        'rgba(212, 168, 83, 0.6)',
-        'rgba(212, 168, 83, 0.4)',
-        'rgba(125, 155, 138, 0.5)',
-        'rgba(125, 155, 138, 0.3)',
-        'rgba(184, 146, 154, 0.4)',
-        'rgba(240, 235, 228, 0.2)'
-      ];
-      for (let i = 0; i < 40; i++) {
-        const p = document.createElement('div');
-        p.className = 'cele-particle';
-        const size = 3 + Math.random() * 6;
-        p.style.width = size + 'px';
-        p.style.height = size + 'px';
-        p.style.background = colors[Math.floor(Math.random() * colors.length)];
-        p.style.left = (10 + Math.random() * 80) + '%';
-        p.style.top = (30 + Math.random() * 50) + '%';
-        p.style.setProperty('--dur', (4 + Math.random() * 6) + 's');
-        p.style.setProperty('--delay', (Math.random() * 3) + 's');
-        p.style.setProperty('--drift-y', (-80 - Math.random() * 200) + 'px');
-        p.style.setProperty('--peak-opacity', (0.3 + Math.random() * 0.5).toString());
-        celeParticles.appendChild(p);
-      }
-    }
+  function loadSession(idx, autoplay) {
+    currentIndex = idx;
+    const s = sessions[idx];
+    audio.src = CDN + '/' + s.file;
+    document.querySelector('.player-session-label').textContent = 'Session ' + String(idx + 1).padStart(2, '0') + ' of 07';
 
-    function showCelebration() {
-      createParticles();
-      celebration.style.display = 'flex';
-      requestAnimationFrame(() => {
-        celebration.classList.add('active');
-        const lines = celebration.querySelectorAll('.cele-line');
-        lines.forEach((line, i) => {
-          setTimeout(() => line.classList.add('visible'), 800 + i * 600);
-        });
+    playerTitle.textContent = s.title;
+    playerFocus.textContent = s.focus;
+    playBtn.dataset.name = s.title;
+    playBtn.setAttribute('aria-label', 'Play ' + s.title);
+
+    progressFill.style.width = '0%';
+    currentTimeEl.textContent = '0:00';
+    totalTimeEl.textContent = '0:00';
+    items.forEach(i => i.classList.remove('active'));
+    items[idx].classList.add('active');
+
+    // Update lock screen / notification metadata
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: s.title,
+        artist: 'Superthoughts',
+        album: 'Mindful Eating',
+        artwork: [
+          { src: 'images/superthoughts_Abstract_warm_smoke_or_light_trails_in_ambergol_78472999-e564-4ead-bed3-6458d85135f9_2.png', sizes: '512x512', type: 'image/png' }
+        ]
       });
     }
 
-    function checkCompletion() {
-      if (localStorage.getItem(CELE_KEY)) return;
-      const c = getCompleted();
-      if (c.length === sessions.length) {
-        localStorage.setItem(CELE_KEY, 'true');
-        setTimeout(showCelebration, 1500);
-      }
+    if (autoplay) {
+      startPlayback();
+    } else {
+      setPlayingState(false);
     }
+  }
 
-    celeClose.addEventListener('click', () => {
-      celebration.classList.remove('active');
-      celebration.querySelectorAll('.cele-line').forEach(l => l.classList.remove('visible'));
-      setTimeout(() => celebration.style.display = 'none', 1500);
+  // Load first session
+  loadSession(0, false);
+
+  // Progress update
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    const pct = (audio.currentTime / audio.duration) * 100;
+    progressFill.style.width = pct + '%';
+    currentTimeEl.textContent = fmt(audio.currentTime);
+  });
+
+  audio.addEventListener('loadedmetadata', () => {
+    totalTimeEl.textContent = fmt(audio.duration);
+  });
+
+  // Seek
+  progressBar.addEventListener('click', (e) => {
+    if (!audio.duration) return;
+    const rect = progressBar.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = pct * audio.duration;
+  });
+
+  // Lock screen controls
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.setActionHandler('play', () => { audio.play(); setPlayingState(true); });
+    navigator.mediaSession.setActionHandler('pause', () => { audio.pause(); setPlayingState(false); });
+    navigator.mediaSession.setActionHandler('previoustrack', () => { if (currentIndex > 0) loadSession(currentIndex - 1, isPlaying); });
+    navigator.mediaSession.setActionHandler('nexttrack', () => { if (currentIndex < sessions.length - 1) loadSession(currentIndex + 1, isPlaying); });
+  }
+
+  // Session ended: mark complete, auto-advance
+  audio.addEventListener('ended', () => {
+    markCompleted(currentIndex);
+    if (currentIndex < sessions.length - 1) {
+      loadSession(currentIndex + 1, true);
+    } else {
+      setPlayingState(false);
+      checkCompletion();
+    }
+  });
+
+  // Click session items
+  items.forEach((item, i) => {
+    item.addEventListener('click', () => { loadSession(i, true); });
+  });
+
+  // Skip buttons
+  const skipBtns = document.querySelectorAll('.player-btn--skip');
+  skipBtns[0].addEventListener('click', () => {
+    if (currentIndex > 0) loadSession(currentIndex - 1, isPlaying);
+  });
+  skipBtns[1].addEventListener('click', () => {
+    if (currentIndex < sessions.length - 1) loadSession(currentIndex + 1, isPlaying);
+  });
+
+  // Speed
+  const speeds = [1, 1.25, 1.5, 0.75];
+  let speedIdx = 0;
+  const speedBtns = document.querySelectorAll('.player-btn--speed');
+  speedBtns[0].addEventListener('click', () => {
+    speedIdx = (speedIdx + 1) % speeds.length;
+    audio.playbackRate = speeds[speedIdx];
+    speedBtns[0].textContent = speeds[speedIdx] + 'x';
+  });
+
+  // 30s skip forward
+  speedBtns[1].addEventListener('click', () => {
+    if (audio.duration) audio.currentTime = Math.min(audio.currentTime + 30, audio.duration);
+  });
+
+  // Completion
+  const CELE_KEY = 'st_me_celebrated';
+  const celebration = document.getElementById('celebration');
+  const celeClose = document.getElementById('celeClose');
+
+  function showCelebration() {
+    celebration.style.display = 'block';
+    requestAnimationFrame(() => {
+      celebration.classList.add('active');
+      const lines = celebration.querySelectorAll('.cele-line');
+      lines.forEach((line, i) => {
+        setTimeout(() => line.classList.add('visible'), 800 + i * 600);
+      });
     });
+  }
 
-    // Per-session download links
-    document.querySelectorAll('.session-download').forEach((btn, idx) => {
-      btn.href = CDN + '/' + sessions[idx].file;
-      btn.download = String(idx + 1).padStart(2, '0') + ' - Mindful Eating - ' + sessions[idx].title + '.mp3';
-      btn.addEventListener('click', (e) => { e.stopPropagation(); });
-    });
-  </script>
+  function checkCompletion() {
+    if (localStorage.getItem(CELE_KEY)) return;
+    const c = getCompleted();
+    if (c.length === sessions.length) {
+      localStorage.setItem(CELE_KEY, 'true');
+      setTimeout(showCelebration, 1500);
+    }
+  }
 
+  celeClose.addEventListener('click', () => {
+    celebration.classList.remove('active');
+    celebration.querySelectorAll('.cele-line').forEach(l => l.classList.remove('visible'));
+    setTimeout(() => celebration.style.display = 'none', 1500);
+  });
+
+  // Per-session download links
+  document.querySelectorAll('.session-download').forEach((btn, idx) => {
+    btn.href = CDN + '/' + sessions[idx].file;
+    btn.download = String(idx + 1).padStart(2, '0') + ' - Mindful Eating - ' + sessions[idx].title + '.mp3';
+    btn.addEventListener('click', (e) => { e.stopPropagation(); });
+  });
+</script>
 </body>
 </html>

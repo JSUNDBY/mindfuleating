@@ -1,147 +1,66 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%230a0c10'/><text x='50' y='72' font-family='Georgia,serif' font-size='68' font-weight='400' font-style='italic' fill='%23d4a853' text-anchor='middle'>S</text></svg>">
-  <title>Privacy Policy — Superthoughts</title>
-  <meta name="description" content="Privacy policy for the Superthoughts Mindful Eating program.">
-
-  <!-- Google Analytics (GA4) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-S151YE55PJ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-S151YE55PJ');
-  </script>
-
-  <!-- Meta Pixel -->
-  <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '168292265148');
-    fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=168292265148&ev=PageView&noscript=1"/></noscript>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@400;500&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      background-image: linear-gradient(180deg, var(--bg) 0%, #0e1014 35%, #121418 65%, var(--bg) 100%);
-      background-attachment: fixed;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .legal-hero {
-      padding: clamp(8rem, 14vh, 10rem) 0 clamp(2rem, 4vh, 3rem);
-    }
-
-    .legal-content {
-      flex: 1;
-      padding: 0 0 clamp(4rem, 8vh, 6rem);
-    }
-
-    .legal-content h2 {
-      font-family: var(--font-display);
-      font-size: 1.25rem;
-      font-weight: 400;
-      color: var(--text);
-      margin: 2.5rem 0 0.75rem;
-    }
-
-    .legal-content h2:first-child { margin-top: 0; }
-
-    .legal-content p,
-    .legal-content li {
-      font-size: 0.95rem;
-      color: var(--text-muted);
-      line-height: 1.85;
-      margin-bottom: 0.75rem;
-    }
-
-    .legal-content ul {
-      list-style: none;
-      margin-bottom: 1rem;
-    }
-
-    .legal-content ul li {
-      padding-left: 1.25rem;
-      position: relative;
-    }
-
-    .legal-content ul li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0.7rem;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--sage);
-    }
-
-    .legal-content a {
-      color: var(--amber);
-      transition: opacity 0.3s;
-    }
-
-    .legal-content a:hover { opacity: 0.8; }
-
-    .legal-updated {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--text-faint);
-      margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px solid rgba(240, 235, 228, 0.04);
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy | Superthoughts</title>
+<meta name="description" content="Privacy policy for the Superthoughts Mindful Eating program.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F4F3EF'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23161615' stroke-width='1.5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="superthoughts.css">
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S151YE55PJ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-S151YE55PJ');
+</script>
+<!-- Meta Pixel -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '168292265148');
+  fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=168292265148&ev=PageView&noscript=1"/></noscript>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-  <!-- Nav -->
-  <nav class="nav" style="position: relative;">
-    <div class="nav-inner" style="max-width:860px;">
-      <a href="index.html" class="logo">
-        <span class="logo-text" style="font-size:0.8rem;">Superthoughts</span>
-      </a>
-      <a href="index.html" style="font-family:var(--font-mono);font-size:0.65rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-faint);transition:color 0.3s;">&larr; Home</a>
-    </div>
+<header class="wrap">
+  <nav class="nav" aria-label="Primary">
+    <a class="wordmark" href="https://superthoughts.com">Superthoughts</a>
+    <ul>
+      <li><a href="https://superthoughts.com/#programs">Programs</a></li>
+      <li><a href="https://superthoughts.com/#about">About</a></li>
+      <li><a href="index.html#listen">Listen</a></li>
+    </ul>
   </nav>
+</header>
 
-  <!-- Header -->
-  <section class="legal-hero">
-    <div class="container" style="max-width: 720px;">
-      <p class="tag" style="margin-bottom: 1rem;">Legal</p>
-      <h1 class="headline headline--md">Privacy Policy</h1>
-    </div>
+<main id="main" class="wrap">
+
+  <section class="hero grid">
+    <h1 class="rise">Privacy Policy</h1>
+    <p class="lede rise">Superthoughts ("we," "us," or "our") respects your privacy. This policy explains what information we collect, how we use it, and your choices.</p>
   </section>
 
-  <!-- Content -->
-  <section class="legal-content">
-    <div class="container" style="max-width: 720px;">
-
-      <p>Superthoughts ("we," "us," or "our") respects your privacy. This policy explains what information we collect, how we use it, and your choices.</p>
-
+  <section class="grid">
+    <div class="legal measure">
       <h2>What we collect</h2>
       <ul>
-        <li><strong>Name and email address</strong> &ndash; When you sign up for our complimentary session or purchase the program, we collect the name and email you provide.</li>
-        <li><strong>Payment information</strong> &ndash; When you purchase the program, payment is processed securely by <a href="https://stripe.com/privacy" target="_blank" rel="noopener">Stripe</a>. We do not store your credit card number. Stripe may collect additional information as described in their privacy policy.</li>
-        <li><strong>Usage data</strong> &ndash; We may collect basic analytics (pages visited, browser type) to understand how people use the site. We do not use invasive tracking or sell data to advertisers.</li>
+        <li>Name and email address: when you sign up for our complimentary session or purchase the program, we collect the name and email you provide.</li>
+        <li>Payment information: when you purchase the program, payment is processed securely by <a href="https://stripe.com/privacy" target="_blank" rel="noopener">Stripe</a>. We do not store your credit card number. Stripe may collect additional information as described in their privacy policy.</li>
+        <li>Usage data: we may collect basic analytics (pages visited, browser type) to understand how people use the site. We do not use invasive tracking or sell data to advertisers.</li>
       </ul>
 
       <h2>How we use your information</h2>
@@ -159,9 +78,9 @@
       <h2>Third-party services</h2>
       <p>We use the following services to operate:</p>
       <ul>
-        <li><strong>Kit</strong> (email delivery and subscriber management)</li>
-        <li><strong>Stripe</strong> (payment processing)</li>
-        <li><strong>GitHub Pages</strong> (website hosting)</li>
+        <li>Kit (email delivery and subscriber management)</li>
+        <li>Stripe (payment processing)</li>
+        <li>GitHub Pages (website hosting)</li>
       </ul>
       <p>Each service has its own privacy policy governing how they handle data.</p>
 
@@ -180,20 +99,27 @@
       <h2>Changes to this policy</h2>
       <p>If we make significant changes to this policy, we will update the date below. Your continued use of the site after changes constitutes acceptance of the updated policy.</p>
 
-      <p class="legal-updated">Last updated: March 14, 2026</p>
+      <h2>Last updated</h2>
+      <p>March 14, 2026</p>
     </div>
   </section>
 
-  <footer class="footer">
-    <div class="container" style="max-width: 860px;">
-      <div class="footer-bottom" style="justify-content: center; gap: 1.5rem;">
-        <p>&copy; 2026 Superthoughts</p>
-        <a href="privacy.html" style="color: var(--amber);">Privacy</a>
-        <a href="terms.html">Terms</a>
-        <p>hello@superthoughts.com</p>
-      </div>
-    </div>
-  </footer>
+</main>
 
+<footer class="site wrap">
+  <div class="grid">
+    <div class="a"><span class="wordmark">Superthoughts</span><p class="small">Minneapolis, Minnesota</p></div>
+    <ul class="b small">
+      <li>&copy; 2026 Superthoughts</li>
+    </ul>
+    <ul class="c small">
+      <li><a href="mailto:hello@superthoughts.com">hello@superthoughts.com</a></li>
+    </ul>
+    <ul class="d small">
+      <li><a href="privacy.html">Privacy</a></li>
+      <li><a href="terms.html">Terms</a></li>
+    </ul>
+  </div>
+</footer>
 </body>
 </html>
