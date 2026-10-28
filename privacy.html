@@ -10,28 +10,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="superthoughts.css">
-<!-- Google Analytics (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-S151YE55PJ"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-S151YE55PJ');
-</script>
-<!-- Meta Pixel -->
-<script>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '168292265148');
-  fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=168292265148&ev=PageView&noscript=1"/></noscript>
+<script src="consent.js" data-ga="G-S151YE55PJ" data-privacy="privacy.html" defer></script>
+
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -60,7 +40,7 @@
       <ul>
         <li>Name and email address: when you sign up for our complimentary session or purchase the program, we collect the name and email you provide.</li>
         <li>Payment information: when you purchase the program, payment is processed securely by <a href="https://stripe.com/privacy" target="_blank" rel="noopener">Stripe</a>. We do not store your credit card number. Stripe may collect additional information as described in their privacy policy.</li>
-        <li>Usage data: we may collect basic analytics (pages visited, browser type) to understand how people use the site. We do not use invasive tracking or sell data to advertisers.</li>
+        <li>Usage data: only if you accept our cookie notice, Google Analytics records basic usage (pages visited, browser type) so we can see how people use the site. We do not sell data to advertisers.</li>
       </ul>
 
       <h2>How we use your information</h2>
@@ -85,7 +65,7 @@
       <p>Each service has its own privacy policy governing how they handle data.</p>
 
       <h2>Cookies</h2>
-      <p>This site uses minimal cookies necessary for functionality (such as session storage for your name). We do not use advertising cookies or third-party trackers.</p>
+      <p>This site uses minimal storage necessary for functionality (such as session storage for your name). We do not use advertising pixels. If you click Accept on our cookie notice, we load Google Analytics, which sets cookies to count visits and see which pages help people. If you decline, or your browser sends a Global Privacy Control signal, nothing is loaded. <a href="#" data-consent-open>Change your cookie choice</a>.</p>
 
       <h2>Data security</h2>
       <p>We use HTTPS encryption across our entire site. Payment processing is handled by Stripe, which is PCI-DSS compliant. We take reasonable measures to protect your information, though no method of transmission over the internet is 100% secure.</p>
